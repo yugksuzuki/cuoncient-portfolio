@@ -172,7 +172,7 @@ site aparece fora dele:
 
 - **Open Graph / Twitter Card** — a foto, o título e a descrição que o WhatsApp,
   o LinkedIn, o Instagram e o Slack mostram quando alguém cola o link. A imagem é
-  `assets/brand/og-cover.jpg`, 1200×630.
+  `assets/brand/og-cover.png`, 1200×630 — a marca sobre fundo branco.
 - **`<link rel="canonical">`** — diz qual é o endereço oficial da página.
 - **JSON-LD (`application/ld+json`)** — dados estruturados. Declara a Cuoncient
   como `Organization`, com logo, slogan, os 4 serviços, o WhatsApp de contato e o
@@ -197,12 +197,26 @@ Os dois primeiros também **limpam o cache** — importante, porque essas redes
 guardam a prévia antiga por dias. Se você já compartilhou o link antes desta
 mudança, rode o debugger uma vez para forçar a atualização.
 
-### Como o card foi feito
+### As imagens de marca para redes sociais
 
-`assets/brand/og-cover.jpg` é uma montagem: fundo do site, a marca, o slogan, as
-4 disciplinas e os prints dos 3 cases empilhados em diagonal. Foi renderizado com
-a própria fonte Archivo e os tokens de cor do `styles.css`, para bater com o
-site. Se precisar refazer, peça — o script de montagem é reproduzível.
+| Arquivo | Tamanho | Onde entra |
+|---------|---------|------------|
+| `og-cover.png` | 1200×630 | prévia do link (WhatsApp, LinkedIn, Slack) |
+| `logo-quadrado.png` | 1200×1200 | post, foto de perfil, qualquer lugar quadrado |
+
+As duas são **a marca sobre fundo branco**, sem texto — escolha do Gui.
+
+Ambas são renderizadas a partir do `favicon.svg`, que é vetor, em 3× o tamanho
+final e reduzidas depois. É por isso que a borda do círculo sai limpa. E são
+**PNG, não JPEG**: arte chapada com borda dura ganha um chiado feio no JPEG, e
+em PNG fica exata e ainda menor (14 KB e 29 KB).
+
+Se um dia quiser refazer em outro tamanho, o caminho é sempre partir do SVG —
+nunca ampliar o `logo-badge-512.png`, que aí perde mesmo.
+
+Já existiu aqui uma versão composta (fundo escuro, slogan, disciplinas e os
+prints dos cases em diagonal). Foi trocada por esta. Dá para reconstruir, e desta
+vez sem espremer os prints.
 
 ## Os links de WhatsApp
 
