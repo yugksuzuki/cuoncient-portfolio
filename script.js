@@ -72,6 +72,9 @@
     botoesIdioma.forEach(function (b) {
       b.setAttribute('aria-current', String(b.dataset.lang === idioma));
     });
+    // a contagem do filtro é montada em JS, então precisa ser refeita ao trocar
+    var g = document.querySelector('.proj-grid');
+    if (g && g.dataset.filtro && typeof filtrar === 'function') filtrar(g.dataset.filtro);
     try { localStorage.setItem('cuoncient-idioma', idioma); } catch (e) { /* modo privado */ }
   }
 
@@ -85,6 +88,37 @@
   try { salvo = localStorage.getItem('cuoncient-idioma'); } catch (e) { /* modo privado */ }
   var doNavegador = (navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en';
   aplicarIdioma(salvo === 'pt' || salvo === 'en' ? salvo : doNavegador);
+
+  // --------------------------------------------------------------- filtro
+  // Grade de projetos por mercado. Cada card tem data-mercado="br" ou "eua";
+  // aqui só se esconde o que não bate. Nada é recriado, então a animação de
+  // entrada e as imagens já carregadas continuam como estavam.
+  var filtroBotoes = document.querySelectorAll('.filtro__op');
+  var cards = document.querySelectorAll('.proj-grid .proj');
+  var conta = document.querySelector('.filtro__conta');
+
+  function filtrar(mercado) {
+    var visiveis = 0;
+    cards.forEach(function (c) {
+      var mostra = mercado === 'todos' || c.dataset.mercado === mercado;
+      c.hidden = !mostra;
+      if (mostra) visiveis++;
+    });
+    filtroBotoes.forEach(function (b) {
+      b.setAttribute('aria-current', String(b.dataset.mercado === mercado));
+    });
+    if (conta) {
+      conta.textContent = document.documentElement.lang === 'en'
+        ? visiveis + (visiveis === 1 ? ' project' : ' projects')
+        : visiveis + (visiveis === 1 ? ' projeto' : ' projetos');
+    }
+    document.querySelector('.proj-grid').dataset.filtro = mercado;
+  }
+
+  filtroBotoes.forEach(function (b) {
+    b.addEventListener('click', function () { filtrar(b.dataset.mercado); });
+  });
+  if (cards.length) filtrar('todos');
 
   // ---------------------------------------------------------------- reveal
   // Anima os blocos ao entrarem na tela.

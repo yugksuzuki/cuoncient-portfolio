@@ -136,6 +136,40 @@ tamanho zero no CSS — ele existe só para guardar o desenho, não ocupa espaç
 LinkedIn não resolvem caminho relativo — quando o domínio final existir, troque
 por uma URL absoluta (`https://seudominio.com/assets/brand/logo-badge-512.png`).
 
+## O filtro por mercado, o selo USA e os cards fora do ar
+
+Cada card da grade carrega `data-mercado="br"` ou `data-mercado="eua"`. O filtro
+acima da grade só esconde o que não bate — nada é recriado, então as imagens já
+carregadas continuam onde estavam.
+
+**Uma linha de CSS sustenta tudo isso:**
+
+```css
+.proj[hidden]{display:none}
+```
+
+Sem ela o filtro marca os cards como escondidos e eles continuam na tela: o
+`display:flex` da regra `.proj` vence o atributo `hidden` do HTML. Se o filtro
+um dia parar de esconder, é esta linha que sumiu.
+
+**Os 9 clientes nos Estados Unidos** ganham um selo `<span class="proj__usa">`
+dentro do `.proj__media`. Foram identificados pelo idioma e pelo mercado no
+próprio site: LVM Farm, PRO 5 Flooring Contractors, AJR Construction, Joe
+Landscaping, Tecno Epoxi, Holistic Envisioning, Readythink, Rowbeauty e Brazuka
+Club (este último atende Brasil e EUA). Para mudar a lista, é só trocar o
+`data-mercado` do card e pôr ou tirar o selo.
+
+**Os 6 projetos cujo domínio caiu** — CEEA, Azzurro Interiores, Turnflix, XPCon,
+Doege Home e Minimall — deixaram de ser `<a>` e viraram `<div class="proj
+proj--fora">`, com a URL guardada em `data-url` para quando voltarem. O card
+continua mostrando o trabalho, com a miniatura esmaecida e a etiqueta "fora do
+ar", mas não leva a lugar nenhum: link morto em portfólio queima mais do que um
+projeto a menos.
+
+Para reativar um deles quando a URL voltar: troque a `<div>` por
+`<a class="proj" href="URL" target="_blank" rel="noopener" data-mercado="...">`,
+apague o `<span class="proj__fora">` e o `data-url`, e feche com `</a>`.
+
 ## O seletor de idioma (PT / EN)
 
 Fica na barra do topo: um globo e as duas siglas, a do idioma em uso em branco.

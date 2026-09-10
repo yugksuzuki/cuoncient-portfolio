@@ -381,6 +381,11 @@ a{color:inherit;text-decoration:none}
   display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
   gap:18px;padding-top:46px;
 }
+/* O `display:flex` abaixo vence o atributo `hidden` do HTML — sem a regra
+   seguinte, o filtro marcava os cards como escondidos e eles continuavam na
+   tela. Esta linha é o que faz o filtro funcionar de verdade. */
+.proj[hidden]{display:none}
+
 .proj{
   display:flex;flex-direction:column;
   border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;
@@ -409,6 +414,44 @@ a{color:inherit;text-decoration:none}
 /* o nome é a única linha de texto do card — o padding de baixo era do domínio,
    que saiu daqui */
 .proj__name{padding:14px 16px 16px;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+
+/* Selo dos clientes nos Estados Unidos. Fica sobre o print, no canto de cima. */
+.proj__usa{
+  position:absolute;top:9px;right:9px;z-index:2;
+  font-size:9.5px;letter-spacing:.14em;font-weight:700;
+  padding:4px 7px;border-radius:5px;
+  background:rgba(8,8,10,.72);color:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px);
+}
+
+/* Projeto cujo domínio caiu: o trabalho continua no portfólio, mas o card não
+   leva a lugar nenhum — link morto queima mais do que um projeto a menos. */
+.proj--fora{cursor:default}
+.proj--fora .proj__media{opacity:.55}
+.proj--fora:hover .proj__shot{transform:none}
+.proj__fora{
+  padding:12px 16px 0;font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-4);
+}
+.proj--fora .proj__name{padding-top:4px;color:var(--ink-2)}
+
+/* ---------- filtro por mercado ----------
+   Mesma lógica visual do seletor de idioma: sem caixa, o ativo em branco. */
+.filtro{display:flex;align-items:center;gap:18px;padding-top:26px;flex-wrap:wrap}
+.filtro__op{
+  background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--ink-4);transition:color .3s var(--ease);
+}
+.filtro__op:hover{color:var(--ink-2)}
+.filtro__op[aria-current="true"]{color:var(--ink);cursor:default}
+.filtro__op:focus-visible{outline:1px solid var(--ink-3);outline-offset:3px;border-radius:3px}
+.filtro__conta{margin-left:auto;font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
+@media (max-width:620px){
+  .filtro{gap:14px}
+  .filtro__op{font-size:10.5px;letter-spacing:.1em}
+  .filtro__conta{margin-left:0;width:100%}
+}
 
 /* ==========================================================================
    BOTÃO FLUTUANTE DO WHATSAPP
@@ -453,7 +496,12 @@ a{color:inherit;text-decoration:none}
   border:1px solid var(--line);border-radius:14px;padding:16px 22px 16px 16px;
   background:linear-gradient(140deg,rgba(var(--glow-rgb),.10),rgba(255,255,255,.02));
 }
-.footer__avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line);display:grid;place-items:center;font-size:15px;font-weight:700;letter-spacing:-.02em}
+.footer__avatar{
+  width:52px;height:52px;border-radius:50%;flex:none;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:15px;font-weight:700;letter-spacing:-.02em;
+  object-fit:cover;   /* vale quando a classe está num <img> */
+}
 .footer__who b{display:block;font-size:14px;letter-spacing:.02em}
 .footer__who small{font-size:10px;letter-spacing:.3em;color:var(--ink-4);text-transform:uppercase}
 .footer__meta{font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
