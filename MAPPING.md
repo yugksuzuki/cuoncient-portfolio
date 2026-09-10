@@ -116,7 +116,17 @@ Os arquivos da marca ficam em `assets/brand/`:
 | `favicon.svg` | o badge completo (disco `#212121` + anéis brancos) — aba do navegador |
 | `favicon-32.png`, `favicon-16.png` | plano B para navegador que não lê SVG |
 | `apple-touch-icon.png` | 180×180, sem transparência — o iOS arredonda sozinho |
-| `logo-badge-512.png` | avatar de rede social, WhatsApp, `og:image` |
+| `logo-badge-512.png` | avatar de rede social e WhatsApp |
+| `og-cover.jpg` | 1200×630 — a prévia do link no WhatsApp, LinkedIn e Instagram |
+| `guilherme.jpg` | foto do Gui no rodapé |
+| `agustin.jpg` | foto do Agustin no rodapé |
+
+As duas fotos aparecem **só no rodapé**. Ícone do navegador, atalho do celular e
+prévia de link usam a marca, nunca uma foto — decisão do Gui.
+
+Para somar alguém ao time, copie um `<div class="footer__card">` dentro do
+`.footer__time` e troque foto, nome e cargo. O cargo leva `data-en` para a
+versão em inglês. A foto entra em 240×240, quadrada e centrada no rosto.
 
 No HTML a marca é declarada **uma vez só**, num `<symbol id="marca-cuoncient">`
 logo depois do `<body>`. A nav e o hero apontam para ela:
@@ -132,9 +142,8 @@ fundo claro ela vira escura sozinha, sem precisar de outro arquivo.
 O `<svg class="sprite">` que embrulha o símbolo tem `position:absolute` e
 tamanho zero no CSS — ele existe só para guardar o desenho, não ocupa espaço.
 
-**Pendência:** o `og:image` no `<head>` está com caminho relativo. WhatsApp e
-LinkedIn não resolvem caminho relativo — quando o domínio final existir, troque
-por uma URL absoluta (`https://seudominio.com/assets/brand/logo-badge-512.png`).
+*(Resolvido: o `og:image` já aponta para `https://cuoncient.com/assets/brand/og-cover.jpg`,
+absoluto. Trocou de domínio? São 12 ocorrências no `index.html`.)*
 
 ## O filtro por mercado, o selo USA e os cards fora do ar
 

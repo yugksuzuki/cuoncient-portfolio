@@ -491,6 +491,9 @@ a{color:inherit;text-decoration:none}
 
 .footer{border-top:1px solid var(--line-soft);padding:60px 0 40px}
 .footer__grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
+/* os dois cards de pessoa ficam lado a lado e quebram juntos no celular */
+.footer__time{display:flex;gap:14px;flex-wrap:wrap}
+
 .footer__card{
   display:flex;align-items:center;gap:16px;
   border:1px solid var(--line);border-radius:14px;padding:16px 22px 16px 16px;
