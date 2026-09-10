@@ -137,14 +137,28 @@
       </span>
     </a>
     <nav class="nav__links">
-      <a href="#manifesto">Sobre</a>
-      <a href="#design">Design</a>
+      <a href="#manifesto" data-en="About">Sobre</a>
+      <a href="#design" data-en="Design">Design</a>
       <a href="#devop">Cases</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#anuncios">Anúncios</a>
-      <a href="#fechamento">Contato</a>
+      <a href="#projetos" data-en="Projects">Projetos</a>
+      <a href="#anuncios" data-en="Advertising">Anúncios</a>
+      <a href="#fechamento" data-en="Contact">Contato</a>
     </nav>
-    <a class="btn" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">Faça seu orçamento</a>
+
+    <!-- Seletor de idioma. O botão ativo é o do idioma em uso; clicar no outro
+         troca a página inteira sem recarregar. Ver "idioma" no script.js. -->
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <svg class="lang__globo" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9"/>
+        <ellipse cx="12" cy="12" rx="4" ry="9"/>
+        <path d="M3.2 9.2h17.6M3.2 14.8h17.6"/>
+      </svg>
+      <button type="button" class="lang__op" data-lang="pt" lang="pt-BR" aria-label="Mudar para português">PT</button>
+      <span class="lang__sep" aria-hidden="true">/</span>
+      <button type="button" class="lang__op" data-lang="en" lang="en" aria-label="Switch to English">EN</button>
+    </div>
+
+    <a class="btn" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
   </div>
 </header>
 
@@ -168,17 +182,17 @@
       <span class="bold">agency marketing</span>
     </h1>
 
-    <p class="hero__copy">
+    <p class="hero__copy" data-en="With you from the first brief to the final delivery. And by the way, this is not a simple agency marketing — &lt;b&gt;this is Cuoncient&lt;/b&gt;.">
       Com você do <b>início</b> ao <b>final</b> do projeto. Aliás,
       this is not a simple agency marketing — <b>this is Cuoncient</b>.
     </p>
 
-    <a class="btn" href="#devop">Comece por aqui</a>
+    <a class="btn" href="#devop" data-en="Start here">Comece por aqui</a>
   </div>
 
   <div class="wrap hero__scroll">
-    <span>Design · Social Media · Devop · Anúncios</span>
-    <span>Role para ver ↓</span>
+    <span data-en="Design · Social Media · Devop · Advertising">Design · Social Media · Devop · Anúncios</span>
+    <span data-en="Scroll to explore ↓">Role para ver ↓</span>
   </div>
 </section>
 
@@ -192,19 +206,19 @@
         <span class="venn__c venn__c--l"></span>
         <span class="venn__c venn__c--r"></span>
 
-        <span class="venn__lab" style="left:50%;top:11%">Briefing</span>
-        <span class="venn__lab" style="left:11%;top:50%">Anúncios</span>
-        <span class="venn__lab" style="left:89%;top:50%">Design</span>
-        <span class="venn__lab" style="left:50%;top:89%">Devop</span>
+        <span class="venn__lab" style="left:50%;top:11%" data-en="Briefing">Briefing</span>
+        <span class="venn__lab" style="left:11%;top:50%" data-en="Advertising">Anúncios</span>
+        <span class="venn__lab" style="left:89%;top:50%" data-en="Design">Design</span>
+        <span class="venn__lab" style="left:50%;top:89%" data-en="Devop">Devop</span>
 
-        <span class="venn__lab venn__lab--sm" style="left:27%;top:29%">Gestão</span>
-        <span class="venn__lab venn__lab--sm" style="left:64%;top:29%">ID Visual</span>
-        <span class="venn__lab venn__lab--sm" style="left:29%;top:71%">Estratégia</span>
+        <span class="venn__lab venn__lab--sm" style="left:27%;top:29%" data-en="Management">Gestão</span>
+        <span class="venn__lab venn__lab--sm" style="left:64%;top:29%" data-en="Visual ID">ID Visual</span>
+        <span class="venn__lab venn__lab--sm" style="left:29%;top:71%" data-en="Strategy">Estratégia</span>
         <span class="venn__lab venn__lab--sm" style="left:70%;top:70%">Social<br>Media</span>
 
-        <span class="venn__lab venn__lab--xs" style="left:30%;top:50%">UX</span>
-        <span class="venn__lab venn__lab--xs" style="left:71%;top:50%">Captação</span>
-        <span class="venn__lab venn__lab--xs" style="left:50%;top:63%">UI</span>
+        <span class="venn__lab venn__lab--xs" style="left:30%;top:50%" data-en="UX">UX</span>
+        <span class="venn__lab venn__lab--xs" style="left:71%;top:50%" data-en="Lead capture">Captação</span>
+        <span class="venn__lab venn__lab--xs" style="left:50%;top:63%" data-en="UI">UI</span>
 
         <span class="venn__core">
           <svg viewBox="0 0 40 40" aria-hidden="true">
@@ -218,14 +232,14 @@
       </div>
 
       <div class="manifesto__text reveal">
-        <p class="eyebrow" style="margin-bottom:22px">Somos muito mais que uma agência</p>
-        <p>
+        <p class="eyebrow" style="margin-bottom:22px" data-en="We are much more than an agency">Somos muito mais que uma agência</p>
+        <p data-en="We turn ideas into &lt;b&gt;results&lt;/b&gt;. Our multidisciplinary team works from the first briefing through to final delivery, making sure every project is executed with craft and creativity.">
           Nos dedicamos a transformar ideias em <b>resultados</b>. Nossa equipe
           multidisciplinar trabalha desde a concepção do <b>briefing</b> até a
           <b>entrega final</b>, garantindo que cada projeto seja executado com
           excelência e criatividade.
         </p>
-        <p>
+        <p data-en="Whether you need a website that lands, advertising campaigns that perform, lead capture funnels or social media management, &lt;b&gt;we are here to help&lt;/b&gt;.">
           Se você precisa de um site impactante, campanhas de anúncios eficazes,
           estratégias de captação de leads ou gestão de redes sociais,
           <b>estamos aqui para ajudar</b>.
@@ -245,25 +259,25 @@
     </div>
     <div class="disc__grid">
       <div class="disc__body reveal">
-        <p>
+        <p data-en="We believe aesthetics and function belong together. Our team creates visuals that carry the &lt;b&gt;essence of your brand&lt;/b&gt; and hold attention.">
           Acreditamos que a estética e a funcionalidade devem andar de mãos dadas.
           Nossa equipe está pronta para criar visuais cativantes que representam a
           <b>essência da sua marca</b>.
         </p>
-        <p>
+        <p data-en="From &lt;b&gt;visual identity&lt;/b&gt; to website and landing page UI, through to graphic materials, every detail is built to carry your message clearly and with impact.">
           Desde a <b>identidade visual</b> até layouts para sites (UI) e
           <b>materiais gráficos</b>, cada detalhe é pensado para transmitir sua
           mensagem de forma clara e impactante.
         </p>
-        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20design." target="_blank" rel="noopener">Faça seu orçamento</a>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20design." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20design." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4>O que entra no escopo</h4>
+        <h4 data-en="What the scope covers">O que entra no escopo</h4>
         <ul class="disc__list">
-          <li><i>01</i><span>Identidade visual — marca, paleta, tipografia e aplicação</span></li>
-          <li><i>02</i><span>UI de site e landing page, do wireframe ao layout final</span></li>
-          <li><i>03</i><span>Materiais gráficos para impresso e digital</span></li>
-          <li><i>04</i><span>Direção de arte para campanhas e conteúdo</span></li>
+          <li><i>01</i><span data-en="Visual identity — logo, palette, typography and usage">Identidade visual — marca, paleta, tipografia e aplicação</span></li>
+          <li><i>02</i><span data-en="Website and landing page UI, from wireframe to final layout">UI de site e landing page, do wireframe ao layout final</span></li>
+          <li><i>03</i><span data-en="Graphic materials for print and digital">Materiais gráficos para impresso e digital</span></li>
+          <li><i>04</i><span data-en="Art direction for campaigns and content">Direção de arte para campanhas e conteúdo</span></li>
         </ul>
       </aside>
     </div>
@@ -273,22 +287,22 @@
       <figure class="dgal__item">
         <img src="assets/design/karla-vivian-logo.jpg" width="480" height="600" loading="lazy"
              alt="Estrutura do logo da Karla Vivian Atelier, com as anotações de construção da marca">
-        <figcaption><b>Karla Vivian Atelier</b><span>Estrutura do logo</span></figcaption>
+        <figcaption><b>Karla Vivian Atelier</b><span data-en="Logo construction">Estrutura do logo</span></figcaption>
       </figure>
       <figure class="dgal__item">
         <img src="assets/design/karla-vivian-padronagem.jpg" width="800" height="1000" loading="lazy"
              alt="Padronagem e cartão de visita da Karla Vivian Atelier em preto e branco">
-        <figcaption><b>Karla Vivian Atelier</b><span>Padronagem e papelaria</span></figcaption>
+        <figcaption><b>Karla Vivian Atelier</b><span data-en="Pattern and stationery">Padronagem e papelaria</span></figcaption>
       </figure>
       <figure class="dgal__item">
         <img src="assets/design/moodboard-materiais.jpg" width="480" height="600" loading="lazy"
              alt="Moodboard de materiais e ambientação em tons de madeira e areia">
-        <figcaption><b>Eduarda Zucki</b><span>Moodboard de materiais</span></figcaption>
+        <figcaption><b>Eduarda Zucki</b><span data-en="Materials moodboard">Moodboard de materiais</span></figcaption>
       </figure>
       <figure class="dgal__item">
         <img src="assets/design/marca-textura.jpg" width="480" height="600" loading="lazy"
              alt="Aplicação da marca sobre textura de madeira ripada">
-        <figcaption><b>Eduarda Zucki</b><span>Aplicação de marca</span></figcaption>
+        <figcaption><b>Eduarda Zucki</b><span data-en="Brand application">Aplicação de marca</span></figcaption>
       </figure>
     </div>
   </div>
@@ -298,31 +312,31 @@
 <section class="disc" id="social" data-canva-page="4">
   <div class="wrap">
     <div class="disc__head reveal">
-      <h2 class="section-title">Social Media</h2>
+      <h2 class="section-title" data-en="Social Media">Social Media</h2>
       <hr class="rule">
     </div>
     <div class="disc__grid">
       <div class="disc__body reveal">
-        <p>
+        <p data-en="A presence on social is essential for any brand that wants to stand out. We build a strategy per platform so your brand connects &lt;b&gt;authentically&lt;/b&gt; with the right audience.">
           A presença nas redes é essencial para qualquer marca que deseja se
           destacar. Desenvolvemos estratégias personalizadas para cada plataforma,
           garantindo que sua marca se conecte de maneira <b>autêntica</b> com seu
           público-alvo.
         </p>
-        <p>
+        <p data-en="We create content that matters, produce material aligned with the goals of the business, and run campaigns and interactions that grow &lt;b&gt;engagement and loyalty&lt;/b&gt;.">
           Criamos conteúdos relevantes, captamos material envolvente e alinhado
           aos objetivos do negócio, além de gerenciar campanhas e interações para
           aumentar <b>engajamento e fidelidade</b>.
         </p>
-        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20social%20media." target="_blank" rel="noopener">Faça seu orçamento</a>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20social%20media." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20social%20media." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4>O que entra no escopo</h4>
+        <h4 data-en="What the scope covers">O que entra no escopo</h4>
         <ul class="disc__list">
-          <li><i>01</i><span>Estratégia por plataforma e calendário editorial</span></li>
-          <li><i>02</i><span>Captação de conteúdo — foto e vídeo no local</span></li>
-          <li><i>03</i><span>Criação de peças e edição para feed, stories e reels</span></li>
-          <li><i>04</i><span>Gestão de comunidade e resposta a interações</span></li>
+          <li><i>01</i><span data-en="Per-platform strategy and editorial calendar">Estratégia por plataforma e calendário editorial</span></li>
+          <li><i>02</i><span data-en="Content production — photo and video on location">Captação de conteúdo — foto e vídeo no local</span></li>
+          <li><i>03</i><span data-en="Design and editing for feed, stories and reels">Criação de peças e edição para feed, stories e reels</span></li>
+          <li><i>04</i><span data-en="Community management and reply handling">Gestão de comunidade e resposta a interações</span></li>
         </ul>
       </aside>
     </div>
@@ -335,7 +349,7 @@
                aria-label="Filme de marca da Ponto Zero">
           <source src="assets/video/ponto-zero.mp4" type="video/mp4">
         </video>
-        <figcaption><b>Ponto Zero</b><span>Filme de marca · 0:18</span></figcaption>
+        <figcaption><b>Ponto Zero</b><span data-en="Brand film · 0:18">Filme de marca · 0:18</span></figcaption>
       </figure>
       <figure class="vgal__item">
         <video class="vgal__v" style="--ar:16/9" controls muted playsinline preload="none"
@@ -343,7 +357,7 @@
                aria-label="Filme de marca da Eduarda Zucki Arquitetura e Interiores">
           <source src="assets/video/eduarda-zucki.mp4" type="video/mp4">
         </video>
-        <figcaption><b>Eduarda Zucki</b><span>Filme de marca · 0:24</span></figcaption>
+        <figcaption><b>Eduarda Zucki</b><span data-en="Brand film · 0:24">Filme de marca · 0:24</span></figcaption>
       </figure>
       <figure class="vgal__item">
         <video class="vgal__v" style="--ar:16/9" controls muted playsinline preload="none"
@@ -351,7 +365,7 @@
                aria-label="Filme de marca da Casetti Lab">
           <source src="assets/video/casetti-lab.mp4" type="video/mp4">
         </video>
-        <figcaption><b>Casetti Lab</b><span>Filme de marca · 0:34</span></figcaption>
+        <figcaption><b>Casetti Lab</b><span data-en="Brand film · 0:34">Filme de marca · 0:34</span></figcaption>
       </figure>
     </div>
   </div>
@@ -362,7 +376,7 @@
   <div class="wrap">
     <div class="devop__head reveal">
       <h2 class="section-title">Devop</h2>
-      <p class="lead">
+      <p class="lead" data-en="Websites and landing pages that are functional, responsive and good-looking — built for &lt;strong&gt;conversion&lt;/strong&gt;, for clear calls to action and for the experience of the person using them.">
         Sites e landing pages funcionais, responsivos e visualmente atraentes —
         estruturados para <strong>conversão</strong>, direcionamento para ação e
         experiência do usuário.
@@ -376,20 +390,20 @@
 <section class="wrap" data-canva-page="6">
   <article class="case reveal" id="case-art7" style="--case-glow:var(--case-art7)">
     <div class="case__info">
-      <p class="case__index">Case 01 — Massachusetts / New Hampshire, EUA</p>
+      <p class="case__index" data-en="Case 01 — Massachusetts / New Hampshire, USA">Case 01 — Massachusetts / New Hampshire, EUA</p>
       <h3 class="case__name">ART 7 Epoxy</h3>
-      <p class="case__kicker">Site institucional + SEO local</p>
-      <p class="case__desc">
+      <p class="case__kicker" data-en="Corporate website + local SEO">Site institucional + SEO local</p>
+      <p class="case__desc" data-en="Epoxy flooring services website for the New England market, with city-level geolocated pages, an on-site quote capture flow and a custom estimate calculator.">
         Site de serviços de piso epóxi para o mercado de New England, com
         páginas geolocalizadas por cidade, estrutura de captação por orçamento
         on-site e uma calculadora de estimativa própria.
       </p>
       <div class="case__tags">
-        <span class="tag">Site institucional</span>
-        <span class="tag">SEO local</span>
+        <span class="tag" data-en="Corporate website">Site institucional</span>
+        <span class="tag" data-en="Local SEO">SEO local</span>
         <span class="tag">GEO pages</span>
         <span class="tag">Estimator</span>
-        <span class="tag">Captação</span>
+        <span class="tag" data-en="Lead capture">Captação</span>
       </div>
       <a class="case__link" href="https://www.art7epoxy.com" target="_blank" rel="noopener">
         art7epoxy.com <span aria-hidden="true">→</span>
@@ -421,10 +435,10 @@
 <section class="wrap" data-canva-page="7">
   <article class="case case--flip reveal" id="case-duact" style="--case-glow:var(--case-duact)">
     <div class="case__info">
-      <p class="case__index">Case 02 — Itapema, SC</p>
+      <p class="case__index" data-en="Case 02 — Itapema, Brazil">Case 02 — Itapema, SC</p>
       <h3 class="case__name">DUACT Itapema</h3>
-      <p class="case__kicker">Landing page de conversão + tráfego pago</p>
-      <p class="case__desc">
+      <p class="case__kicker" data-en="Conversion landing page + paid traffic">Landing page de conversão + tráfego pago</p>
+      <p class="case__desc" data-en="Landing page for the Maxus 1000W line, built for test rides and direct sales: spec sheet, batteries and replacement parts, showroom and WhatsApp support in a single flow.">
         Landing page da linha Maxus 1000W construída para test ride e venda
         direta: ficha técnica, baterias e reposição, showroom e atendimento
         por WhatsApp em um único fluxo.
@@ -432,9 +446,9 @@
       <div class="case__tags">
         <span class="tag">Landing page</span>
         <span class="tag">Copy</span>
-        <span class="tag">Tráfego pago</span>
+        <span class="tag" data-en="Paid traffic">Tráfego pago</span>
         <span class="tag">WhatsApp</span>
-        <span class="tag">Catálogo</span>
+        <span class="tag" data-en="Catalogue">Catálogo</span>
       </div>
       <a class="case__link" href="https://www.duactitapema.com.br" target="_blank" rel="noopener">
         duactitapema.com.br <span aria-hidden="true">→</span>
@@ -466,20 +480,20 @@
 <section class="wrap" data-canva-page="8">
   <article class="case reveal" id="case-vbike" style="--case-glow:var(--case-vbike)">
     <div class="case__info">
-      <p class="case__index">Case 03 — Itajaí / Navegantes, SC</p>
+      <p class="case__index" data-en="Case 03 — Itajaí / Navegantes, Brazil">Case 03 — Itajaí / Navegantes, SC</p>
       <h3 class="case__name">V.BIKE Store</h3>
-      <p class="case__kicker">Site de catálogo + duas unidades</p>
-      <p class="case__desc">
+      <p class="case__kicker" data-en="Catalogue website + two locations">Site de catálogo + duas unidades</p>
+      <p class="case__desc" data-en="Website for e-scooters, compatible parts and the service shop, with colour selection, model comparison and routing to the nearest location — Dom Bosco or São João.">
         Site de autopropelidos, peças compatíveis e oficina, com seleção de
         cores, comparativo de modelos e roteamento do cliente para a unidade
         mais próxima — Dom Bosco ou São João.
       </p>
       <div class="case__tags">
-        <span class="tag">Catálogo</span>
-        <span class="tag">Multi-unidade</span>
+        <span class="tag" data-en="Catalogue">Catálogo</span>
+        <span class="tag" data-en="Multi-location">Multi-unidade</span>
         <span class="tag">UI/UX</span>
         <span class="tag">WhatsApp</span>
-        <span class="tag">Oficina</span>
+        <span class="tag" data-en="Service shop">Oficina</span>
       </div>
       <a class="case__link" href="https://www.vbikestore.com.br" target="_blank" rel="noopener">
         vbikestore.com.br <span aria-hidden="true">→</span>
@@ -515,9 +529,9 @@
 <section class="projetos" id="projetos">
   <div class="wrap">
     <div class="projetos__head reveal">
-      <h2 class="section-title">Projetos</h2>
+      <h2 class="section-title" data-en="Projects">Projetos</h2>
       <p class="lead">
-        <strong>55 sites</strong> entregues — institucionais,
+        <strong data-en="&lt;strong&gt;55 websites&lt;/strong&gt; delivered — corporate sites, landing pages, stores and lead capture pages. Click any one to open it.">55 sites</strong> entregues — institucionais,
         landing pages, lojas e páginas de captação. Clique para abrir cada um.
       </p>
     </div>
@@ -752,30 +766,30 @@
 <section class="disc" id="anuncios" data-canva-page="9">
   <div class="wrap">
     <div class="disc__head reveal">
-      <h2 class="section-title">Anúncios</h2>
+      <h2 class="section-title" data-en="Advertising">Anúncios</h2>
       <hr class="rule">
     </div>
     <div class="disc__grid">
       <div class="disc__body reveal">
-        <p>
+        <p data-en="Advertising well is a craft we have &lt;b&gt;mastered&lt;/b&gt;. We work with segmented strategies to reach your audience precisely and efficiently.">
           Anunciar de forma eficaz é uma arte que <b>dominamos</b>. Trabalhamos
           com estratégias segmentadas para atingir seu público-alvo de maneira
           precisa e eficiente.
         </p>
-        <p>
+        <p data-en="Every campaign is &lt;b&gt;planned, run and monitored&lt;/b&gt;, so your message reaches the right people at the right moment, at the best cost.">
           Cada campanha é <b>planejada, executada e monitorada</b>, garantindo
           que sua mensagem chegue às pessoas certas no momento certo, com o
           melhor custo-benefício.
         </p>
-        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20an%C3%BAncios." target="_blank" rel="noopener">Faça seu orçamento</a>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20an%C3%BAncios." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20advertising." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4>Onde a gente anuncia</h4>
+        <h4 data-en="Where we advertise">Onde a gente anuncia</h4>
         <ul class="disc__list">
-          <li><i>01</i><span>Meta Ads — Facebook e Instagram</span></li>
-          <li><i>02</i><span>Google Ads — pesquisa, display e performance máxima</span></li>
-          <li><i>03</i><span>Estrutura de captação e qualificação de leads</span></li>
-          <li><i>04</i><span>Acompanhamento e otimização contínua das campanhas</span></li>
+          <li><i>01</i><span data-en="Meta Ads — Facebook and Instagram">Meta Ads — Facebook e Instagram</span></li>
+          <li><i>02</i><span data-en="Google Ads — search, display and Performance Max">Google Ads — pesquisa, display e performance máxima</span></li>
+          <li><i>03</i><span data-en="Lead capture and qualification funnels">Estrutura de captação e qualificação de leads</span></li>
+          <li><i>04</i><span data-en="Continuous campaign monitoring and optimisation">Acompanhamento e otimização contínua das campanhas</span></li>
         </ul>
       </aside>
     </div>
@@ -786,12 +800,12 @@
 <section class="cta" id="fechamento" data-canva-page="10">
   <div class="cta__glow"></div>
   <div class="wrap cta__inner">
-    <h2 class="reveal">
+    <h2 class="reveal" data-en="Your brand does not just need more clicks. It needs a &lt;b&gt;strategy&lt;/b&gt; that turns attention into results.">
       Sua marca não precisa apenas de mais cliques.
       Precisa de uma <b>estratégia</b> capaz de transformar atenção em
       <b>resultados</b>.
     </h2>
-    <a class="btn reveal" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">Faça seu orçamento</a>
+    <a class="btn reveal" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
   </div>
 </section>
 
@@ -806,9 +820,9 @@
     </div>
     <div class="footer__links">
       <a href="#devop">Cases</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#design">Serviços</a>
-      <a href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20falar%20com%20voc%C3%AA." target="_blank" rel="noopener">WhatsApp</a>
+      <a href="#projetos" data-en="Projects">Projetos</a>
+      <a href="#design" data-en="Services">Serviços</a>
+      <a href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20falar%20com%20voc%C3%AA." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20to%20talk." target="_blank" rel="noopener">WhatsApp</a>
     </div>
     <p class="footer__meta">© <span id="yr">2026</span> Cuoncient agency — This is not a (simple) agency marketing.</p>
   </div>
@@ -818,7 +832,7 @@
      ver .zap no styles.css e o trecho "zap" no script.js.
      O número está escrito direto no href, aqui e nos 6 links acima. Para trocar,
      procure por "wa.me/" no arquivo: são 7 ocorrências. -->
-<a class="zap" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener"
+<a class="zap" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote." target="_blank" rel="noopener"
    aria-label="Falar com a Cuoncient no WhatsApp">
   <svg class="zap__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <rect x="2.6" y="4" width="18.8" height="13" rx="3.6" fill="currentColor"/>

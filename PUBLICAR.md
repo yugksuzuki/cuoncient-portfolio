@@ -58,7 +58,7 @@ Este é o passo que não dá para pular:
 git ls-files assets | Measure-Object -Line
 ```
 
-**Tem que aparecer 71.** É a conta dos assets:
+**Tem que aparecer 72.** É a conta dos assets:
 
 | Pasta | Arquivos |
 |-------|----------|
@@ -67,9 +67,10 @@ git ls-files assets | Measure-Object -Line
 | `assets/design` | 4 |
 | `assets/thumbs` | 49 |
 | `assets/video` | 6 |
-| **total** | **71** |
+| `assets/README.md` | 1 |
+| **total** | **72** |
 
-Se der 71, está tudo lá — os 49 prints, os 3 vídeos, os 6 prints dos cases, as 4
+Se der 72, está tudo lá — os 49 prints, os 3 vídeos, os 6 prints dos cases, as 4
 peças de design e a marca. Se der outro número, **pare e me avise**: alguma coisa
 está sendo ignorada e o site subiria furado.
 
@@ -133,16 +134,54 @@ mãos eu troco por absoluta.
 
 ## Depois: como atualizar o site
 
-Toda vez que algo mudar na pasta:
+### Antes do push, confira o que está na pasta
+
+Já aconteceu de um arquivo ser sobrescrito entre a hora em que foi gravado e a
+hora do push — e o site subir pela metade sem ninguém perceber. Trinta segundos
+de conferência evitam isso:
 
 ```powershell
 cd "$env:USERPROFILE\Desktop\cuoncient-portfolio"
+@{
+  'traducoes (80)'   = (Select-String -Path index.html -Pattern 'data-en=' -AllMatches).Matches.Count
+  'links WhatsApp (7)' = (Select-String -Path index.html -Pattern '\shref="https://wa\.me/' -AllMatches).Matches.Count
+  'frases em ingles (7)' = (Select-String -Path index.html -Pattern 'data-en-href=' -AllMatches).Matches.Count
+  'seletor idioma (1)' = (Select-String -Path index.html -Pattern 'class="lang"' -AllMatches).Matches.Count
+  'dominio proprio (12)' = (Select-String -Path index.html -Pattern 'cuoncient\.com' -AllMatches).Matches.Count
+  'sobrou vercel.app (0)' = (Select-String -Path index.html -Pattern 'vercel\.app' -AllMatches).Matches.Count
+  'projetos (55)'    = (Select-String -Path index.html -Pattern 'class="proj" href' -AllMatches).Matches.Count
+  'assets (74)'      = (git ls-files assets | Measure-Object -Line).Lines
+} | Format-Table -AutoSize
+```
+
+Os números entre parênteses são os esperados. O padrão do WhatsApp começa com
+`\s` (um espaço) de propósito: sem isso ele conta também os `data-en-href` e o
+resultado vem dobrado — 14 em vez de 7. (Os 74 assets incluem dois
+arquivos órfãos que ninguém usa — `assets/brand/og-cover.png` e
+`assets/brand/logo-quadrado.png`. Se apagar os dois, o esperado vira 72.) **Bateu tudo, pode subir. Algum
+número diferente, me avise antes do push** — provavelmente um arquivo foi
+sobrescrito.
+
+### O push
+
+```powershell
 git add .
 git commit -m "o que mudou"
 git push
 ```
 
-A Vercel percebe o push e republica sozinha. Não precisa entrar no painel.
+A Vercel percebe o push e republica sozinha, em um ou dois minutos. Não precisa
+entrar no painel.
+
+### Depois de mudar a imagem de compartilhamento
+
+WhatsApp, Instagram e LinkedIn guardam a prévia antiga por dias. Depois que o
+deploy terminar, cole `https://cuoncient.com` em:
+
+- **developers.facebook.com/tools/debug** → botão *Scrape Again* (WhatsApp e Instagram)
+- **linkedin.com/post-inspector**
+
+Sem isso, quem já recebeu o link continua vendo a prévia velha.
 
 ---
 
@@ -162,7 +201,7 @@ git pull --rebase origin main
 git push -u origin main
 ```
 
-**O site subiu sem as imagens** — o Passo 2 não deu 71. Rode
+**O site subiu sem as imagens** — o Passo 2 não deu 72. Rode
 `git ls-files assets | Measure-Object -Line` de novo e me diga o número.
 
 **A Vercel pede Build Command** — deixe vazio e Framework Preset em *Other*.
