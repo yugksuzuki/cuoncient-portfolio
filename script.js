@@ -28,16 +28,46 @@
   window.addEventListener('scroll', onZap, { passive: true });
   onZap();
 
-  // reveal on scroll
-  var items = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('is-in'); });
-    return;
+  // ---------------------------------------------------------------- reveal
+  // Anima os blocos ao entrarem na tela.
+  //
+  // Já foi IntersectionObserver com threshold 0.08, e isso quebrou feio: a
+  // grade de projetos, que no celular fica com uns 17.000px numa coluna só,
+  // nunca conseguia mostrar 8% de si mesma (cabiam 4,4% da tela). Ela ficava
+  // com opacity 0 para sempre — a seção inteira sumia no mobile.
+  //
+  // Baixar o threshold não bastou: em rolagem rápida ou pulo de âncora, o
+  // observer entrega o elemento já com a tela passando por cima e alguns
+  // blocos escapavam mesmo assim.
+  //
+  // Agora é uma varredura simples, presa ao scroll e limitada por
+  // requestAnimationFrame. São ~20 elementos e cada um sai da lista assim que
+  // aparece, então o custo vai a zero sozinho. Nenhuma dependência da altura
+  // do bloco, nenhum caso de borda.
+  var pendentes = [].slice.call(document.querySelectorAll('.reveal'));
+  var agendado = false;
+
+  function revelar() {
+    agendado = false;
+    var limite = window.innerHeight - 60;   // 60px de folga, para não disparar na borda
+    for (var i = pendentes.length - 1; i >= 0; i--) {
+      // topo acima do limite cobre os dois casos: entrando por baixo, e já
+      // passado por cima (top negativo)
+      if (pendentes[i].getBoundingClientRect().top < limite) {
+        pendentes[i].classList.add('is-in');
+        pendentes.splice(i, 1);
+      }
+    }
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-    });
-  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
-  items.forEach(function (el) { io.observe(el); });
+
+  function agendar() {
+    if (agendado) return;
+    agendado = true;
+    window.requestAnimationFrame(revelar);
+  }
+
+  window.addEventListener('scroll', agendar, { passive: true });
+  window.addEventListener('resize', agendar, { passive: true });
+  window.addEventListener('load', agendar);
+  revelar();
 })();

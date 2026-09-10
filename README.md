@@ -1,52 +1,26 @@
 # Cuoncient agency — portfólio
 
-Site estático: HTML + CSS + JS puros. Sem build, sem dependências, sem
-`node_modules`. Abrir o `index.html` no navegador já funciona.
+Site estático (HTML + CSS + JS, sem build). Abra `index.html` ou suba a pasta na Vercel.
 
 ## Arquivos
+- `index.html` — página única, dividida em 10 seções que espelham o design no Canva
+- `styles.css` — tokens de design no topo (`:root`), depois os estilos por seção
+- `script.js` — nav sticky + reveal on scroll
+- `MAPPING.md` — **como o design do Canva vira código.** Leia antes de mexer.
 
-| Arquivo | O que é |
-|---------|---------|
-| `index.html` | a página inteira — 11 seções |
-| `styles.css` | tokens de design no `:root` do topo, depois os estilos por seção |
-| `script.js` | nav grudada, botão flutuante do WhatsApp, animação de entrada |
-| `projetos.json` | a lista dos 57 sites; fonte para regerar a grade (o HTML já vem pronto) |
-| `assets/` | tudo que o site mostra — marca, prints, peças de design, vídeos |
+## Fluxo de trabalho
+O design é editado no Canva e o código acompanha. Cada `<section>` tem
+`data-canva-page="N"` apontando para a página N do design
+[CUONCIENT — Portfólio (site)](https://www.canva.com/design/DAHUeGAzfw4/edit).
 
-Documentos de apoio, que **não** vão para o ar:
+Editou lá? Peça **"sincroniza o portfólio"** que eu leio e aplico aqui.
 
-| Arquivo | Para quê |
-|---------|----------|
-| `MAPPING.md` | como cada parte funciona e onde mexer. **Leia antes de editar.** |
-| `PUBLICAR.md` | passo a passo para subir no GitHub e na Vercel |
-| `PASSO-A-PASSO.md` | como capturar os prints que faltam |
-| `CLAUDE.md` | contexto do projeto para o Claude Code |
+## Cases publicados
+1. **ART 7 Epoxy** — art7epoxy.com
+2. **DUACT Itapema** — duactitapema.com.br
+3. **V.BIKE Store** — vbikestore.com.br
 
-## Rodar
+Os mockups são recriações em HTML/CSS da home de cada cliente, usando as fotos
+servidas pelo próprio site do cliente.
 
-Abra a pasta no VS Code e use o **Live Server** (botão direito no `index.html` →
-*Open with Live Server*), ou abra o `index.html` direto no navegador.
-
-Os vídeos e alguns detalhes de layout só se comportam direito servidos por HTTP,
-então prefira o Live Server quando for conferir de verdade.
-
-## Onde mexer
-
-| Quero mudar | Onde |
-|-------------|------|
-| Cor, fonte, tamanho, espaçamento | `styles.css` → bloco `TOKENS` no topo |
-| Qualquer texto | `index.html` |
-| Número ou frase do WhatsApp | `index.html` → procure `wa.me/` (7 links) |
-| A marca | `index.html` → o `<symbol id="marca-cuoncient">`, uma vez só |
-| Adicionar/remover projeto da grade | `index.html` → seção `#projetos`, e o total no texto acima dela |
-
-## Publicar
-
-Estático puro: qualquer host serve. Na Vercel é importar o repositório e
-confirmar — sem build command, sem output directory. O `PUBLICAR.md` tem o
-passo a passo completo.
-
-## Contato do site
-
-Todos os botões vão para o WhatsApp **+55 11 93352-8251**, cada um com uma frase
-diferente já escrita. Não há e-mail no site.
+Pendências abertas: ver o fim do `MAPPING.md`.

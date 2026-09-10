@@ -33,7 +33,7 @@ que amarra os dois lados — é por ele que eu acho onde aplicar cada mudança.
 
 ## A seção Projetos é só do código
 
-A grade com os 57 sites não existe no Canva — ela é grande demais para caber numa
+A grade com os 55 sites não existe no Canva — ela é grande demais para caber numa
 página de 1366×768 e mudaria toda vez que você entrega um site novo. Ela vive só
 no `index.html`, logo depois do case da V.BIKE.
 
@@ -57,8 +57,9 @@ cliente. Se tiver print do site, troque o `proj__mono` por:
 <span class="proj__shot" style="background-image:url('URL-DA-IMAGEM')"></span>
 ```
 
-Hoje 49 projetos usam print local (`assets/thumbs/<slug>.jpg`, 900px de largura),
-6 ainda usam a miniatura antiga vinda do Wix por URL, e 2 mostram as iniciais.
+Hoje 49 projetos usam print local (`assets/thumbs/<slug>.jpg`, 900px de largura)
+e 6 ainda usam a miniatura antiga vinda do Wix por URL. Cris Cassiano e Daiana
+Santos saíram da grade a pedido do Gui.
 Para **remover** um projeto, apague o bloco inteiro — e atualize o número no
 texto de abertura da seção.
 
@@ -134,6 +135,74 @@ tamanho zero no CSS — ele existe só para guardar o desenho, não ocupa espaç
 **Pendência:** o `og:image` no `<head>` está com caminho relativo. WhatsApp e
 LinkedIn não resolvem caminho relativo — quando o domínio final existir, troque
 por uma URL absoluta (`https://seudominio.com/assets/brand/logo-badge-512.png`).
+
+## A animação de entrada (e por que ela já apagou o site no celular)
+
+Os blocos com a classe `.reveal` entram com um fade. Duas decisões aqui não são
+estéticas, são de segurança:
+
+**1. O gatilho não pode depender da altura do bloco.** Era um
+`IntersectionObserver` com `threshold: 0.08` — exigia que 8% do elemento
+estivesse visível. Funciona num bloco baixo. Na grade de projetos, que no
+celular vira uma coluna de ~17.000px, o máximo que cabia na tela eram 4,4%: o
+gatilho nunca disparava e **a seção inteira ficava com `opacity: 0`**. No
+desktop, com 4 colunas, a grade encurtava e passava — por isso o bug só
+aparecia no celular.
+
+Hoje é uma varredura simples no scroll, limitada por `requestAnimationFrame`,
+que revela qualquer bloco cujo topo passe de `innerHeight - 60`. Isso cobre
+tanto o bloco entrando por baixo quanto o que já passou por cima (topo
+negativo, caso de link de âncora ou rolagem restaurada). Cada bloco sai da lista
+ao ser revelado, então o custo cai a zero sozinho.
+
+**2. O `opacity: 0` mora atrás da classe `.js`**, que um script de uma linha no
+`<head>` coloca no `<html>`. Se o JavaScript falhar, não carregar ou for
+bloqueado, a classe nunca entra e **tudo aparece normalmente**. Antes, qualquer
+problema no script deixava o site em branco. O script precisa ficar no `<head>`:
+no fim do `<body>` o conteúdo apareceria e sumiria.
+
+Se um dia mexer nisso, o teste é rolar a página no celular até a seção Projetos
+e conferir se os cards aparecem — e, no DevTools, desligar o JavaScript e
+recarregar: o site tem de continuar legível.
+
+## Compartilhamento e SEO
+
+No `<head>` ficam três blocos que não mudam nada visualmente mas decidem como o
+site aparece fora dele:
+
+- **Open Graph / Twitter Card** — a foto, o título e a descrição que o WhatsApp,
+  o LinkedIn, o Instagram e o Slack mostram quando alguém cola o link. A imagem é
+  `assets/brand/og-cover.jpg`, 1200×630.
+- **`<link rel="canonical">`** — diz qual é o endereço oficial da página.
+- **JSON-LD (`application/ld+json`)** — dados estruturados. Declara a Cuoncient
+  como `Organization`, com logo, slogan, os 4 serviços, o WhatsApp de contato e o
+  Gui como fundador. É o que o Google lê para entender que isto é uma agência.
+
+**Estes endereços TÊM de ser absolutos.** Caminho relativo não funciona: o robô
+do WhatsApp baixa o HTML de fora e não sabe resolver `assets/...`. Hoje todos
+apontam para `https://cuoncient-portfolio.vercel.app`.
+
+Trocou de domínio? Procure por `cuoncient-portfolio.vercel.app` no `index.html`
+— são **12 ocorrências**, contando o schema.
+
+Para conferir depois de publicar:
+
+| Ferramenta | Para quê |
+|---|---|
+| developers.facebook.com/tools/debug | prévia do WhatsApp e Instagram |
+| linkedin.com/post-inspector | prévia do LinkedIn |
+| search.google.com/test/rich-results | valida o JSON-LD |
+
+Os dois primeiros também **limpam o cache** — importante, porque essas redes
+guardam a prévia antiga por dias. Se você já compartilhou o link antes desta
+mudança, rode o debugger uma vez para forçar a atualização.
+
+### Como o card foi feito
+
+`assets/brand/og-cover.jpg` é uma montagem: fundo do site, a marca, o slogan, as
+4 disciplinas e os prints dos 3 cases empilhados em diagonal. Foi renderizado com
+a própria fonte Archivo e os tokens de cor do `styles.css`, para bater com o
+site. Se precisar refazer, peça — o script de montagem é reproduzível.
 
 ## Os links de WhatsApp
 
@@ -271,9 +340,11 @@ Cada página é fixa em 1366×768. O site é fluido. Então:
       Me passa quem entra e os links, que eu monto igual aos outros três.
 - [ ] **Fontes das páginas 6, 7 e 8** saíram na fonte padrão do Canva — a API não
       deixa escolher família. Aplica a fonte das outras páginas por aí.
-- [ ] **8 prints faltando** — CEEA, Azzurro Interiores, Turnflix, XPCon, Doege
-      Home, Minimall, Daiana Santos e Cris Cassiano. Seis deles ainda mostram a
-      miniatura antiga (que vem de fora, pelo Wix); dois mostram as iniciais.
+- [ ] **6 prints faltando** — CEEA, Azzurro Interiores, Turnflix, XPCon, Doege
+      Home e Minimall. Todos ainda mostram a miniatura antiga, que vem de fora
+      pelo Wix. Daiana Santos e Cris Cassiano saíram da grade a pedido do Gui,
+      então nenhum card usa mais o bloco de iniciais (`proj__mono`) — a regra
+      continua no CSS para quando entrar um projeto sem foto.
 - [ ] **Peças de design em baixa resolução.** As 4 peças da galeria vieram do
       LinkedIn, que recomprime tudo: três estão em 480px e uma em 800px. Ficam
       aceitáveis no tamanho do card, mas suavizadas em tela retina. Se achar os

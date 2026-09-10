@@ -4,11 +4,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cuoncient agency — This is not a (simple) agency marketing</title>
-<meta name="description" content="Cuoncient agency: design, social media, desenvolvimento e anúncios. Do briefing à entrega final — sites, landing pages e campanhas que transformam atenção em resultado.">
-<meta property="og:title" content="Cuoncient agency">
-<meta property="og:description" content="This is not a (simple) agency marketing.">
-<meta property="og:type" content="website">
+<meta name="description" content="Cuoncient agency: design, social media, desenvolvimento e anúncios. 55 sites entregues — do briefing à entrega final.">
+<link rel="canonical" href="https://cuoncient-portfolio.vercel.app/">
 <meta name="theme-color" content="#050506">
+
+<!-- ======================================================================
+     COMPARTILHAMENTO — o que aparece quando o link é colado no WhatsApp,
+     LinkedIn, Instagram, Slack, Discord.
+
+     ATENÇÃO: estes endereços precisam ser ABSOLUTOS. Caminho relativo não
+     funciona: os robôs dessas redes não rodam na página, eles baixam o HTML
+     de fora e não sabem resolver "assets/...".
+
+     Trocou de domínio? Procure por "cuoncient-portfolio.vercel.app" neste
+     arquivo — são 12 ocorrências, contando o schema lá embaixo.
+     ====================================================================== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuoncient agency">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://cuoncient-portfolio.vercel.app/">
+<meta property="og:title" content="Cuoncient agency — This is not a (simple) agency marketing">
+<meta property="og:description" content="Cuoncient agency: design, social media, desenvolvimento e anúncios. 55 sites entregues — do briefing à entrega final.">
+<meta property="og:image" content="https://cuoncient-portfolio.vercel.app/assets/brand/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cuoncient agency — sites entregues para clientes, com a marca da agência">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cuoncient agency — This is not a (simple) agency marketing">
+<meta name="twitter:description" content="Cuoncient agency: design, social media, desenvolvimento e anúncios. 55 sites entregues — do briefing à entrega final.">
+<meta name="twitter:image" content="https://cuoncient-portfolio.vercel.app/assets/brand/og-cover.jpg">
 <!-- Ícones. O .svg é o que os navegadores modernos usam; os .png são o plano B.
      Quando o domínio final existir, troque og:image por uma URL absoluta —
      WhatsApp e LinkedIn não resolvem caminho relativo. -->
@@ -16,11 +42,73 @@
 <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/brand/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-<meta property="og:image" content="assets/brand/logo-badge-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Liga a animação de entrada. Precisa estar AQUI no <head>, antes do CSS
+     pintar: se ficasse no fim do <body>, o conteúdo apareceria e sumiria.
+     E precisa ser este o sentido — o CSS só esconde quando esta classe existe,
+     então JavaScript quebrado deixa o site visível em vez de em branco. -->
+<script>document.documentElement.className += " js";</script>
+
+<!-- Dados estruturados: é assim que o Google entende que isto é uma agência,
+     quais são os serviços e como falar com ela. Não muda nada visualmente. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://cuoncient-portfolio.vercel.app/#agencia",
+      "name": "Cuoncient agency",
+      "alternateName": "Cuoncient",
+      "url": "https://cuoncient-portfolio.vercel.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://cuoncient-portfolio.vercel.app/assets/brand/logo-badge-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://cuoncient-portfolio.vercel.app/assets/brand/og-cover.jpg",
+      "slogan": "This is not a (simple) agency marketing.",
+      "description": "Cuoncient agency: design, social media, desenvolvimento e anúncios. 55 sites entregues — do briefing à entrega final.",
+      "founder": {
+        "@type": "Person",
+        "name": "Guilherme Keidi Suzuki",
+        "jobTitle": "Devop"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Atendimento comercial",
+        "telephone": "+55-11-93352-8251",
+        "url": "https://wa.me/5511933528251",
+        "availableLanguage": ["Portuguese"]
+      },
+      "knowsLanguage": ["pt-BR"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços da Cuoncient",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Design gráfico e identidade visual"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Social media e filmes de marca"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Desenvolvimento de sites e landing pages"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Anúncios e tráfego pago"}}
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://cuoncient-portfolio.vercel.app/#site",
+      "url": "https://cuoncient-portfolio.vercel.app/",
+      "name": "Cuoncient agency",
+      "inLanguage": "pt-BR",
+      "publisher": {"@id": "https://cuoncient-portfolio.vercel.app/#agencia"}
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -429,7 +517,7 @@
     <div class="projetos__head reveal">
       <h2 class="section-title">Projetos</h2>
       <p class="lead">
-        Mais de <strong>57 sites</strong> entregues — institucionais,
+        <strong>55 sites</strong> entregues — institucionais,
         landing pages, lojas e páginas de captação. Clique para abrir cada um.
       </p>
     </div>
@@ -528,17 +616,9 @@
         <span class="proj__media"><img class="proj__shot" src="assets/thumbs/rowsite.jpg" width="900" height="563" loading="lazy" alt="Home do site Rowbeaulty"></span>
         <span class="proj__name">Rowbeaulty</span>
       </a>
-      <a class="proj" href="https://www.daianasantoslp.com/" target="_blank" rel="noopener">
-        <span class="proj__media"><span class="proj__mono" style="--h:314"><i>DS</i></span></span>
-        <span class="proj__name">Daiana Santos</span>
-      </a>
       <a class="proj" href="https://www.donnainvoga.com.br/" target="_blank" rel="noopener">
         <span class="proj__media"><img class="proj__shot" src="assets/thumbs/donnainvoga.jpg" width="900" height="563" loading="lazy" alt="Home do site Donna in Voga"></span>
         <span class="proj__name">Donna in Voga</span>
-      </a>
-      <a class="proj" href="https://www.criscassiano.com/" target="_blank" rel="noopener">
-        <span class="proj__media"><span class="proj__mono" style="--h:150"><i>CC</i></span></span>
-        <span class="proj__name">Cris Cassiano</span>
       </a>
       <a class="proj" href="https://g-suzuki8.wixstudio.com/ajrconstruction" target="_blank" rel="noopener">
         <span class="proj__media"><img class="proj__shot" src="assets/thumbs/ajrconstruction.jpg" width="900" height="563" loading="lazy" alt="Home do site AJR Construction"></span>

@@ -444,11 +444,17 @@ a{color:inherit;text-decoration:none}
 /* ==========================================================================
    REVEAL
    ========================================================================== */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.reveal.is-in{opacity:1;transform:none}
+/* Animação de entrada.
+   O esconder está atrás de `.js`, uma classe que um script mínimo no <head>
+   coloca no <html>. Se o JavaScript falhar, não rodar ou for bloqueado, a
+   classe nunca entra e TUDO aparece normalmente. Sem isso, qualquer problema
+   no script deixa o site em branco — foi o que aconteceu com a grade de
+   projetos no celular. */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.is-in{opacity:1;transform:none}
 
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
+  .js .reveal{opacity:1;transform:none;transition:none}
   .zap{transition:none}
   html{scroll-behavior:auto}
 }

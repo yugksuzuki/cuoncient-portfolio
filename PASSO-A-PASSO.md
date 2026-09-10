@@ -4,7 +4,7 @@ Onde estamos e o que falta, em ordem. Cada passo diz quem faz.
 
 ---
 
-> **Atualizado em 09/09** — os prints chegaram. 49 dos 57 cards já mostram o
+> **Atualizado em 09/09** — os prints chegaram. 49 dos 55 cards já mostram o
 > site de verdade, e os 3 cases estão com print real dentro das molduras.
 > Falta só a segunda leva (8 sites), listada no fim deste arquivo.
 
@@ -30,19 +30,19 @@ cuoncient-portfolio/
 O que já está pronto: capa, manifesto, Design com galeria, Social Media com os
 vídeos, os 3 cases com mockup, a grade com 57 projetos, Anúncios e fechamento.
 
-O que falta: os prints de 8 sites. Enquanto não chegam, 6 deles seguem com a
-miniatura velha do portfólio antigo (480px, meio borrada) e 2 mostram o bloco
-com as iniciais. Nenhum card ficou vazio.
+O que falta: os prints de 6 sites. Enquanto não chegam, eles seguem com a
+miniatura velha do portfólio antigo (480px, meio borrada). Nenhum card ficou
+vazio. Daiana Santos e Cris Cassiano saíram da grade.
 
 ---
 
-## Passo 1 — Capturar os 8 prints que faltam  *(você, ou outra IA)*
+## Passo 1 — Capturar os 6 prints que faltam  *(você, ou outra IA)*
 
 O pacote `prints-cuoncient.zip` continua servindo. Como o script pula o que já
-existe na pasta `prints/`, rodar de novo captura só os 8 que faltam — dois
+existe na pasta `prints/`, rodar de novo captura só os 6 que faltam — dois
 minutos, não quinze.
 
-Os 8:
+Os 6:
 
 | Site | URL |
 |------|-----|
@@ -52,8 +52,6 @@ Os 8:
 | XPCon | https://www.xpcon.com.br/ |
 | Doege Home | https://www.doegehome.com.br/ |
 | Minimall | https://minimall.com.br/ |
-| Daiana Santos | https://www.daianasantoslp.com/ |
-| Cris Cassiano | https://www.criscassiano.com/ |
 
 Se algum desses acusar **SITE FORA DO AR**, é domínio vencido — me avisa que eu
 troco pela URL do Wix ou tiro do portfólio.

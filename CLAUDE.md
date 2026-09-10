@@ -11,9 +11,10 @@ no Canva; o código é a implementação dele e já andou além.
 
 ## Estado atual
 
-**Completo e no ar em estrutura.** As 11 seções montadas, responsivo verificado
-de 360px a 1440px sem rolagem horizontal, 59 imagens carregando, nenhuma
-quebrada. O que falta está em "Pendências", no fim.
+**No ar em https://cuoncient-portfolio.vercel.app** — repositório público
+`github.com/yugksuzuki/cuoncient-portfolio` ligado à Vercel, republicando a cada
+`git push`. As 11 seções montadas, responsivo verificado de 360px a 1440px sem
+rolagem horizontal, imagens todas carregando. O que falta está em "Pendências", no fim.
 
 ## Stack
 
@@ -26,7 +27,7 @@ para desenvolver; Vercel para publicar (sem build command, sem output directory)
 index.html      11 seções
 styles.css      bloco TOKENS no topo, depois estilos na ordem das seções
 script.js       nav grudada + botão do WhatsApp + reveal on scroll
-projetos.json   fonte da grade de 57 sites (o HTML já vem com os cards escritos)
+projetos.json   fonte da grade de 55 sites (o HTML já vem com os cards escritos)
 assets/
   brand/        marca vetorizada + favicons          (6 arquivos)
   cases/        prints dos 3 cases, desktop e mobile (6)
@@ -47,7 +48,7 @@ assets/
 | 6 | `#case-art7` | Case ART 7 Epoxy | 6 |
 | 7 | `#case-duact` | Case DUACT Itapema | 7 |
 | 8 | `#case-vbike` | Case V.BIKE Store | 8 |
-| — | `#projetos` | Grade com os 57 sites | *só no código* |
+| — | `#projetos` | Grade com os 55 sites | *só no código* |
 | 9 | `#anuncios` | Anúncios | 9 |
 | 10 | `#fechamento` | CTA final + rodapé | 10 |
 
@@ -84,6 +85,14 @@ deslocado, longe do case. Já aconteceu uma vez.
 menor que a calha do `.wrap` — 24px no geral, 16px abaixo de 620px. Passando
 disso, a página inteira ganha rolagem horizontal no tablet.
 
+**A animação de entrada não pode depender do tamanho do bloco.** O
+`IntersectionObserver` com `threshold: 0.08` exigia 8% do elemento visível — a
+grade de projetos, com ~17.000px numa coluna no celular, nunca chegava lá e a
+seção inteira ficava com `opacity: 0`. Hoje é uma varredura no scroll presa a
+`requestAnimationFrame`, sem relação com a altura. E o `opacity: 0` mora atrás
+de `.js` (classe posta por um script no `<head>`): JavaScript quebrado deixa o
+site visível em vez de em branco.
+
 **`aspect-ratio` sozinho não vence o atributo `height` do `<img>`.** Nas galerias
 é obrigatório `height:auto` junto, senão o card estica.
 
@@ -114,11 +123,12 @@ está corrompido no servidor do cliente. Não é problema do código.
 
 ## Pendências
 
-- [ ] **8 prints faltando** na grade: CEEA, Azzurro Interiores, Turnflix, XPCon,
-      Doege Home, Minimall, Daiana Santos, Cris Cassiano. Enquanto não chegam, 6
-      usam a miniatura antiga do Wix e 2 mostram as iniciais. Ver `PASSO-A-PASSO.md`.
-- [ ] **`og:image` com caminho relativo.** WhatsApp e LinkedIn não resolvem
-      relativo — trocar por URL absoluta quando o domínio existir.
+- [ ] **6 prints faltando** na grade: CEEA, Azzurro Interiores, Turnflix, XPCon,
+      Doege Home e Minimall — usam a miniatura antiga do Wix até chegarem.
+      Ver `PASSO-A-PASSO.md`. Daiana Santos e Cris Cassiano saíram da grade.
+- [x] ~~`og:image` relativo~~ — resolvido. Open Graph, Twitter Card e JSON-LD
+      apontam para `https://cuoncient-portfolio.vercel.app`. Trocou de domínio?
+      São 12 ocorrências no `index.html`.
 - [ ] **Originais das peças de design.** As 4 vieram do LinkedIn recomprimidas
       (480 a 800px).
 - [ ] **Confirmar a atribuição da Eduarda Zucki** em duas peças da galeria —
