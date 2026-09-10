@@ -1,0 +1,19 @@
+# ATENÇÃO — os assets FICAM no repositório, de propósito.
+#
+# Numa fase anterior deste projeto a pasta assets/ estava ignorada aqui, e os
+# arquivos eram rebaixados depois pelos scripts baixar-assets. Isso não vale
+# mais: hoje os prints, os vídeos e a marca são o conteúdo do site. Se assets/
+# voltar para esta lista, o site sobe sem imagem nenhuma na Vercel.
+#
+# São 8,6 MB no total e o maior arquivo tem 2,7 MB — bem abaixo do limite de
+# 100 MB por arquivo do GitHub. Não precisa de Git LFS.
+
+# lixo de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# dependências e build, caso um dia entrem
+node_modules/
+.vercel/
+*.log

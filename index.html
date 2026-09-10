@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cuoncient agency — This is not a (simple) agency marketing</title>
+<meta name="description" content="Cuoncient agency: design, social media, desenvolvimento e anúncios. Do briefing à entrega final — sites, landing pages e campanhas que transformam atenção em resultado.">
+<meta property="og:title" content="Cuoncient agency">
+<meta property="og:description" content="This is not a (simple) agency marketing.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#050506">
+<!-- Ícones. O .svg é o que os navegadores modernos usam; os .png são o plano B.
+     Quando o domínio final existir, troque og:image por uma URL absoluta —
+     WhatsApp e LinkedIn não resolvem caminho relativo. -->
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/brand/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<meta property="og:image" content="assets/brand/logo-badge-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- A marca vive aqui uma vez só; a nav e o rodapé apontam para ela com <use>. -->
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="marca-cuoncient" viewBox="92.05 93.6 337.6 337.6">
+    <path d="M250.5,419.35C222.39,414.83 201.44,400.24 187.1,375.18C180.56,363.74 179.93,363.25 170.44,361.94C126.62,355.88 92.12,315.42 92.05,270.0C92.04,260.79 94.26,245.02 96.42,239.1C99.09,231.74 110.15,214.12 116.33,207.38C128.51,194.09 157.58,179.0 171.0,179.0C173.73,179.0 175.58,175.95 177.37,168.5C182.95,145.22 202.88,122.18 225.77,112.55C249.82,102.42 273.63,102.56 296.52,112.94C319.49,123.35 339.76,148.6 344.02,172.09C345.51,180.35 345.78,180.61 354.31,182.04C388.74,187.82 418.84,215.35 427.24,248.76C430.46,261.55 430.44,285.94 427.21,297.84C418.32,330.54 390.33,356.32 356.0,363.43C343.71,365.98 343.69,365.99 336.72,376.71C322.5,398.57 305.84,411.2 283.5,417.07C275.64,419.13 257.12,420.41 250.5,419.35ZM275.55,395.51C291.04,391.58 308.44,380.59 314.58,370.87C318.35,364.9 317.9,363.81 310.63,361.27C297.12,356.56 282.53,345.94 274.47,334.96C269.9,328.73 270.21,327.94 278.66,324.51C290.75,319.61 291.79,319.57 296.52,323.81C309.41,335.39 321.89,343.02 325.59,341.6C329.36,340.16 327.28,319.46 322.38,309.73C318.01,301.04 309.46,288.65 305.14,284.75C298.38,278.64 285.08,273.0 277.45,273.0C273.76,273.0 273.04,275.27 273.0,287.0C272.89,314.88 250.43,343.43 218.6,356.19C207.41,360.67 207.0,360.96 207.0,364.47C207.0,371.45 218.51,383.87 231.11,390.49C245.64,398.12 259.21,399.66 275.55,395.51ZM356.64,339.88C397.27,327.34 416.67,288.28 401.43,249.7C392.8,227.86 381.7,215.8 363.37,208.32C347.48,201.85 345.9,202.01 344.03,210.36C342.31,218.05 338.42,226.66 333.64,233.35C328.76,240.2 316.71,252.0 314.6,252.0C313.31,252.0 305.96,235.88 305.99,233.13C305.99,232.37 308.75,228.81 312.12,225.21C317.6,219.35 324.0,208.6 324.0,205.23C324.0,203.68 320.62,204.37 313.5,207.36C294.65,215.27 281.0,228.01 275.95,242.4C273.33,249.86 273.7,250.25 285.44,252.34C320.68,258.62 348.0,293.79 348.0,332.87C348.0,339.5 348.43,342.0 349.56,342.0C349.69,342.0 352.87,341.05 356.64,339.88ZM174.43,337.43C175.32,336.53 176.0,334.17 176.0,331.92C176.0,326.71 178.7,308.93 180.01,305.47C183.48,296.35 203.35,273.0 207.65,273.0C208.43,273.0 210.61,276.42 212.55,280.68C217.83,292.27 217.84,292.4 213.22,297.01C203.96,306.28 196.66,322.66 197.21,332.97C197.58,340.03 198.53,340.22 209.22,335.42C232.78,324.83 243.61,313.06 247.97,293.26C251.63,276.62 250.78,274.0 241.75,274.0C233.14,274.0 217.15,267.46 208.0,260.2C193.26,248.49 183.28,233.27 177.59,213.78C176.26,209.23 174.86,204.71 174.48,203.75C173.3,200.78 168.29,201.71 156.24,207.16C137.08,215.82 126.4,227.56 119.31,247.78C108.78,277.78 125.4,318.46 153.81,332.21C167.28,338.73 171.95,339.91 174.43,337.43ZM249.55,249.92C249.91,249.33 250.86,246.08 251.65,242.71C257.61,217.15 279.62,195.77 311.0,185.05C326.13,179.88 326.78,176.46 316.09,158.15C296.5,124.6 252.58,117.67 219.09,142.84C206.51,152.29 193.97,174.31 199.25,177.68C199.94,178.12 204.69,179.91 209.8,181.66C225.73,187.1 239.68,196.98 248.61,209.16C252.9,214.99 253.09,214.72 241.53,219.38C230.42,223.87 230.32,223.86 225.81,219.07C215.78,208.42 196.0,197.95 196.0,203.31C196.0,213.41 212.59,238.03 223.86,244.67C232.18,249.57 247.79,252.76 249.55,249.92Z" fill="currentColor" fill-rule="evenodd"/>
+  </symbol>
+</svg>
+<!--
+  ===========================================================================
+  Cada <section> abaixo corresponde a uma página do design no Canva
+  "CUONCIENT — Portfólio (site)" — o atributo data-canva-page diz qual.
+  Ver MAPPING.md antes de mexer na ordem.
+  ===========================================================================
+-->
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#capa" aria-label="Cuoncient agency">
+      <svg class="brand__mark" aria-hidden="true"><use href="#marca-cuoncient"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">Cuoncient</span>
+        <span class="brand__sub">agency</span>
+      </span>
+    </a>
+    <nav class="nav__links">
+      <a href="#manifesto">Sobre</a>
+      <a href="#design">Design</a>
+      <a href="#devop">Cases</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#anuncios">Anúncios</a>
+      <a href="#fechamento">Contato</a>
+    </nav>
+    <a class="btn" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">Faça seu orçamento</a>
+  </div>
+</header>
+
+<!-- ==================== 1 · CAPA ==================== -->
+<section class="hero" id="capa" data-canva-page="1">
+  <div class="hero__glow"></div>
+  <div class="hero__grain"></div>
+  <div class="wrap hero__inner">
+    <div class="hero__logo">
+      <span class="brand">
+        <svg class="brand__mark" aria-hidden="true"><use href="#marca-cuoncient"/></svg>
+        <span class="brand__text">
+          <span class="brand__name">Cuoncient</span>
+          <span class="brand__sub">agency</span>
+        </span>
+      </span>
+    </div>
+
+    <h1>
+      <span class="thin">This is not a</span> <span class="dim">(simple)</span>
+      <span class="bold">agency marketing</span>
+    </h1>
+
+    <p class="hero__copy">
+      Com você do <b>início</b> ao <b>final</b> do projeto. Aliás,
+      this is not a simple agency marketing — <b>this is Cuoncient</b>.
+    </p>
+
+    <a class="btn" href="#devop">Comece por aqui</a>
+  </div>
+
+  <div class="wrap hero__scroll">
+    <span>Design · Social Media · Devop · Anúncios</span>
+    <span>Role para ver ↓</span>
+  </div>
+</section>
+
+<!-- ==================== 2 · MANIFESTO ==================== -->
+<section class="manifesto" id="manifesto" data-canva-page="2">
+  <div class="wrap">
+    <div class="manifesto__grid">
+      <div class="venn reveal" aria-label="Disciplinas da Cuoncient">
+        <span class="venn__c venn__c--t"></span>
+        <span class="venn__c venn__c--b"></span>
+        <span class="venn__c venn__c--l"></span>
+        <span class="venn__c venn__c--r"></span>
+
+        <span class="venn__lab" style="left:50%;top:11%">Briefing</span>
+        <span class="venn__lab" style="left:11%;top:50%">Anúncios</span>
+        <span class="venn__lab" style="left:89%;top:50%">Design</span>
+        <span class="venn__lab" style="left:50%;top:89%">Devop</span>
+
+        <span class="venn__lab venn__lab--sm" style="left:27%;top:29%">Gestão</span>
+        <span class="venn__lab venn__lab--sm" style="left:64%;top:29%">ID Visual</span>
+        <span class="venn__lab venn__lab--sm" style="left:29%;top:71%">Estratégia</span>
+        <span class="venn__lab venn__lab--sm" style="left:70%;top:70%">Social<br>Media</span>
+
+        <span class="venn__lab venn__lab--xs" style="left:30%;top:50%">UX</span>
+        <span class="venn__lab venn__lab--xs" style="left:71%;top:50%">Captação</span>
+        <span class="venn__lab venn__lab--xs" style="left:50%;top:63%">UI</span>
+
+        <span class="venn__core">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <g fill="none" stroke="#fff" stroke-width="1.6">
+              <circle cx="20" cy="11" r="5.2"/><circle cx="20" cy="29" r="5.2"/>
+              <circle cx="12.2" cy="15.5" r="5.2"/><circle cx="27.8" cy="15.5" r="5.2"/>
+              <circle cx="12.2" cy="24.5" r="5.2"/><circle cx="27.8" cy="24.5" r="5.2"/>
+            </g>
+          </svg>
+        </span>
+      </div>
+
+      <div class="manifesto__text reveal">
+        <p class="eyebrow" style="margin-bottom:22px">Somos muito mais que uma agência</p>
+        <p>
+          Nos dedicamos a transformar ideias em <b>resultados</b>. Nossa equipe
+          multidisciplinar trabalha desde a concepção do <b>briefing</b> até a
+          <b>entrega final</b>, garantindo que cada projeto seja executado com
+          excelência e criatividade.
+        </p>
+        <p>
+          Se você precisa de um site impactante, campanhas de anúncios eficazes,
+          estratégias de captação de leads ou gestão de redes sociais,
+          <b>estamos aqui para ajudar</b>.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="manifesto__ghost" aria-hidden="true">This is not a (simple)<b>agency marketing</b></div>
+</section>
+
+<!-- ==================== 3 · DESIGN ==================== -->
+<section class="disc" id="design" data-canva-page="3">
+  <div class="wrap">
+    <div class="disc__head reveal">
+      <h2 class="section-title">Design</h2>
+      <hr class="rule">
+    </div>
+    <div class="disc__grid">
+      <div class="disc__body reveal">
+        <p>
+          Acreditamos que a estética e a funcionalidade devem andar de mãos dadas.
+          Nossa equipe está pronta para criar visuais cativantes que representam a
+          <b>essência da sua marca</b>.
+        </p>
+        <p>
+          Desde a <b>identidade visual</b> até layouts para sites (UI) e
+          <b>materiais gráficos</b>, cada detalhe é pensado para transmitir sua
+          mensagem de forma clara e impactante.
+        </p>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20design." target="_blank" rel="noopener">Faça seu orçamento</a>
+      </div>
+      <aside class="disc__aside reveal">
+        <h4>O que entra no escopo</h4>
+        <ul class="disc__list">
+          <li><i>01</i><span>Identidade visual — marca, paleta, tipografia e aplicação</span></li>
+          <li><i>02</i><span>UI de site e landing page, do wireframe ao layout final</span></li>
+          <li><i>03</i><span>Materiais gráficos para impresso e digital</span></li>
+          <li><i>04</i><span>Direção de arte para campanhas e conteúdo</span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- galeria de design gráfico — arquivos em assets/design/ -->
+    <div class="dgal reveal">
+      <figure class="dgal__item">
+        <img src="assets/design/karla-vivian-logo.jpg" width="480" height="600" loading="lazy"
+             alt="Estrutura do logo da Karla Vivian Atelier, com as anotações de construção da marca">
+        <figcaption><b>Karla Vivian Atelier</b><span>Estrutura do logo</span></figcaption>
+      </figure>
+      <figure class="dgal__item">
+        <img src="assets/design/karla-vivian-padronagem.jpg" width="800" height="1000" loading="lazy"
+             alt="Padronagem e cartão de visita da Karla Vivian Atelier em preto e branco">
+        <figcaption><b>Karla Vivian Atelier</b><span>Padronagem e papelaria</span></figcaption>
+      </figure>
+      <figure class="dgal__item">
+        <img src="assets/design/moodboard-materiais.jpg" width="480" height="600" loading="lazy"
+             alt="Moodboard de materiais e ambientação em tons de madeira e areia">
+        <figcaption><b>Eduarda Zucki</b><span>Moodboard de materiais</span></figcaption>
+      </figure>
+      <figure class="dgal__item">
+        <img src="assets/design/marca-textura.jpg" width="480" height="600" loading="lazy"
+             alt="Aplicação da marca sobre textura de madeira ripada">
+        <figcaption><b>Eduarda Zucki</b><span>Aplicação de marca</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4 · SOCIAL MEDIA ==================== -->
+<section class="disc" id="social" data-canva-page="4">
+  <div class="wrap">
+    <div class="disc__head reveal">
+      <h2 class="section-title">Social Media</h2>
+      <hr class="rule">
+    </div>
+    <div class="disc__grid">
+      <div class="disc__body reveal">
+        <p>
+          A presença nas redes é essencial para qualquer marca que deseja se
+          destacar. Desenvolvemos estratégias personalizadas para cada plataforma,
+          garantindo que sua marca se conecte de maneira <b>autêntica</b> com seu
+          público-alvo.
+        </p>
+        <p>
+          Criamos conteúdos relevantes, captamos material envolvente e alinhado
+          aos objetivos do negócio, além de gerenciar campanhas e interações para
+          aumentar <b>engajamento e fidelidade</b>.
+        </p>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20social%20media." target="_blank" rel="noopener">Faça seu orçamento</a>
+      </div>
+      <aside class="disc__aside reveal">
+        <h4>O que entra no escopo</h4>
+        <ul class="disc__list">
+          <li><i>01</i><span>Estratégia por plataforma e calendário editorial</span></li>
+          <li><i>02</i><span>Captação de conteúdo — foto e vídeo no local</span></li>
+          <li><i>03</i><span>Criação de peças e edição para feed, stories e reels</span></li>
+          <li><i>04</i><span>Gestão de comunidade e resposta a interações</span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- filmes de marca — arquivos em assets/video/ (poster + mp4 por peça) -->
+    <div class="vgal reveal">
+      <figure class="vgal__item vgal__item--tall">
+        <video class="vgal__v" style="--ar:9/16" controls muted playsinline preload="none"
+               poster="assets/video/ponto-zero.jpg"
+               aria-label="Filme de marca da Ponto Zero">
+          <source src="assets/video/ponto-zero.mp4" type="video/mp4">
+        </video>
+        <figcaption><b>Ponto Zero</b><span>Filme de marca · 0:18</span></figcaption>
+      </figure>
+      <figure class="vgal__item">
+        <video class="vgal__v" style="--ar:16/9" controls muted playsinline preload="none"
+               poster="assets/video/eduarda-zucki.jpg"
+               aria-label="Filme de marca da Eduarda Zucki Arquitetura e Interiores">
+          <source src="assets/video/eduarda-zucki.mp4" type="video/mp4">
+        </video>
+        <figcaption><b>Eduarda Zucki</b><span>Filme de marca · 0:24</span></figcaption>
+      </figure>
+      <figure class="vgal__item">
+        <video class="vgal__v" style="--ar:16/9" controls muted playsinline preload="none"
+               poster="assets/video/casetti-lab.jpg"
+               aria-label="Filme de marca da Casetti Lab">
+          <source src="assets/video/casetti-lab.mp4" type="video/mp4">
+        </video>
+        <figcaption><b>Casetti Lab</b><span>Filme de marca · 0:34</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5 · DEVOP (abertura dos cases) ==================== -->
+<section class="devop" id="devop" data-canva-page="5">
+  <div class="wrap">
+    <div class="devop__head reveal">
+      <h2 class="section-title">Devop</h2>
+      <p class="lead">
+        Sites e landing pages funcionais, responsivos e visualmente atraentes —
+        estruturados para <strong>conversão</strong>, direcionamento para ação e
+        experiência do usuário.
+      </p>
+    </div>
+    <hr class="rule">
+  </div>
+</section>
+
+<!-- ==================== 6 · CASE ART 7 EPOXY ==================== -->
+<section class="wrap" data-canva-page="6">
+  <article class="case reveal" id="case-art7" style="--case-glow:var(--case-art7)">
+    <div class="case__info">
+      <p class="case__index">Case 01 — Massachusetts / New Hampshire, EUA</p>
+      <h3 class="case__name">ART 7 Epoxy</h3>
+      <p class="case__kicker">Site institucional + SEO local</p>
+      <p class="case__desc">
+        Site de serviços de piso epóxi para o mercado de New England, com
+        páginas geolocalizadas por cidade, estrutura de captação por orçamento
+        on-site e uma calculadora de estimativa própria.
+      </p>
+      <div class="case__tags">
+        <span class="tag">Site institucional</span>
+        <span class="tag">SEO local</span>
+        <span class="tag">GEO pages</span>
+        <span class="tag">Estimator</span>
+        <span class="tag">Captação</span>
+      </div>
+      <a class="case__link" href="https://www.art7epoxy.com" target="_blank" rel="noopener">
+        art7epoxy.com <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="case__media">
+      <div class="browser">
+        <div class="browser__bar">
+          <span class="browser__dots"><i></i><i></i><i></i></span>
+          <span class="browser__url">art7epoxy.com</span>
+        </div>
+        <div class="browser__view">
+          <img class="frame__shot" src="assets/cases/art7-desktop.jpg" width="1400" height="910" loading="lazy" alt="Site ART 7 Epoxy no desktop">
+        </div>
+      </div>
+
+      <div class="phone">
+        <div class="phone__view">
+          <span class="phone__notch"></span>
+          <img class="frame__shot" src="assets/cases/art7-mobile.jpg" width="420" height="794" loading="lazy" alt="Site ART 7 Epoxy no celular">
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ==================== 7 · CASE DUACT ITAPEMA ==================== -->
+<section class="wrap" data-canva-page="7">
+  <article class="case case--flip reveal" id="case-duact" style="--case-glow:var(--case-duact)">
+    <div class="case__info">
+      <p class="case__index">Case 02 — Itapema, SC</p>
+      <h3 class="case__name">DUACT Itapema</h3>
+      <p class="case__kicker">Landing page de conversão + tráfego pago</p>
+      <p class="case__desc">
+        Landing page da linha Maxus 1000W construída para test ride e venda
+        direta: ficha técnica, baterias e reposição, showroom e atendimento
+        por WhatsApp em um único fluxo.
+      </p>
+      <div class="case__tags">
+        <span class="tag">Landing page</span>
+        <span class="tag">Copy</span>
+        <span class="tag">Tráfego pago</span>
+        <span class="tag">WhatsApp</span>
+        <span class="tag">Catálogo</span>
+      </div>
+      <a class="case__link" href="https://www.duactitapema.com.br" target="_blank" rel="noopener">
+        duactitapema.com.br <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="case__media">
+      <div class="browser">
+        <div class="browser__bar">
+          <span class="browser__dots"><i></i><i></i><i></i></span>
+          <span class="browser__url">duactitapema.com.br</span>
+        </div>
+        <div class="browser__view">
+          <img class="frame__shot" src="assets/cases/duact-desktop.jpg" width="1400" height="910" loading="lazy" alt="Site DUACT Itapema no desktop">
+        </div>
+      </div>
+
+      <div class="phone">
+        <div class="phone__view">
+          <span class="phone__notch"></span>
+          <img class="frame__shot" src="assets/cases/duact-mobile.jpg" width="420" height="794" loading="lazy" alt="Site DUACT Itapema no celular">
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ==================== 8 · CASE V.BIKE STORE ==================== -->
+<section class="wrap" data-canva-page="8">
+  <article class="case reveal" id="case-vbike" style="--case-glow:var(--case-vbike)">
+    <div class="case__info">
+      <p class="case__index">Case 03 — Itajaí / Navegantes, SC</p>
+      <h3 class="case__name">V.BIKE Store</h3>
+      <p class="case__kicker">Site de catálogo + duas unidades</p>
+      <p class="case__desc">
+        Site de autopropelidos, peças compatíveis e oficina, com seleção de
+        cores, comparativo de modelos e roteamento do cliente para a unidade
+        mais próxima — Dom Bosco ou São João.
+      </p>
+      <div class="case__tags">
+        <span class="tag">Catálogo</span>
+        <span class="tag">Multi-unidade</span>
+        <span class="tag">UI/UX</span>
+        <span class="tag">WhatsApp</span>
+        <span class="tag">Oficina</span>
+      </div>
+      <a class="case__link" href="https://www.vbikestore.com.br" target="_blank" rel="noopener">
+        vbikestore.com.br <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="case__media">
+      <div class="browser">
+        <div class="browser__bar">
+          <span class="browser__dots"><i></i><i></i><i></i></span>
+          <span class="browser__url">vbikestore.com.br</span>
+        </div>
+        <div class="browser__view">
+          <img class="frame__shot" src="assets/cases/vbike-desktop.jpg" width="1400" height="910" loading="lazy" alt="Site V.BIKE Store no desktop">
+        </div>
+      </div>
+
+      <div class="phone">
+        <div class="phone__view">
+          <span class="phone__notch"></span>
+          <img class="frame__shot" src="assets/cases/vbike-mobile.jpg" width="420" height="794" loading="lazy" alt="Site V.BIKE Store no celular">
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ==================== TODOS OS PROJETOS (seção só do código) ====================
+     Esta seção não tem página correspondente no Canva — ver MAPPING.md.
+     Para adicionar um projeto, copie um bloco <a class="proj"> e troque nome e URL.
+     Sem miniatura, use o bloco proj__mono; com foto, use proj__shot.
+================================================================================= -->
+<section class="projetos" id="projetos">
+  <div class="wrap">
+    <div class="projetos__head reveal">
+      <h2 class="section-title">Projetos</h2>
+      <p class="lead">
+        Mais de <strong>57 sites</strong> entregues — institucionais,
+        landing pages, lojas e páginas de captação. Clique para abrir cada um.
+      </p>
+    </div>
+    <hr class="rule">
+
+    <div class="proj-grid reveal">
+      <a class="proj" href="https://www.anabanowits.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/anabanowits.jpg" width="900" height="563" loading="lazy" alt="Home do site Ana Banowits"></span>
+        <span class="proj__name">Ana Banowits</span>
+      </a>
+      <a class="proj" href="https://2bchosenweb.wixsite.com/lvm-farm" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/lvm-farm.jpg" width="900" height="563" loading="lazy" alt="Home do site LVM Farm"></span>
+        <span class="proj__name">LVM Farm</span>
+      </a>
+      <a class="proj" href="https://www.zurielengenharia.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/zurielengenharia.jpg" width="900" height="563" loading="lazy" alt="Home do site Zuriel Engenharia"></span>
+        <span class="proj__name">Zuriel Engenharia</span>
+      </a>
+      <a class="proj" href="https://voeceea.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_0a8f3c1581754e55a79f154e4d98d477~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_0a8f3c1581754e55a79f154e4d98d477~mv2.jpg')"></span></span>
+        <span class="proj__name">CEEA</span>
+      </a>
+      <a class="proj" href="https://brazukaclubapp.wixsite.com/brazukaclub" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/brazukaclub.jpg" width="900" height="563" loading="lazy" alt="Home do site Brazuka Club"></span>
+        <span class="proj__name">Brazuka Club</span>
+      </a>
+      <a class="proj" href="https://www.azzurrointeriores.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_7de3fc9c94fd43c6b1297460deaa8226~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_7de3fc9c94fd43c6b1297460deaa8226~mv2.jpg')"></span></span>
+        <span class="proj__name">Azzurro Interiores</span>
+      </a>
+      <a class="proj" href="https://autoriadesignoficial.wixsite.com/autoriadesign" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/autoriadesign.jpg" width="900" height="563" loading="lazy" alt="Home do site Autoria Design"></span>
+        <span class="proj__name">Autoria Design</span>
+      </a>
+      <a class="proj" href="https://turnflix.com/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_fd508f2b5e3b47dd8a852b49e42cce5c~mv2.jpg/v1/fit/w_480,h_270,q_90,enc_avif,quality_auto/a8717d_fd508f2b5e3b47dd8a852b49e42cce5c~mv2.jpg')"></span></span>
+        <span class="proj__name">Turnflix</span>
+      </a>
+      <a class="proj" href="https://www.xpcon.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_e2d9b042f89b4bf8b44d076d4446e94f~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_e2d9b042f89b4bf8b44d076d4446e94f~mv2.jpg')"></span></span>
+        <span class="proj__name">XPCon</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixsite.com/recantofabio" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/recantofabio.jpg" width="900" height="563" loading="lazy" alt="Home do site Restaurante Recanto Fábio"></span>
+        <span class="proj__name">Restaurante Recanto Fábio</span>
+      </a>
+      <a class="proj" href="https://www.doegehome.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_b8e2e73c046a4767afa0a132aaf54f48~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_b8e2e73c046a4767afa0a132aaf54f48~mv2.jpg')"></span></span>
+        <span class="proj__name">Doege Home</span>
+      </a>
+      <a class="proj" href="https://construtoracopas.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/construtoracopas.jpg" width="900" height="563" loading="lazy" alt="Home do site Construtora Copas"></span>
+        <span class="proj__name">Construtora Copas</span>
+      </a>
+      <a class="proj" href="https://farizelsantos.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/farizelsantos.jpg" width="900" height="563" loading="lazy" alt="Home do site Farizel Santos"></span>
+        <span class="proj__name">Farizel Santos</span>
+      </a>
+      <a class="proj" href="https://minimall.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_224f6d84f781455aa993187ed3b2bbaa~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_224f6d84f781455aa993187ed3b2bbaa~mv2.jpg')"></span></span>
+        <span class="proj__name">Minimall</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixsite.com/sareformas" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/sareformas.jpg" width="900" height="563" loading="lazy" alt="Home do site SA Reformas e Engenharia"></span>
+        <span class="proj__name">SA Reformas e Engenharia</span>
+      </a>
+      <a class="proj" href="https://gabrielladuartees27.wixsite.com/rubi-jewelry" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/rubi-jewelry.jpg" width="900" height="563" loading="lazy" alt="Home do site Rubi Jewelry"></span>
+        <span class="proj__name">Rubi Jewelry</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixstudio.com/enu2024" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/enu2024.jpg" width="900" height="563" loading="lazy" alt="Home do site ENU"></span>
+        <span class="proj__name">ENU</span>
+      </a>
+      <a class="proj" href="https://www.duact.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/duact.jpg" width="900" height="563" loading="lazy" alt="Home do site Duact"></span>
+        <span class="proj__name">Duact</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/samfbhardwood" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/samfbhardwood.jpg" width="900" height="563" loading="lazy" alt="Home do site PRO 5 Flooring Contractors"></span>
+        <span class="proj__name">PRO 5 Flooring Contractors</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/betton" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/betton.jpg" width="900" height="563" loading="lazy" alt="Home do site Betton"></span>
+        <span class="proj__name">Betton</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/imperiumwatch" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/imperiumwatch.jpg" width="900" height="563" loading="lazy" alt="Home do site Imperium Watch"></span>
+        <span class="proj__name">Imperium Watch</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/rudianefrizon" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/rudianefrizon.jpg" width="900" height="563" loading="lazy" alt="Home do site Rudiane Frizon"></span>
+        <span class="proj__name">Rudiane Frizon</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/rowsite" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/rowsite.jpg" width="900" height="563" loading="lazy" alt="Home do site Rowbeaulty"></span>
+        <span class="proj__name">Rowbeaulty</span>
+      </a>
+      <a class="proj" href="https://www.daianasantoslp.com/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__mono" style="--h:314"><i>DS</i></span></span>
+        <span class="proj__name">Daiana Santos</span>
+      </a>
+      <a class="proj" href="https://www.donnainvoga.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/donnainvoga.jpg" width="900" height="563" loading="lazy" alt="Home do site Donna in Voga"></span>
+        <span class="proj__name">Donna in Voga</span>
+      </a>
+      <a class="proj" href="https://www.criscassiano.com/" target="_blank" rel="noopener">
+        <span class="proj__media"><span class="proj__mono" style="--h:150"><i>CC</i></span></span>
+        <span class="proj__name">Cris Cassiano</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/ajrconstruction" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/ajrconstruction.jpg" width="900" height="563" loading="lazy" alt="Home do site AJR Construction"></span>
+        <span class="proj__name">AJR Construction</span>
+      </a>
+      <a class="proj" href="https://www.boneckerimoveisaltopadrao.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/boneckerimoveisaltopadrao.jpg" width="900" height="563" loading="lazy" alt="Home do site Bonecker Imóveis"></span>
+        <span class="proj__name">Bonecker Imóveis</span>
+      </a>
+      <a class="proj" href="https://www.tecnoepoxiservices.com/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/tecnoepoxiservices.jpg" width="900" height="563" loading="lazy" alt="Home do site Tecno Epoxi"></span>
+        <span class="proj__name">Tecno Epoxi</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/bemmordido1" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/bemmordido1.jpg" width="900" height="563" loading="lazy" alt="Home do site Bem Mordido"></span>
+        <span class="proj__name">Bem Mordido</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/edus" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/edus.jpg" width="900" height="563" loading="lazy" alt="Home do site Holistic Envisioning"></span>
+        <span class="proj__name">Holistic Envisioning</span>
+      </a>
+      <a class="proj" href="https://www.drasidianeferreira.com/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/drasidianeferreira.jpg" width="900" height="563" loading="lazy" alt="Home do site Dra. Sidiane Ferreira"></span>
+        <span class="proj__name">Dra. Sidiane Ferreira</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/debora" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/debora.jpg" width="900" height="563" loading="lazy" alt="Home do site Debora"></span>
+        <span class="proj__name">Debora</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/wndyk" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/wndyk.jpg" width="900" height="563" loading="lazy" alt="Home do site Dr. Wandyk Bernardes"></span>
+        <span class="proj__name">Dr. Wandyk Bernardes</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/avdb" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/avdb.jpg" width="900" height="563" loading="lazy" alt="Home do site AVDB Engenharia e Perícias"></span>
+        <span class="proj__name">AVDB Engenharia e Perícias</span>
+      </a>
+      <a class="proj" href="https://www.fernandachrestani.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/fernandachrestani.jpg" width="900" height="563" loading="lazy" alt="Home do site Dra. Fernanda Chrestani"></span>
+        <span class="proj__name">Dra. Fernanda Chrestani</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/my-site-4" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/my-site-4.jpg" width="900" height="563" loading="lazy" alt="Home do site Catherine Suzuki"></span>
+        <span class="proj__name">Catherine Suzuki</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/palomamartins" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/palomamartins.jpg" width="900" height="563" loading="lazy" alt="Home do site Paloma Martins"></span>
+        <span class="proj__name">Paloma Martins</span>
+      </a>
+      <a class="proj" href="https://www.eclissee.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/eclissee.jpg" width="900" height="563" loading="lazy" alt="Home do site ECLISSEE"></span>
+        <span class="proj__name">ECLISSEE</span>
+      </a>
+      <a class="proj" href="https://www.laryamaralmentora.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/laryamaralmentora.jpg" width="900" height="563" loading="lazy" alt="Home do site Lary Amaral Mentora"></span>
+        <span class="proj__name">Lary Amaral Mentora</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/atmosphere" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/atmosphere.jpg" width="900" height="563" loading="lazy" alt="Home do site Atmosphere"></span>
+        <span class="proj__name">Atmosphere</span>
+      </a>
+      <a class="proj" href="https://suzukiedu0000.wixsite.com/readythink" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/readythink.jpg" width="900" height="563" loading="lazy" alt="Home do site Readythink"></span>
+        <span class="proj__name">Readythink</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/mmsk" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/mmsk.jpg" width="900" height="563" loading="lazy" alt="Home do site Emanuel MSK"></span>
+        <span class="proj__name">Emanuel MSK</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/autoguia" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/autoguia.jpg" width="900" height="563" loading="lazy" alt="Home do site Autoescola Guia"></span>
+        <span class="proj__name">Autoescola Guia</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/doceconexao" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/doceconexao.jpg" width="900" height="563" loading="lazy" alt="Home do site Doce Conexão"></span>
+        <span class="proj__name">Doce Conexão</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixsite.com/website-1" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/website-1.jpg" width="900" height="563" loading="lazy" alt="Home do site Yes Modas"></span>
+        <span class="proj__name">Yes Modas</span>
+      </a>
+      <a class="proj" href="https://www.limpeteunome.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/limpeteunome.jpg" width="900" height="563" loading="lazy" alt="Home do site Limpe Teu Nome"></span>
+        <span class="proj__name">Limpe Teu Nome</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixsite.com/my-site" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/my-site.jpg" width="900" height="563" loading="lazy" alt="Home do site Guilherme Postai"></span>
+        <span class="proj__name">Guilherme Postai</span>
+      </a>
+      <a class="proj" href="https://g-suzuki8.wixstudio.com/dessa" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/dessa.jpg" width="900" height="563" loading="lazy" alt="Home do site Andressa"></span>
+        <span class="proj__name">Andressa</span>
+      </a>
+      <a class="proj" href="https://www.totalfachadas.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/totalfachadas.jpg" width="900" height="563" loading="lazy" alt="Home do site Total Revestimentos"></span>
+        <span class="proj__name">Total Revestimentos</span>
+      </a>
+      <a class="proj" href="https://www.altasfachadas.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/altasfachadas.jpg" width="900" height="563" loading="lazy" alt="Home do site Altas Fachadas"></span>
+        <span class="proj__name">Altas Fachadas</span>
+      </a>
+      <a class="proj" href="https://www.lar47.com.br/" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/lar47.jpg" width="900" height="563" loading="lazy" alt="Home do site Lar 47 Marcenaria"></span>
+        <span class="proj__name">Lar 47 Marcenaria</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixstudio.com/registrodemarca" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/registrodemarca.jpg" width="900" height="563" loading="lazy" alt="Home do site Registro de Marca"></span>
+        <span class="proj__name">Registro de Marca</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixsite.com/portal-da-aviacao" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/portal-da-aviacao.jpg" width="900" height="563" loading="lazy" alt="Home do site Portal da Aviação"></span>
+        <span class="proj__name">Portal da Aviação</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixstudio.com/atelier-yamamoto" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/atelier-yamamoto.jpg" width="900" height="563" loading="lazy" alt="Home do site Atelier Yamamoto"></span>
+        <span class="proj__name">Atelier Yamamoto</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixstudio.com/instituto-yamamoto" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/instituto-yamamoto.jpg" width="900" height="563" loading="lazy" alt="Home do site Instituto Yamamoto"></span>
+        <span class="proj__name">Instituto Yamamoto</span>
+      </a>
+      <a class="proj" href="https://henriquesuzuki90.wixsite.com/joe-landscaping" target="_blank" rel="noopener">
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/joe-landscaping.jpg" width="900" height="563" loading="lazy" alt="Home do site Joe Landscaping"></span>
+        <span class="proj__name">Joe Landscaping</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 9 · ANÚNCIOS ==================== -->
+<section class="disc" id="anuncios" data-canva-page="9">
+  <div class="wrap">
+    <div class="disc__head reveal">
+      <h2 class="section-title">Anúncios</h2>
+      <hr class="rule">
+    </div>
+    <div class="disc__grid">
+      <div class="disc__body reveal">
+        <p>
+          Anunciar de forma eficaz é uma arte que <b>dominamos</b>. Trabalhamos
+          com estratégias segmentadas para atingir seu público-alvo de maneira
+          precisa e eficiente.
+        </p>
+        <p>
+          Cada campanha é <b>planejada, executada e monitorada</b>, garantindo
+          que sua mensagem chegue às pessoas certas no momento certo, com o
+          melhor custo-benefício.
+        </p>
+        <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20an%C3%BAncios." target="_blank" rel="noopener">Faça seu orçamento</a>
+      </div>
+      <aside class="disc__aside reveal">
+        <h4>Onde a gente anuncia</h4>
+        <ul class="disc__list">
+          <li><i>01</i><span>Meta Ads — Facebook e Instagram</span></li>
+          <li><i>02</i><span>Google Ads — pesquisa, display e performance máxima</span></li>
+          <li><i>03</i><span>Estrutura de captação e qualificação de leads</span></li>
+          <li><i>04</i><span>Acompanhamento e otimização contínua das campanhas</span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 10 · FECHAMENTO ==================== -->
+<section class="cta" id="fechamento" data-canva-page="10">
+  <div class="cta__glow"></div>
+  <div class="wrap cta__inner">
+    <h2 class="reveal">
+      Sua marca não precisa apenas de mais cliques.
+      Precisa de uma <b>estratégia</b> capaz de transformar atenção em
+      <b>resultados</b>.
+    </h2>
+    <a class="btn reveal" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">Faça seu orçamento</a>
+  </div>
+</section>
+
+<footer class="footer" data-canva-page="10">
+  <div class="wrap footer__grid">
+    <div class="footer__card">
+      <span class="footer__avatar">GK</span>
+      <span class="footer__who">
+        <b>Guilherme Keidi Suzuki</b>
+        <small>Devop</small>
+      </span>
+    </div>
+    <div class="footer__links">
+      <a href="#devop">Cases</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#design">Serviços</a>
+      <a href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20falar%20com%20voc%C3%AA." target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+    <p class="footer__meta">© <span id="yr">2026</span> Cuoncient agency — This is not a (simple) agency marketing.</p>
+  </div>
+</footer>
+
+<!-- Botão flutuante do WhatsApp. Aparece depois que a pessoa passa da capa —
+     ver .zap no styles.css e o trecho "zap" no script.js.
+     O número está escrito direto no href, aqui e nos 6 links acima. Para trocar,
+     procure por "wa.me/" no arquivo: são 7 ocorrências. -->
+<a class="zap" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener"
+   aria-label="Falar com a Cuoncient no WhatsApp">
+  <svg class="zap__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect x="2.6" y="4" width="18.8" height="13" rx="3.6" fill="currentColor"/>
+    <path d="M7.6 15.4 6 21l5.6-3.6Z" fill="currentColor"/>
+    <circle cx="8.4" cy="10.5" r="1.3" fill="var(--zap-bg)"/>
+    <circle cx="12" cy="10.5" r="1.3" fill="var(--zap-bg)"/>
+    <circle cx="15.6" cy="10.5" r="1.3" fill="var(--zap-bg)"/>
+  </svg>
+  <span class="zap__rotulo">WhatsApp</span>
+</a>
+
+<script src="script.js"></script>
+
+</body>
+</html>

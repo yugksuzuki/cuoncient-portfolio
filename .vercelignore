@@ -1,0 +1,18 @@
+# Documentação interna — não vai para o ar.
+# Sem este arquivo, a Vercel publica TUDO que está na pasta, e o MAPPING.md
+# ficaria aberto em seudominio.vercel.app/MAPPING.md para qualquer um ler.
+#
+# O que sobe é só: index.html, styles.css, script.js e assets/.
+
+README.md
+CLAUDE.md
+MAPPING.md
+PASSO-A-PASSO.md
+PUBLICAR.md
+
+# fonte da grade de projetos — o HTML já vem com os 57 cards escritos, este
+# arquivo serve só para regerar a seção
+projetos.json
+
+.gitignore
+.vercelignore
