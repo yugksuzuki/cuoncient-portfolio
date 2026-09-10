@@ -136,6 +136,45 @@ tamanho zero no CSS — ele existe só para guardar o desenho, não ocupa espaç
 LinkedIn não resolvem caminho relativo — quando o domínio final existir, troque
 por uma URL absoluta (`https://seudominio.com/assets/brand/logo-badge-512.png`).
 
+## O seletor de idioma (PT / EN)
+
+Fica na barra do topo: um globo e as duas siglas, a do idioma em uso em branco.
+Clicar troca a página inteira **sem recarregar**.
+
+Como o texto é guardado:
+
+| Onde | O quê |
+|------|-------|
+| O HTML escrito | o **português** — é ele que é servido, indexado e lido pelo WhatsApp |
+| `data-en="..."` | o inglês do mesmo elemento (80 no total) |
+| `data-en-href="..."` | a versão inglesa dos 7 links de WhatsApp, com a frase traduzida |
+| `data-pt` | criado pelo script na primeira troca, para o caminho de volta |
+
+Para **traduzir um texto novo**, basta pôr o inglês num `data-en` no elemento:
+
+```html
+<p data-en="Every campaign is planned, run and monitored.">
+  Cada campanha é planejada, executada e monitorada.
+</p>
+```
+
+O `data-en` aceita marcação dentro (`<b>`, `<strong>`), porque a troca é de
+`innerHTML`, não de texto puro. Aspas duplas dentro do atributo precisam virar
+`&quot;`.
+
+Os textos alternativos das imagens não usam atributo: os 55 seguem um padrão
+(`Home do site X`) e o script traduz por expressão regular. Se criar um alt fora
+do padrão e quiser ele em inglês, aí sim use `data-en-alt`... ou me peça.
+
+**Qual idioma abre primeiro:** o que a pessoa escolheu da última vez (guardado
+no navegador dela). Sem escolha anterior, vale o idioma do navegador — quem
+chega de fora do Brasil cai direto no inglês.
+
+**Limite que vale conhecer:** o Google indexa o HTML servido, que é o português.
+O inglês vive só no navegador de quem clica. Para o inglês ranquear no Google
+seria preciso uma página separada em `/en/` com `hreflang` — isto aqui não
+substitui isso, resolve a leitura de quem chega, não a busca.
+
 ## A animação de entrada (e por que ela já apagou o site no celular)
 
 Os blocos com a classe `.reveal` entram com um fade. Duas decisões aqui não são

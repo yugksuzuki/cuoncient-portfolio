@@ -28,6 +28,64 @@
   window.addEventListener('scroll', onZap, { passive: true });
   onZap();
 
+  // --------------------------------------------------------------- idioma
+  // Troca PT/EN sem recarregar a página.
+  //
+  // Como funciona: cada elemento traduzível carrega o inglês num atributo
+  // `data-en`; o português é o que já está escrito no HTML. Na primeira troca
+  // o português original é guardado em `data-pt`, então dá para ir e voltar
+  // quantas vezes quiser sem perder nada.
+  //
+  // O português é o idioma do HTML servido — é ele que o Google indexa e o
+  // que aparece na prévia do WhatsApp. O inglês vive só no navegador de quem
+  // clicar. Se um dia o inglês precisar ranquear no Google, aí sim vale uma
+  // página separada em /en/ com hreflang; isto aqui não substitui isso.
+  var traduziveis = document.querySelectorAll('[data-en], [data-en-href]');
+  var botoesIdioma = document.querySelectorAll('.lang__op');
+
+  function aplicarIdioma(idioma) {
+    var ing = idioma === 'en';
+    traduziveis.forEach(function (el) {
+      if (el.hasAttribute('data-en')) {
+        if (el.dataset.pt === undefined) el.dataset.pt = el.innerHTML;
+        el.innerHTML = ing ? el.dataset.en : el.dataset.pt;
+      }
+      if (el.hasAttribute('data-en-href')) {
+        if (el.dataset.ptHref === undefined) el.dataset.ptHref = el.getAttribute('href');
+        el.setAttribute('href', ing ? el.dataset.enHref : el.dataset.ptHref);
+      }
+    });
+
+    // Os textos alternativos das imagens seguem um padrão, então dá para
+    // traduzir os 55 de uma vez em vez de encher o HTML de atributos.
+    document.querySelectorAll('img[alt]').forEach(function (img) {
+      if (img.dataset.ptAlt === undefined) img.dataset.ptAlt = img.alt;
+      var pt = img.dataset.ptAlt;
+      img.alt = ing
+        ? pt.replace(/^Home do site (.+)$/, 'Homepage of $1')
+             .replace(/^Site (.+) no desktop$/, '$1 website on desktop')
+             .replace(/^Site (.+) no celular$/, '$1 website on mobile')
+        : pt;
+    });
+
+    document.documentElement.lang = ing ? 'en' : 'pt-BR';
+    botoesIdioma.forEach(function (b) {
+      b.setAttribute('aria-current', String(b.dataset.lang === idioma));
+    });
+    try { localStorage.setItem('cuoncient-idioma', idioma); } catch (e) { /* modo privado */ }
+  }
+
+  botoesIdioma.forEach(function (b) {
+    b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); });
+  });
+
+  // Escolha inicial: o que a pessoa já escolheu antes; senão, o idioma do
+  // navegador. Quem chega de fora do Brasil cai direto no inglês.
+  var salvo = null;
+  try { salvo = localStorage.getItem('cuoncient-idioma'); } catch (e) { /* modo privado */ }
+  var doNavegador = (navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en';
+  aplicarIdioma(salvo === 'pt' || salvo === 'en' ? salvo : doNavegador);
+
   // ---------------------------------------------------------------- reveal
   // Anima os blocos ao entrarem na tela.
   //
