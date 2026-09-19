@@ -55,6 +55,13 @@ assets/
 `#projetos` não tem página no Canva de propósito — é grande demais para caber
 numa página e muda toda vez que o Gui entrega um site novo.
 
+**A grade se comporta diferente no celular.** Até 700px ela abre em duas
+colunas com um lote de 12 cards e um botão "ver mais"; o filtro só vira
+`sticky` depois que a pessoa pede o resto. Acima de 700px nada disso acontece
+e os 55 aparecem de uma vez — no desktop o volume é o argumento. O lote vive
+em `LOTE` no `script.js` e o botão nasce com `hidden`: sem JavaScript a grade
+aparece inteira, que é o certo para o robô do Google.
+
 ## Convenções
 
 **Tokens.** Todo valor de design mora no `:root` do `styles.css`, num bloco

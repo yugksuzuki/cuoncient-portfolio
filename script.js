@@ -165,24 +165,85 @@
   var filtroBotoes = document.querySelectorAll('.filtro__op');
   var cards = document.querySelectorAll('.proj-grid .proj');
   var conta = document.querySelector('.filtro__conta');
+  var grade = document.querySelector('.proj-grid');
+
+  // ---- lote ----
+  // 55 cards em coluna unica davam 16.252px no celular. Em tela estreita a
+  // grade abre com um lote e o botao traz o resto; no desktop nada disso
+  // acontece e as 55 miniaturas aparecem de uma vez, como sempre.
+  var LOTE = 12;
+  var verMais = document.getElementById('ver-mais');
+  var telaEstreita = window.matchMedia('(max-width:700px)');
+  var jaExpandiu = false;
+  var recolhido = telaEstreita.matches;
 
   function filtrar(mercado) {
-    var visiveis = 0;
+    var doMercado = 0;   // quantos existem neste mercado
+    var naTela = 0;      // quantos estao aparecendo agora
     cards.forEach(function (c) {
-      var mostra = mercado === 'todos' || c.dataset.mercado === mercado;
+      var bate = mercado === 'todos' || c.dataset.mercado === mercado;
+      if (bate) doMercado++;
+      var mostra = bate && (!recolhido || naTela < LOTE);
+      if (mostra) naTela++;
       c.hidden = !mostra;
-      if (mostra) visiveis++;
     });
     filtroBotoes.forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.mercado === mercado));
     });
+
+    var en = document.documentElement.lang === 'en';
+    var faltam = doMercado - naTela;
+
+    // A contagem tem aria-live, entao ela e quem avisa o leitor de tela do
+    // que mudou. Recolhida ela diz "12 de 55" — numero na tela e total.
     if (conta) {
-      conta.textContent = document.documentElement.lang === 'en'
-        ? visiveis + (visiveis === 1 ? ' project' : ' projects')
-        : visiveis + (visiveis === 1 ? ' projeto' : ' projetos');
+      var palavra = en ? (doMercado === 1 ? ' project' : ' projects')
+                       : (doMercado === 1 ? ' projeto' : ' projetos');
+      conta.textContent = faltam > 0
+        ? (en ? naTela + ' of ' + doMercado + palavra
+              : naTela + ' de ' + doMercado + palavra)
+        : doMercado + palavra;
     }
-    document.querySelector('.proj-grid').dataset.filtro = mercado;
+
+    if (verMais) {
+      verMais.hidden = faltam < 1;
+      verMais.textContent = en
+        ? "Show " + faltam + (faltam === 1 ? " more project" : " more projects")
+        : "Ver mais " + faltam + (faltam === 1 ? " projeto" : " projetos");
+    }
+
+    if (grade) grade.dataset.filtro = mercado;
   }
+
+  if (verMais) {
+    verMais.addEventListener('click', function () {
+      jaExpandiu = true;
+      recolhido = false;
+      var secao = document.getElementById('projetos');
+      if (secao) secao.classList.add('is-expandido');
+      var antes = [].slice.call(cards).filter(function (c) { return !c.hidden; }).length;
+      filtrar(grade.dataset.filtro || 'todos');
+      // manda o foco para o primeiro card que acabou de entrar, senao ele
+      // ficaria num botao que sumiu da tela
+      var agora = [].slice.call(cards).filter(function (c) { return !c.hidden; });
+      var alvo = agora[antes];
+      if (alvo) {
+        // os 6 cards "fora do ar" sao <div> e nao recebem foco sozinhos; os
+        // outros sao <a> e ja recebem. Poe tabindex so em quem precisa, senao
+        // tabindex="-1" num link o tiraria da ordem de tabulacao.
+        if (!alvo.hasAttribute('href')) alvo.setAttribute('tabindex', '-1');
+        alvo.focus();
+      }
+    });
+  }
+
+  // Girar o celular ou alargar a janela para alem de 700px mostra tudo; ao
+  // voltar para a tela estreita a grade so recolhe de novo se a pessoa ainda
+  // nao tiver pedido para ver o resto.
+  telaEstreita.addEventListener('change', function () {
+    recolhido = telaEstreita.matches && !jaExpandiu;
+    if (cards.length) filtrar((grade && grade.dataset.filtro) || 'todos');
+  });
 
   filtroBotoes.forEach(function (b) {
     b.addEventListener('click', function () { filtrar(b.dataset.mercado); });

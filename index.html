@@ -562,7 +562,7 @@
       <span class="filtro__conta" aria-live="polite"></span>
     </div>
 
-    <div class="proj-grid reveal">
+    <div class="proj-grid reveal" id="proj-grid">
       <a class="proj" href="https://www.anabanowits.com.br/" target="_blank" rel="noopener" data-mercado="br">
         <span class="proj__media"><img class="proj__shot" src="assets/thumbs/anabanowits.jpg" width="900" height="563" loading="lazy" alt="Home do site Ana Banowits"></span>
         <span class="proj__name">Ana Banowits</span>
@@ -790,6 +790,11 @@
         <span class="proj__name">Joe Landscaping</span>
       </a>
     </div>
+
+    <!-- Nasce com hidden e só o JS decide mostrar, e só em tela estreita.
+         Sem script a grade aparece inteira — que é o certo para quem não tem
+         JavaScript e para o robô do Google. Ver "lote" no script.js. -->
+    <button type="button" class="ver-mais" id="ver-mais" aria-controls="proj-grid" hidden></button>
   </div>
 </section>
 

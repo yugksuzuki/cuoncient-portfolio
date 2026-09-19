@@ -489,6 +489,22 @@ a{color:inherit;text-decoration:none}
 .filtro__op[aria-pressed="true"]{color:var(--ink);cursor:default}
 .filtro__op:focus-visible{outline:1px solid var(--ink-3);outline-offset:3px;border-radius:3px}
 .filtro__conta{margin-left:auto;font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
+
+/* ---------- ver mais ----------
+   Em tela estreita a grade abre com um lote e este botão traz o resto. No
+   desktop ele nunca aparece: com 4 ou 5 colunas as 55 miniaturas de uma vez
+   são o argumento, não um problema. */
+.ver-mais{
+  display:block;width:100%;margin-top:22px;padding:17px 24px;
+  background:none;border:1px solid var(--line);border-radius:999px;
+  color:var(--ink-2);font:inherit;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  cursor:pointer;
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.ver-mais[hidden]{display:none}
+.ver-mais:hover{color:var(--ink);border-color:var(--ink)}
+.ver-mais:focus-visible{outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:3px}
 @media (max-width:620px){
   .filtro{gap:14px}
   .filtro__op{font-size:11px;letter-spacing:.1em}
@@ -681,6 +697,36 @@ a{color:inherit;text-decoration:none}
   outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:3px;border-radius:6px;
 }
 .proj:focus-visible{border-radius:12px;outline-offset:2px}
+
+/* ==========================================================================
+   GRADE DE PROJETOS NO CELULAR
+   --------------------------------------------------------------------------
+   Em coluna unica a grade tinha 16.252px — 58% da pagina inteira — e o filtro
+   sumia da tela depois de duas rolagens: quem chegava no card 30 nao tinha
+   como voltar para trocar de mercado. Duas colunas cortam a altura pela
+   metade, o lote inicial corta de novo, e o filtro passa a acompanhar a
+   rolagem.
+   ========================================================================== */
+@media (max-width:700px){
+  .proj-grid{grid-template-columns:repeat(2,1fr);gap:12px;padding-top:24px}
+  .proj__name{padding:11px 12px 13px;font-size:12.5px;letter-spacing:0}
+  .proj__fora{padding:10px 12px 0;font-size:11px;letter-spacing:.1em}
+  .proj__usa{top:7px;right:7px;padding:3px 6px;letter-spacing:.1em}
+  .ver-mais{margin-top:16px;padding:16px 20px;font-size:11px}
+
+  /* O filtro so gruda depois que a pessoa pede o resto da grade. Recolhida,
+     a secao tem 1.540px e ele esta a duas telas de distancia; expandida,
+     passa de 8.000px e ai vale ocupar a faixa. 68px e a altura da barra do
+     topo no celular: abaixo disso ele grudaria atras dela. */
+  .projetos.is-expandido .filtro{
+    position:sticky;top:68px;z-index:5;
+    margin-inline:-16px;padding:10px 16px;gap:8px;
+    background:rgba(5,5,6,.94);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .projetos.is-expandido .filtro__op{padding:11px 7px}
+  .filtro__conta{margin-left:auto;width:auto}
+}
 
 /* Trava a rolagem do fundo enquanto o painel de navegacao esta aberto. */
 html.menu-aberto,html.menu-aberto body{overflow:hidden}
