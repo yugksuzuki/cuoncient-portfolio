@@ -97,14 +97,56 @@ a{color:inherit;text-decoration:none}
 /* ==========================================================================
    NAV
    ========================================================================== */
+
+/* ---------- pular para o conteudo ----------
+   Fica fora da tela ate receber foco pelo teclado. E o primeiro elemento do
+   <body>, entao e o primeiro Tab de quem chega. */
+.skip{
+  position:fixed;top:0;left:0;z-index:100;
+  padding:15px 24px;border-radius:0 0 12px 0;
+  background:var(--ink);color:#0a0a0a;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  transform:translateY(-120%);
+  transition:transform .25s var(--ease);
+}
+.skip:focus{transform:none}
 .nav{
   position:fixed;inset:0 0 auto 0;z-index:60;padding:18px 0;
   backdrop-filter:blur(14px);
   background:linear-gradient(to bottom,rgba(5,5,6,.92),rgba(5,5,6,0));
-  transition:background .4s var(--ease),padding .4s var(--ease);
+  transition:background .4s var(--ease);
 }
 .nav.is-stuck{background:rgba(5,5,6,.9);border-bottom:1px solid var(--line-soft);padding:12px 0}
-.nav__inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative}
+
+/* No desktop o wrapper do menu nao existe visualmente: display:contents faz
+   os tres filhos (links, idioma, botao) cairem direto no flex da barra,
+   exatamente onde sempre estiveram. Abaixo de 980px ele vira o painel. */
+.nav__menu{display:contents}
+.brand{position:relative;z-index:2}
+
+/* ---------- botao do menu ----------
+   So aparece no celular. As tres barras viram um X quando o painel abre: o
+   estado mora no aria-expanded do proprio botao, entao marcacao e visual
+   nunca saem de sincronia. */
+.nav__toggle{
+  display:none;position:relative;z-index:2;
+  width:44px;height:44px;flex:none;margin-right:-10px;
+  align-items:center;justify-content:center;
+  background:none;border:0;padding:0;cursor:pointer;color:var(--ink);
+}
+.nav__burger{position:relative;display:block;width:21px;height:1.5px}
+.nav__burger,.nav__burger::before,.nav__burger::after{
+  background:currentColor;border-radius:2px;
+  transition:transform .3s var(--ease),background-color .2s var(--ease);
+}
+.nav__burger::before,.nav__burger::after{content:"";position:absolute;left:0;width:100%;height:100%}
+.nav__burger::before{top:-6px}
+.nav__burger::after{top:6px}
+.nav__toggle[aria-expanded="true"] .nav__burger{background:transparent}
+.nav__toggle[aria-expanded="true"] .nav__burger::before{transform:translateY(6px) rotate(45deg)}
+.nav__toggle[aria-expanded="true"] .nav__burger::after{transform:translateY(-6px) rotate(-45deg)}
+.nav__toggle:focus-visible{outline:1px solid var(--ink-3);outline-offset:2px;border-radius:8px}
 .nav__links{display:flex;gap:30px;font-size:12.5px;letter-spacing:.08em;color:var(--ink-2)}
 .nav__links a{transition:color .3s var(--ease)}
 .nav__links a:hover{color:var(--ink)}
@@ -124,7 +166,7 @@ a{color:inherit;text-decoration:none}
   transition:color .3s var(--ease);
 }
 .lang__op:hover{color:var(--ink-2)}
-.lang__op[aria-current="true"]{color:var(--ink);cursor:default}
+.lang__op[aria-pressed="true"]{color:var(--ink);cursor:default}
 .lang__sep{font-size:10px;opacity:.4}
 .lang__op:focus-visible{outline:1px solid var(--ink-3);outline-offset:2px;border-radius:3px}
 
@@ -298,7 +340,7 @@ a{color:inherit;text-decoration:none}
 .case__desc{color:var(--ink-2);font-size:var(--fs-small);line-height:1.75;margin:0 0 26px;max-width:44ch}
 .case__tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
 .tag{
-  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   padding:7px 13px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2);
 }
 .case__link{
@@ -418,7 +460,7 @@ a{color:inherit;text-decoration:none}
 /* Selo dos clientes nos Estados Unidos. Fica sobre o print, no canto de cima. */
 .proj__usa{
   position:absolute;top:9px;right:9px;z-index:2;
-  font-size:9.5px;letter-spacing:.14em;font-weight:700;
+  font-size:11px;letter-spacing:.14em;font-weight:700;
   padding:4px 7px;border-radius:5px;
   background:rgba(8,8,10,.72);color:rgba(255,255,255,.92);
   border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px);
@@ -430,7 +472,7 @@ a{color:inherit;text-decoration:none}
 .proj--fora .proj__media{opacity:.55}
 .proj--fora:hover .proj__shot{transform:none}
 .proj__fora{
-  padding:12px 16px 0;font-size:9.5px;letter-spacing:.16em;
+  padding:12px 16px 0;font-size:11px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--ink-4);
 }
 .proj--fora .proj__name{padding-top:4px;color:var(--ink-2)}
@@ -444,12 +486,12 @@ a{color:inherit;text-decoration:none}
   color:var(--ink-4);transition:color .3s var(--ease);
 }
 .filtro__op:hover{color:var(--ink-2)}
-.filtro__op[aria-current="true"]{color:var(--ink);cursor:default}
+.filtro__op[aria-pressed="true"]{color:var(--ink);cursor:default}
 .filtro__op:focus-visible{outline:1px solid var(--ink-3);outline-offset:3px;border-radius:3px}
 .filtro__conta{margin-left:auto;font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
 @media (max-width:620px){
   .filtro{gap:14px}
-  .filtro__op{font-size:10.5px;letter-spacing:.1em}
+  .filtro__op{font-size:11px;letter-spacing:.1em}
   .filtro__conta{margin-left:0;width:100%}
 }
 
@@ -506,7 +548,7 @@ a{color:inherit;text-decoration:none}
   object-fit:cover;   /* vale quando a classe está num <img> */
 }
 .footer__who b{display:block;font-size:14px;letter-spacing:.02em}
-.footer__who small{font-size:10px;letter-spacing:.3em;color:var(--ink-4);text-transform:uppercase}
+.footer__who small{font-size:11px;letter-spacing:.3em;color:var(--ink-4);text-transform:uppercase}
 .footer__meta{font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
 .footer__links{display:flex;gap:22px;font-size:12px;color:var(--ink-2)}
 .footer__links a:hover{color:var(--ink)}
@@ -543,7 +585,49 @@ a{color:inherit;text-decoration:none}
   /* em coluna única a moldura ocupa a largura inteira; sem soltar o teto de
      150px o celular ficava miúdo demais ao lado dela */
   .phone{width:22%;max-width:none}
-  .nav__links{display:none}
+
+  /* ---------- navegacao no celular ----------
+     Antes daqui os links simplesmente sumiam (display:none) e nada entrava
+     no lugar: numa pagina de ~28.000px o visitante de celular ficava sem
+     nenhum atalho de secao. Agora a barra fica so com a marca e o botao, e
+     o menu inteiro (secoes, idioma e CTA) vive neste painel de tela cheia.
+     Tirar os tres elementos da barra e tambem o que devolve espaco para a
+     tipografia voltar a tamanho legivel la em cima. */
+  /* O backdrop-filter da barra precisa sair aqui: um ancestral com filtro
+     vira bloco de contencao para descendentes position:fixed, e com ele o
+     painel ficava preso a altura da propria barra em vez de cobrir a tela.
+     O desfoque nao se perde, so muda de dono: passa para o painel. */
+  .nav{backdrop-filter:none}
+  .nav__toggle{display:inline-flex}
+  .nav__menu{
+    position:fixed;inset:0;z-index:1;
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+    gap:clamp(20px,4vh,34px);
+    padding:clamp(96px,15vh,150px) max(28px,env(safe-area-inset-left))
+            calc(44px + env(safe-area-inset-bottom));
+    background:rgba(5,5,6,.97);
+    backdrop-filter:blur(22px);
+    opacity:0;visibility:hidden;
+    /* visibility nao entra na transicao: enquanto ela interpola, o painel
+       continua fora de alcance do foco e o primeiro link nao recebe Tab.
+       Aqui ela vira instantanea ao abrir e so espera o fade ao fechar. */
+    transition:opacity .3s var(--ease),visibility 0s linear .3s;
+  }
+  .nav__menu.is-open{
+    opacity:1;visibility:visible;
+    transition:opacity .3s var(--ease),visibility 0s linear 0s;
+  }
+  .nav__links{
+    display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+    font-size:clamp(27px,7.6vw,40px);letter-spacing:-.025em;
+    font-weight:600;color:var(--ink);
+  }
+  .nav__links a{padding:9px 0}
+  .nav__menu .lang{gap:2px;padding-top:6px;color:var(--ink-3)}
+  .nav__menu .lang__globo{width:17px;height:17px;margin-right:6px}
+  .nav__menu .lang__op{font-size:15px;letter-spacing:.12em;padding:13px 14px}
+  .nav__menu .lang__sep{font-size:13px}
+  .nav__menu .btn{font-size:12px;padding:17px 32px}
 }
 @media (max-width:620px){
   .wrap{width:calc(100% - 32px)}
@@ -552,20 +636,56 @@ a{color:inherit;text-decoration:none}
   /* no celular o celularzinho encolhe e sai mais para a quina, para não
      cobrir o miolo do mockup (que também ficou baixinho) */
   .phone{right:-6px;bottom:-22px;width:23%;max-width:none}
-  /* a pílula "Faça seu orçamento" tem white-space:nowrap — no 390px ela passava
-     da borda e a ponta arredondada ficava cortada. Encolhe tudo da barra. */
-  .nav__inner{gap:10px}
-  .lang{gap:4px}
-  .lang__globo{width:13px;height:13px;margin-right:0}
-  .lang__op{font-size:10px;letter-spacing:.06em}
-  .nav .btn{padding:12px 16px;font-size:10px;letter-spacing:.1em}
-  .brand__mark{width:22px;height:22px}
-  .brand__name{font-size:16px}
-  .brand__sub{font-size:7.5px;letter-spacing:.34em}
+  /* A barra do topo ja nao carrega links, idioma nem CTA: tudo isso mora no
+     painel. Sem a disputa por espaco, a pilula deixou de furar a calha do
+     .wrap (ia ate 374,3px num viewport de 375) e a tipografia voltou para
+     tamanhos legiveis. Nada aqui encolhe mais para caber. */
+  .brand__mark{width:24px;height:24px}
+  .brand__name{font-size:17px}
+  .brand__sub{font-size:9px;letter-spacing:.36em}
   .zap{right:14px;bottom:14px;padding:11px 15px 11px 12px;font-size:11px;letter-spacing:.09em;gap:7px}
   .zap__icon{width:18px;height:18px}
   .disc__aside{padding:26px 22px}
   .disc__head{gap:18px}
-  .hero__scroll{font-size:9px}
+  .hero__scroll{font-size:11px;letter-spacing:.14em}
   .footer__grid{align-items:flex-start}
 }
+
+
+/* ==========================================================================
+   ALVOS DE TOQUE
+   --------------------------------------------------------------------------
+   Tamanho de tela nao diz o metodo de entrada: existe notebook com touch e
+   tablet com mouse. Quem decide aqui e o ponteiro, nao o breakpoint. Assim
+   o dedo ganha area sem inchar a barra de quem esta no mouse.
+   ========================================================================== */
+@media (pointer:coarse){
+  .lang__op{padding:12px 10px}
+  .filtro{gap:10px}
+  .filtro__op{padding:13px 8px}
+  .case__link{padding-top:10px;padding-bottom:12px}
+  .footer__links{gap:16px}
+  .footer__links a{display:inline-block;padding:11px 6px}
+  .nav__links a{padding-top:10px;padding-bottom:10px}
+}
+
+/* ==========================================================================
+   ANEL DE FOCO
+   --------------------------------------------------------------------------
+   O seletor de idioma, o filtro e o botao do WhatsApp ja tinham o seu; o
+   resto caia no anel padrao do navegador, que nao pertence a nenhum design
+   e destoa no escuro. Aqui ele passa a usar o ciano da marca.
+   ========================================================================== */
+.nav__links a:focus-visible,.brand:focus-visible,.btn:focus-visible,
+.case__link:focus-visible,.proj:focus-visible,.footer__links a:focus-visible{
+  outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:3px;border-radius:6px;
+}
+.proj:focus-visible{border-radius:12px;outline-offset:2px}
+
+/* Trava a rolagem do fundo enquanto o painel de navegacao esta aberto. */
+html.menu-aberto,html.menu-aberto body{overflow:hidden}
+
+/* O botao flutuante do WhatsApp vive no z-index 70, acima da barra (60), entao
+   passava por cima do painel. Com o menu aberto ele nao faz falta: o painel
+   tem o proprio CTA. */
+html.menu-aberto .zap{opacity:0;visibility:hidden;pointer-events:none}

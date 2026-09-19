@@ -4,29 +4,95 @@
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
-  // nav "grudada" ao rolar
+  // Tudo que reage ao scroll mora numa função só, chamada uma vez por quadro
+  // (ver "agendar", no fim do arquivo). Antes eram três listeners soltos e o
+  // do WhatsApp chamava getBoundingClientRect a cada evento — numa página de
+  // ~28.000px isso força recálculo de layout o tempo todo.
   var nav = document.getElementById('nav');
-  var onScroll = function () {
-    if (!nav) return;
-    nav.classList.toggle('is-stuck', window.scrollY > 40);
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // botão flutuante do WhatsApp. Duas regras:
-  //  1. só entra depois que a capa sai da tela, para não tapar o hero de cara;
-  //  2. sai de novo quando o rodapé aparece — lá ele cobria a linha do copyright
-  //     e não faz falta, porque o rodapé já tem o link do WhatsApp.
   var zap = document.querySelector('.zap');
   var rodape = document.querySelector('.footer');
-  var onZap = function () {
-    if (!zap) return;
-    var passouDaCapa = window.scrollY > window.innerHeight * 0.6;
-    var chegouNoRodape = rodape && rodape.getBoundingClientRect().top < window.innerHeight - 40;
-    zap.classList.toggle('is-in', passouDaCapa && !chegouNoRodape);
-  };
-  window.addEventListener('scroll', onZap, { passive: true });
-  onZap();
+
+  function aoRolar() {
+    var y = window.scrollY;
+
+    // nav "grudada" ao rolar
+    if (nav) nav.classList.toggle('is-stuck', y > 40);
+
+    // botão flutuante do WhatsApp. Duas regras:
+    //  1. só entra depois que a capa sai da tela, para não tapar o hero de cara;
+    //  2. sai de novo quando o rodapé aparece — lá ele cobria a linha do copyright
+    //     e não faz falta, porque o rodapé já tem o link do WhatsApp.
+    if (zap) {
+      var passouDaCapa = y > window.innerHeight * 0.6;
+      var chegouNoRodape = rodape && rodape.getBoundingClientRect().top < window.innerHeight - 40;
+      zap.classList.toggle('is-in', passouDaCapa && !chegouNoRodape);
+    }
+
+    revelar();
+  }
+
+  // ----------------------------------------------------------------- menu
+  // Painel de navegação do celular. Abaixo de 980px a barra do topo fica só
+  // com a marca e este botão; as seções, o idioma e o CTA vivem no painel.
+  //
+  // O estado é um só — o aria-expanded do botão — e dele saem tanto o visual
+  // (o CSS desenha o X a partir do atributo) quanto o anúncio do leitor de
+  // tela. Com o painel fechado ele fica visibility:hidden, então os links
+  // saem da ordem de tabulação sozinhos: ninguém tabula para dentro de um
+  // menu invisível.
+  var botaoMenu = document.getElementById('nav-toggle');
+  var painelMenu = document.getElementById('nav-menu');
+  var raiz = document.documentElement;
+  var conteudo = document.getElementById('conteudo');
+  var menuAberto = false;
+
+  function rotularMenu() {
+    if (!botaoMenu) return;
+    var en = raiz.lang === 'en';
+    botaoMenu.setAttribute('aria-label',
+      menuAberto ? (en ? 'Close menu' : 'Fechar menu')
+                 : (en ? 'Open menu' : 'Abrir menu'));
+  }
+
+  function abrirMenu(abrir) {
+    if (!botaoMenu || !painelMenu) return;
+    menuAberto = abrir;
+    botaoMenu.setAttribute('aria-expanded', String(abrir));
+    painelMenu.classList.toggle('is-open', abrir);
+    // trava a rolagem do fundo: sem isso a página desliza atrás do painel
+    raiz.classList.toggle('menu-aberto', abrir);
+    // Tira o resto da página da ordem de tabulação: sem isto o Tab sai do
+    // painel e continua andando por 77 elementos que estão atrás dele.
+    if (conteudo) conteudo.inert = abrir;
+    if (rodape) rodape.inert = abrir;
+    rotularMenu();
+    // O foco espera um quadro: no instante do clique o painel ainda computa
+    // visibility:hidden e focus() nao pega num elemento invisivel.
+    if (abrir) window.requestAnimationFrame(function () {
+      var primeiro = painelMenu.querySelector('a');
+      if (primeiro) primeiro.focus();
+    });
+  }
+
+  if (botaoMenu && painelMenu) {
+    botaoMenu.addEventListener('click', function () { abrirMenu(!menuAberto); });
+
+    // clicar numa seção fecha o painel: o alvo está atrás dele
+    painelMenu.addEventListener('click', function (e) {
+      if (menuAberto && e.target.closest('a')) abrirMenu(false);
+    });
+
+    // Esc fecha e devolve o foco para o botão, que é de onde a pessoa veio
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menuAberto) { abrirMenu(false); botaoMenu.focus(); }
+    });
+
+    // girar o celular ou alargar a janela para o desktop não pode deixar a
+    // rolagem travada com o painel já fora de cena
+    window.addEventListener('resize', function () {
+      if (menuAberto && window.innerWidth > 980) abrirMenu(false);
+    }, { passive: true });
+  }
 
   // --------------------------------------------------------------- idioma
   // Troca PT/EN sem recarregar a página.
@@ -70,8 +136,11 @@
 
     document.documentElement.lang = ing ? 'en' : 'pt-BR';
     botoesIdioma.forEach(function (b) {
-      b.setAttribute('aria-current', String(b.dataset.lang === idioma));
+      // aria-pressed, não aria-current: estes são botões de alternância, e é
+      // "pressed" que o leitor de tela anuncia como estado ligado/desligado.
+      b.setAttribute('aria-pressed', String(b.dataset.lang === idioma));
     });
+    if (typeof rotularMenu === 'function') rotularMenu();
     // a contagem do filtro é montada em JS, então precisa ser refeita ao trocar
     var g = document.querySelector('.proj-grid');
     if (g && g.dataset.filtro && typeof filtrar === 'function') filtrar(g.dataset.filtro);
@@ -105,7 +174,7 @@
       if (mostra) visiveis++;
     });
     filtroBotoes.forEach(function (b) {
-      b.setAttribute('aria-current', String(b.dataset.mercado === mercado));
+      b.setAttribute('aria-pressed', String(b.dataset.mercado === mercado));
     });
     if (conta) {
       conta.textContent = document.documentElement.lang === 'en'
@@ -140,7 +209,6 @@
   var agendado = false;
 
   function revelar() {
-    agendado = false;
     var limite = window.innerHeight - 60;   // 60px de folga, para não disparar na borda
     for (var i = pendentes.length - 1; i >= 0; i--) {
       // topo acima do limite cobre os dois casos: entrando por baixo, e já
@@ -155,11 +223,11 @@
   function agendar() {
     if (agendado) return;
     agendado = true;
-    window.requestAnimationFrame(revelar);
+    window.requestAnimationFrame(function () { agendado = false; aoRolar(); });
   }
 
   window.addEventListener('scroll', agendar, { passive: true });
   window.addEventListener('resize', agendar, { passive: true });
   window.addEventListener('load', agendar);
-  revelar();
+  aoRolar();
 })();

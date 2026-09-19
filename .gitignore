@@ -17,3 +17,12 @@ desktop.ini
 node_modules/
 .vercel/
 *.log
+
+# ferramentas de design do Claude Code (Intent + Impeccable).
+# Instaladas por `npx skills add ghaida/intent --all`. Sao skills locais,
+# nao fazem parte do site. Em .claude/skills/ sao links simbolicos, que nao
+# sobrevivem ao git no Windows de qualquer jeito.
+.agents/
+.claude/
+agent/
+skills-lock.json

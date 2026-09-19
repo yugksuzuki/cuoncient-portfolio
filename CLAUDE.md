@@ -99,9 +99,22 @@ site visível em vez de em branco.
 **Os mockups são medidos em `cqw`**, não em px — é o que faz o "sitezinho"
 encolher junto com a moldura no celular. `100cqw` = largura da moldura.
 
-**6 miniaturas da grade vêm de `static.wixstatic.com`.** São os projetos cujo
-print ainda não chegou. Em ambiente sem acesso a esse domínio elas aparecem como
-blocos escuros — não é bug.
+**`backdrop-filter` num ancestral prende `position:fixed`.** Vale para
+`filter`, `transform` e `will-change` também: o elemento vira bloco de contenção e
+o filho fixo passa a se ancorar nele, não na janela. Foi por isso que o painel
+do menu nasceu preso à altura da barra. Abaixo de 980px a barra abre mão do
+desfoque (`.nav{backdrop-filter:none}`) e quem desfoca passa a ser o painel.
+
+**`visibility` não pode entrar na `transition` de um painel que recebe foco.**
+Enquanto ela interpola, o navegador ainda trata o elemento como invisível e
+`focus()` não pega. O padrão certo é `visibility 0s linear .3s` no estado
+fechado e `0s linear 0s` no aberto: instantânea ao abrir, espera o fade ao
+fechar.
+
+**A barra do topo não encolhe mais para caber.** Abaixo de 980px ela carrega só
+a marca e o botão do menu; seções, idioma e CTA vivem no painel. Se voltar a
+entrar coisa na barra, a pílula do orçamento fura a calha do `.wrap` (ia até
+374,3px num viewport de 375) e a tipografia começa a ser espremida para 7–10px.
 
 **Foto quebrada no servidor do Art 7.** `art7epoxy.com/wp-content/uploads/2026/08/1920x844.jpg`
 está corrompido no servidor do cliente. Não é problema do código.
@@ -123,9 +136,12 @@ está corrompido no servidor do cliente. Não é problema do código.
 
 ## Pendências
 
-- [ ] **6 prints faltando** na grade: CEEA, Azzurro Interiores, Turnflix, XPCon,
-      Doege Home e Minimall — usam a miniatura antiga do Wix até chegarem.
-      Ver `PASSO-A-PASSO.md`. Daiana Santos e Cris Cassiano saíram da grade.
+- [x] ~~**6 prints faltando** na grade~~ — resolvido por outro caminho. CEEA,
+      Azzurro Interiores, Turnflix, XPCon, Doege Home e Minimall ganharam o
+      selo "fora do ar", e a miniatura que vinha do Wix foi **baixada para
+      `assets/thumbs/`**. Fora o Google Fonts, o site não faz mais nenhuma
+      requisição externa. Daiana Santos e Cris Cassiano saíram da grade.
+      Chegando o print de verdade, é só trocar o arquivo.
 - [x] ~~`og:image` relativo~~ — resolvido. Open Graph, Twitter Card e JSON-LD
       apontam para `https://cuoncient-portfolio.vercel.app`. Trocou de domínio?
       São 12 ocorrências no `index.html`.

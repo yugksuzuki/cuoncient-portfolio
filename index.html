@@ -110,6 +110,10 @@
 </head>
 <body>
 
+<!-- Primeiro foco da página: deixa quem navega por teclado pular a barra e
+     os 55 cards da grade. Só aparece quando recebe foco. -->
+<a class="skip" href="#conteudo" data-en="Skip to content">Pular para o conteúdo</a>
+
 <!-- A marca vive aqui uma vez só; a nav e o rodapé apontam para ela com <use>. -->
 <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
   <symbol id="marca-cuoncient" viewBox="92.05 93.6 337.6 337.6">
@@ -134,7 +138,18 @@
         <span class="brand__sub">agency</span>
       </span>
     </a>
-    <nav class="nav__links">
+    <!-- Abre o painel de navegação no celular; no desktop não existe, porque
+         lá o menu inteiro já está visível na barra. -->
+    <button type="button" class="nav__toggle" id="nav-toggle"
+            aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
+      <span class="nav__burger" aria-hidden="true"></span>
+    </button>
+
+    <!-- No desktop este wrapper é display:contents — os três filhos caem
+         direto na barra, exatamente como sempre estiveram. Abaixo de 980px
+         ele vira o painel de tela cheia. -->
+    <div class="nav__menu" id="nav-menu">
+    <nav class="nav__links" aria-label="Seções do site">
       <a href="#manifesto" data-en="About">Sobre</a>
       <a href="#design" data-en="Design">Design</a>
       <a href="#devop">Cases</a>
@@ -157,8 +172,11 @@
     </div>
 
     <a class="btn" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
+    </div>
   </div>
 </header>
+
+<main id="conteudo">
 
 <!-- ==================== 1 · CAPA ==================== -->
 <section class="hero" id="capa" data-canva-page="1">
@@ -270,7 +288,7 @@
         <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20design." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20design." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4 data-en="What the scope covers">O que entra no escopo</h4>
+        <h3 data-en="What the scope covers">O que entra no escopo</h3>
         <ul class="disc__list">
           <li><i>01</i><span data-en="Visual identity — logo, palette, typography and usage">Identidade visual — marca, paleta, tipografia e aplicação</span></li>
           <li><i>02</i><span data-en="Website and landing page UI, from wireframe to final layout">UI de site e landing page, do wireframe ao layout final</span></li>
@@ -329,7 +347,7 @@
         <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20social%20media." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20social%20media." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4 data-en="What the scope covers">O que entra no escopo</h4>
+        <h3 data-en="What the scope covers">O que entra no escopo</h3>
         <ul class="disc__list">
           <li><i>01</i><span data-en="Per-platform strategy and editorial calendar">Estratégia por plataforma e calendário editorial</span></li>
           <li><i>02</i><span data-en="Content production — photo and video on location">Captação de conteúdo — foto e vídeo no local</span></li>
@@ -538,7 +556,7 @@
     <!-- Filtro por mercado. Os cards carregam data-mercado="br" ou "eua";
          o script apenas esconde os que não batem. Ver "filtro" no script.js. -->
     <div class="filtro reveal" role="group" aria-label="Filtrar projetos por mercado">
-      <button type="button" class="filtro__op" data-mercado="todos" aria-current="true" data-en="All">Todos</button>
+      <button type="button" class="filtro__op" data-mercado="todos" aria-pressed="true" data-en="All">Todos</button>
       <button type="button" class="filtro__op" data-mercado="br" data-en="Brazil">Brasil</button>
       <button type="button" class="filtro__op" data-mercado="eua" data-en="United States">Estados Unidos</button>
       <span class="filtro__conta" aria-live="polite"></span>
@@ -558,7 +576,7 @@
         <span class="proj__name">Zuriel Engenharia</span>
       </a>
       <div class="proj proj--fora" data-url="https://voeceea.com.br/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_0a8f3c1581754e55a79f154e4d98d477~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_0a8f3c1581754e55a79f154e4d98d477~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/ceea.jpg" width="900" height="452" loading="lazy" alt="Home do site CEEA"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">CEEA</span>
       </div>
@@ -567,7 +585,7 @@
         <span class="proj__name">Brazuka Club</span>
       </a>
       <div class="proj proj--fora" data-url="https://www.azzurrointeriores.com.br/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_7de3fc9c94fd43c6b1297460deaa8226~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_7de3fc9c94fd43c6b1297460deaa8226~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/azzurro.jpg" width="900" height="448" loading="lazy" alt="Home do site Azzurro Interiores"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">Azzurro Interiores</span>
       </div>
@@ -576,12 +594,12 @@
         <span class="proj__name">Autoria Design</span>
       </a>
       <div class="proj proj--fora" data-url="https://turnflix.com/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_fd508f2b5e3b47dd8a852b49e42cce5c~mv2.jpg/v1/fit/w_480,h_270,q_90,enc_avif,quality_auto/a8717d_fd508f2b5e3b47dd8a852b49e42cce5c~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/turnflix.jpg" width="900" height="453" loading="lazy" alt="Home do site Turnflix"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">Turnflix</span>
       </div>
       <div class="proj proj--fora" data-url="https://www.xpcon.com.br/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_e2d9b042f89b4bf8b44d076d4446e94f~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_e2d9b042f89b4bf8b44d076d4446e94f~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/xpcon.jpg" width="900" height="456" loading="lazy" alt="Home do site XPCon"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">XPCon</span>
       </div>
@@ -590,7 +608,7 @@
         <span class="proj__name">Restaurante Recanto Fábio</span>
       </a>
       <div class="proj proj--fora" data-url="https://www.doegehome.com.br/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_b8e2e73c046a4767afa0a132aaf54f48~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_b8e2e73c046a4767afa0a132aaf54f48~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/doegehome.jpg" width="900" height="463" loading="lazy" alt="Home do site Doege Home"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">Doege Home</span>
       </div>
@@ -603,7 +621,7 @@
         <span class="proj__name">Farizel Santos</span>
       </a>
       <div class="proj proj--fora" data-url="https://minimall.com.br/" data-mercado="br">
-        <span class="proj__media"><span class="proj__shot" style="background-image:url('https://static.wixstatic.com/media/a8717d_224f6d84f781455aa993187ed3b2bbaa~mv2.jpg/v1/fit/w_480,h_271,q_90,enc_avif,quality_auto/a8717d_224f6d84f781455aa993187ed3b2bbaa~mv2.jpg')"></span></span>
+        <span class="proj__media"><img class="proj__shot" src="assets/thumbs/minimall.jpg" width="900" height="444" loading="lazy" alt="Home do site Minimall"></span>
         <span class="proj__fora" data-en="offline">fora do ar</span>
         <span class="proj__name">Minimall</span>
       </div>
@@ -797,7 +815,7 @@
         <a class="btn btn--ghost" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento%20de%20an%C3%BAncios." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote%20for%20advertising." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
       </div>
       <aside class="disc__aside reveal">
-        <h4 data-en="Where we advertise">Onde a gente anuncia</h4>
+        <h3 data-en="Where we advertise">Onde a gente anuncia</h3>
         <ul class="disc__list">
           <li><i>01</i><span data-en="Meta Ads — Facebook and Instagram">Meta Ads — Facebook e Instagram</span></li>
           <li><i>02</i><span data-en="Google Ads — search, display and Performance Max">Google Ads — pesquisa, display e performance máxima</span></li>
@@ -821,6 +839,8 @@
     <a class="btn reveal" href="https://wa.me/5511933528251?text=Oi%21%20Vim%20pelo%20site%20da%20Cuoncient%20e%20queria%20um%20or%C3%A7amento." data-en-href="https://wa.me/5511933528251?text=Hi%21%20I%20came%20from%20the%20Cuoncient%20website%20and%20I%20would%20like%20a%20quote." target="_blank" rel="noopener" data-en="Get a quote">Faça seu orçamento</a>
   </div>
 </section>
+
+</main>
 
 <footer class="footer" data-canva-page="10">
   <div class="wrap footer__grid">
