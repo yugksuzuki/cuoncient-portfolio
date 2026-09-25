@@ -75,8 +75,20 @@ porque é sempre usado com alpha variável: `rgba(var(--glow-rgb),.55)`.
 no Canva. Não remova; se reordenar seções, renumere e atualize o `MAPPING.md`.
 
 **A marca.** Declarada **uma vez só**, num `<symbol id="marca-cuoncient">` logo
-depois do `<body>`. Nav e hero apontam para ela com `<use>`. Para trocar a marca,
-mexa só no símbolo.
+depois do `<body>`. Nav, hero e o miolo do Venn apontam para ela com `<use>`.
+Para trocar a marca, mexa só no símbolo.
+
+O Venn era a exceção: tinha seis círculos desenhados à mão no lugar do
+logotipo, parecido de longe e errado de perto. Se aparecer outro `<svg>` com
+formas soltas querendo ser a marca, é bug — troque por `<use>`.
+
+**O Venn é interativo, e o `data-venn` é a fonte da verdade.** Cada rótulo diz
+em quais círculos ele cai (`t` Briefing, `b` Devop, `l` Anúncios, `r` Design), e
+isso não é opinião: os quatro círculos têm raio 29% com centros em (50,29),
+(50,71), (29,50) e (71,50), então a posição decide sozinha. Mexeu num `left`/
+`top` de rótulo, recalcule o `data-venn`. Passar o mouse acende; clicar trava;
+Esc solta. Quem não enxerga recebe a mesma informação pelo `.venn__fala`, um
+`aria-live` montado a partir do próprio DOM — ele acompanha o PT/EN sozinho.
 
 **Contato.** 7 links de WhatsApp com o número escrito direto no `href`, sem
 JavaScript montando nada. Cada um leva uma frase diferente. Procure `wa.me/`.

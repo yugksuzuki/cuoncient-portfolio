@@ -31,6 +31,74 @@
     revelar();
   }
 
+  // ----------------------------------------------------------------- venn
+  // Acende uma disciplina e os rótulos que vivem dentro do círculo dela.
+  //
+  // Quem tem mouse só precisa passar por cima; quem está no dedo ou no
+  // teclado clica, e aí a escolha trava até clicar de novo ou apertar Esc.
+  // O texto da fala é montado a partir do próprio DOM, então ele acompanha a
+  // troca PT/EN sem precisar de uma segunda lista para manter em dia.
+  var venn = document.getElementById('venn');
+  if (venn) (function () {
+    var discs = venn.querySelectorAll('.venn__disc');
+    var fala = venn.querySelector('.venn__fala');
+    var temMouse = window.matchMedia('(hover:hover)').matches;
+    var travado = null;
+
+    function nomesDoCirculo(chave) {
+      var fora = [];
+      venn.querySelectorAll('.venn__lab:not(.venn__disc)').forEach(function (l) {
+        if ((l.dataset.venn || '').split(' ').indexOf(chave) > -1) {
+          // o <br> de "Social<br>Media" nao e espaco em branco: sem trocar por
+          // um, o leitor de tela le "SocialMedia" numa palavra so
+          fora.push(l.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+        }
+      });
+      return fora;
+    }
+
+    function acender(chave) {
+      if (chave) venn.dataset.ativo = chave;
+      else delete venn.dataset.ativo;
+
+      discs.forEach(function (d) {
+        d.setAttribute('aria-pressed', String(!!chave && d.dataset.venn === chave && travado === chave));
+      });
+
+      if (!fala) return;
+      if (!chave) { fala.textContent = ''; return; }
+      var disc = venn.querySelector('.venn__disc[data-venn="' + chave + '"]');
+      var lista = nomesDoCirculo(chave);
+      var en = document.documentElement.lang === 'en';
+      fala.textContent = disc.textContent.trim()
+        + (en ? ' crosses with ' : ' cruza com ')
+        + lista.slice(0, -1).join(', ')
+        + (en ? ' and ' : ' e ') + lista[lista.length - 1] + '.';
+    }
+
+    discs.forEach(function (d) {
+      var chave = d.dataset.venn;
+
+      d.addEventListener('click', function () {
+        travado = (travado === chave) ? null : chave;
+        acender(travado);
+      });
+
+      // o teclado anda pelos botões: o foco acende sem travar
+      d.addEventListener('focus', function () { if (!travado) acender(chave); });
+      d.addEventListener('blur', function () { if (!travado) acender(null); });
+
+      if (temMouse) {
+        d.addEventListener('pointerenter', function () { if (!travado) acender(chave); });
+        d.addEventListener('pointerleave', function () { if (!travado) acender(null); });
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && travado) { travado = null; acender(null); }
+    });
+  })();
+
   // ----------------------------------------------------------------- menu
   // Painel de navegação do celular. Abaixo de 980px a barra do topo fica só
   // com a marca e este botão; as seções, o idioma e o CTA vivem no painel.

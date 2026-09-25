@@ -216,35 +216,45 @@
 <section class="manifesto" id="manifesto" data-canva-page="2">
   <div class="wrap">
     <div class="manifesto__grid">
-      <div class="venn reveal" aria-label="Disciplinas da Cuoncient">
-        <span class="venn__c venn__c--t"></span>
-        <span class="venn__c venn__c--b"></span>
-        <span class="venn__c venn__c--l"></span>
-        <span class="venn__c venn__c--r"></span>
+      <!-- ===================== VENN DAS DISCIPLINAS =====================
+           O data-venn de cada rótulo diz em quais círculos ele cai, e isso
+           não é opinião: os quatro círculos têm raio 29% e centro em
+           (50,29) topo, (50,71) base, (29,50) esquerda e (71,50) direita,
+           então a posição de cada rótulo decide sozinha a resposta. Clicar
+           (ou passar o mouse) numa disciplina acende o círculo dela e deixa
+           acesos só os rótulos que moram lá dentro.
+           t = Briefing · b = Devop · l = Anúncios · r = Design
+           ============================================================= -->
+      <div class="venn reveal" id="venn" role="group" aria-label="Disciplinas da Cuoncient">
+        <span class="venn__c venn__c--t" data-venn="t"></span>
+        <span class="venn__c venn__c--b" data-venn="b"></span>
+        <span class="venn__c venn__c--l" data-venn="l"></span>
+        <span class="venn__c venn__c--r" data-venn="r"></span>
 
-        <span class="venn__lab" style="left:50%;top:11%" data-en="Briefing">Briefing</span>
-        <span class="venn__lab" style="left:11%;top:50%" data-en="Advertising">Anúncios</span>
-        <span class="venn__lab" style="left:89%;top:50%" data-en="Design">Design</span>
-        <span class="venn__lab" style="left:50%;top:89%" data-en="Devop">Devop</span>
+        <button type="button" class="venn__lab venn__disc" style="left:50%;top:11%" data-venn="t" aria-pressed="false" data-en="Briefing">Briefing</button>
+        <button type="button" class="venn__lab venn__disc" style="left:11%;top:50%" data-venn="l" aria-pressed="false" data-en="Advertising">Anúncios</button>
+        <button type="button" class="venn__lab venn__disc" style="left:89%;top:50%" data-venn="r" aria-pressed="false" data-en="Design">Design</button>
+        <button type="button" class="venn__lab venn__disc" style="left:50%;top:89%" data-venn="b" aria-pressed="false" data-en="Devop">Devop</button>
 
-        <span class="venn__lab venn__lab--sm" style="left:27%;top:29%" data-en="Management">Gestão</span>
-        <span class="venn__lab venn__lab--sm" style="left:64%;top:29%" data-en="Visual ID">ID Visual</span>
-        <span class="venn__lab venn__lab--sm" style="left:29%;top:71%" data-en="Strategy">Estratégia</span>
-        <span class="venn__lab venn__lab--sm" style="left:70%;top:70%">Social<br>Media</span>
+        <span class="venn__lab venn__lab--sm" style="left:27%;top:29%" data-venn="t l" data-en="Management">Gestão</span>
+        <span class="venn__lab venn__lab--sm" style="left:64%;top:29%" data-venn="t r" data-en="Visual ID">ID Visual</span>
+        <span class="venn__lab venn__lab--sm" style="left:29%;top:71%" data-venn="l b" data-en="Strategy">Estratégia</span>
+        <span class="venn__lab venn__lab--sm" style="left:70%;top:70%" data-venn="r b">Social<br>Media</span>
 
-        <span class="venn__lab venn__lab--xs" style="left:30%;top:50%" data-en="UX">UX</span>
-        <span class="venn__lab venn__lab--xs" style="left:71%;top:50%" data-en="Lead capture">Captação</span>
-        <span class="venn__lab venn__lab--xs" style="left:50%;top:63%" data-en="UI">UI</span>
+        <span class="venn__lab venn__lab--xs" style="left:30%;top:50%" data-venn="t l b" data-en="UX">UX</span>
+        <span class="venn__lab venn__lab--xs" style="left:71%;top:50%" data-venn="t r b" data-en="Lead capture">Captação</span>
+        <span class="venn__lab venn__lab--xs" style="left:50%;top:63%" data-venn="l r b" data-en="UI">UI</span>
 
+        <!-- A marca, uma vez só, apontando para o <symbol> do topo do body.
+             Antes aqui havia seis círculos desenhados à mão imitando o
+             logotipo — não era a marca. -->
         <span class="venn__core">
-          <svg viewBox="0 0 40 40" aria-hidden="true">
-            <g fill="none" stroke="#fff" stroke-width="1.6">
-              <circle cx="20" cy="11" r="5.2"/><circle cx="20" cy="29" r="5.2"/>
-              <circle cx="12.2" cy="15.5" r="5.2"/><circle cx="27.8" cy="15.5" r="5.2"/>
-              <circle cx="12.2" cy="24.5" r="5.2"/><circle cx="27.8" cy="24.5" r="5.2"/>
-            </g>
-          </svg>
+          <svg class="venn__mark" aria-hidden="true" focusable="false"><use href="#marca-cuoncient"/></svg>
         </span>
+
+        <!-- Só para leitor de tela: o apagar e acender dos rótulos é mudança
+             visual e não chega a quem não enxerga. Aqui ela vira frase. -->
+        <p class="venn__fala" aria-live="polite"></p>
       </div>
 
       <div class="manifesto__text reveal">

@@ -235,25 +235,74 @@ a{color:inherit;text-decoration:none}
 }
 .manifesto__ghost b{font-weight:800;display:block}
 
-.venn{position:relative;width:100%;aspect-ratio:1;max-width:520px;margin-inline:auto}
-.venn__c{position:absolute;width:58%;aspect-ratio:1;border:1px solid rgba(255,255,255,.34);border-radius:50%}
+/* container-type para os rótulos poderem ser medidos em cqw, igual aos
+   mockups dos cases: assim eles encolhem junto com o diagrama em vez de
+   estourar a composição no celular. 100cqw = largura do .venn. */
+.venn{position:relative;width:100%;aspect-ratio:1;max-width:520px;margin-inline:auto;container-type:inline-size}
+.venn__c{
+  position:absolute;width:58%;aspect-ratio:1;border-radius:50%;
+  border:1px solid rgba(255,255,255,.34);
+  transition:opacity .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
 .venn__c--t{top:0;left:21%}
 .venn__c--b{bottom:0;left:21%}
 .venn__c--l{left:0;top:21%}
 .venn__c--r{right:0;top:21%}
 .venn__lab{
   position:absolute;transform:translate(-50%,-50%);
-  font-size:12.5px;color:rgba(255,255,255,.9);white-space:nowrap;text-align:center;
+  /* o piso em px é o que impede o texto de virar ilegível no celular; o teto
+     é o tamanho do design no desktop */
+  font-size:clamp(11px,2.4cqw,12.5px);
+  color:rgba(255,255,255,.9);white-space:nowrap;text-align:center;
+  transition:opacity .35s var(--ease),color .35s var(--ease);
 }
-.venn__lab--sm{font-size:10.5px;color:rgba(255,255,255,.72)}
-.venn__lab--xs{font-size:8.5px;color:rgba(255,255,255,.6)}
+.venn__lab--sm{font-size:clamp(11px,2.15cqw,11.5px);color:rgba(255,255,255,.74)}
+.venn__lab--xs{font-size:clamp(11px,2.2cqw,11.5px);color:rgba(255,255,255,.62)}
+
+/* ---------- as quatro disciplinas são botões ---------- */
+.venn__disc{
+  background:none;border:0;padding:9px 12px;margin:0;cursor:pointer;
+  font:inherit;font-size:clamp(11px,2.4cqw,12.5px);
+  color:rgba(255,255,255,.9);line-height:1.2;
+}
+.venn__disc:focus-visible{
+  outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:2px;border-radius:6px;
+}
+
+/* ---------- estado aceso ----------
+   Enquanto uma disciplina está ativa, tudo apaga e só volta quem pertence ao
+   círculo dela. O ~= casa item a item na lista do data-venn. */
+.venn[data-ativo] .venn__c{opacity:.22}
+.venn[data-ativo] .venn__lab{opacity:.24}
+.venn[data-ativo="t"] .venn__c--t,
+.venn[data-ativo="b"] .venn__c--b,
+.venn[data-ativo="l"] .venn__c--l,
+.venn[data-ativo="r"] .venn__c--r{
+  opacity:1;border-color:rgba(var(--glow-rgb),.9);
+  box-shadow:0 0 34px -6px rgba(var(--glow-rgb),.45),inset 0 0 40px -18px rgba(var(--glow-rgb),.6);
+}
+.venn[data-ativo="t"] .venn__lab[data-venn~="t"],
+.venn[data-ativo="b"] .venn__lab[data-venn~="b"],
+.venn[data-ativo="l"] .venn__lab[data-venn~="l"],
+.venn[data-ativo="r"] .venn__lab[data-venn~="r"]{opacity:1;color:#fff}
+.venn[data-ativo] .venn__disc[aria-pressed="true"]{color:rgb(var(--glow-rgb))}
+
+/* ---------- miolo ---------- */
 .venn__core{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:19%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(var(--glow-rgb),.4),rgba(5,5,6,.9) 70%);
   border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;
+  transition:box-shadow .45s var(--ease);
 }
-.venn__core svg{width:46%}
+.venn[data-ativo] .venn__core{box-shadow:0 0 40px -4px rgba(var(--glow-rgb),.5)}
+.venn__mark{width:52%;height:52%;color:var(--ink)}
+
+/* frase só para leitor de tela */
+.venn__fala{
+  position:absolute;width:1px;height:1px;margin:0;padding:0;
+  overflow:hidden;clip-path:inset(50%);white-space:nowrap;
+}
 
 /* ==========================================================================
    3 / 4 / 9 · DISCIPLINAS (Design, Social Media, Anúncios)
@@ -676,6 +725,9 @@ a{color:inherit;text-decoration:none}
    o dedo ganha area sem inchar a barra de quem esta no mouse.
    ========================================================================== */
 @media (pointer:coarse){
+  /* no dedo o rotulo vira alvo de 44px; o padding e transparente, entao a
+     composicao do diagrama nao muda */
+  .venn__disc{padding:0 14px;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
   .lang__op{padding:12px 10px}
   .filtro{gap:10px}
   .filtro__op{padding:13px 8px}
