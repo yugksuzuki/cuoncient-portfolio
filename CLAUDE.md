@@ -104,6 +104,16 @@ deslocado, longe do case. Já aconteceu uma vez.
 menor que a calha do `.wrap` — 24px no geral, 16px abaixo de 620px. Passando
 disso, a página inteira ganha rolagem horizontal no tablet.
 
+**E agora ela ganha de verdade: o `body{overflow-x:hidden}` saiu.** Ele existia
+para engolir a pílula do orçamento, que furava a calha no celular, e engolia
+calado qualquer outro estouro junto — foi por isso que aquele bug viveu tanto
+tempo sem ninguém ver. A pílula foi resolvida na origem e uma varredura de
+320px a 1920px (mais menu aberto e grade expandida) não acha mais nada
+transbordando. Sem o curativo, um estouro novo aparece como barra de rolagem
+em vez de sumir sem aviso, e `position:sticky` volta a funcionar nos
+descendentes. O brilho da capa continua contido pelo `overflow:hidden` do
+próprio `.hero` — esse é intencional, o glow vaza de propósito.
+
 **A animação de entrada não pode depender do tamanho do bloco.** O
 `IntersectionObserver` com `threshold: 0.08` exigia 8% do elemento visível — a
 grade de projetos, com ~17.000px numa coluna no celular, nunca chegava lá e a

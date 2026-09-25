@@ -59,7 +59,14 @@ body{
   font-size:16px;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  /* Aqui havia overflow-x:hidden. Ele existia para engolir a pilula do
+     orcamento, que furava a calha do .wrap no celular — e engolia tambem
+     qualquer outro estouro, calado. A pilula foi resolvida na origem (a
+     barra nao carrega mais links no celular), e uma varredura de 320px a
+     1920px nao acha mais nada transbordando, entao o curativo saiu. Sem ele,
+     um estouro futuro aparece como barra de rolagem em vez de sumir sem
+     aviso — e position:sticky volta a funcionar nos descendentes. O brilho
+     da capa continua contido pelo overflow:hidden do proprio .hero. */
 }
 
 img{max-width:100%;display:block}
