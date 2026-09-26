@@ -646,6 +646,32 @@ a{color:inherit;text-decoration:none}
 /* ==========================================================================
    RESPONSIVO — o Canva desenha o desktop; aqui fica a regra do mobile
    ========================================================================== */
+/* ==========================================================================
+   BARRA JUSTA — 981px a 1180px
+   --------------------------------------------------------------------------
+   Acima de 980px a barra carrega tudo: marca, seis seções, o seletor de
+   idioma e a pílula do orçamento. Com o espanhol isso passou a não caber —
+   os rótulos são os mais longos dos três ("Nosotros", "Publicidad",
+   "Proyectos"), a pílula virou "Pide tu presupuesto" e o seletor ganhou uma
+   terceira sigla. Num viewport de 1024 a pílula ia até 1053px: furava a
+   calha do .wrap e saía da tela, o mesmo estouro que já tinha acontecido no
+   celular.
+
+   Aqui só a respiração diminui — quem cede é o espaço entre os itens, nunca
+   o corpo do texto. É a regra da casa: a barra não encolhe tipografia para
+   caber. Abaixo de 980px ela nem tenta, e o menu inteiro vai para o painel.
+
+   Mexeu nos rótulos da nav ou no texto da pílula? Meça de novo em 981px, que
+   é onde a folga é menor.
+   ========================================================================== */
+@media (min-width:981px) and (max-width:1180px){
+  .nav__inner{gap:16px}
+  .nav__links{gap:17px}
+  .lang{gap:3px}
+  .lang__globo{margin-right:0}
+  .nav .btn{padding:15px 20px}
+}
+
 @media (max-width:980px){
   :root{--pad-section:84px;--gap-col:40px}
   .manifesto__grid{grid-template-columns:1fr;gap:56px}

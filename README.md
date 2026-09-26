@@ -11,7 +11,7 @@ Site estático: HTML + CSS + JS puros. Sem build, sem dependências, sem
 |---------|---------|
 | `index.html` | a página inteira — 11 seções, em português com tradução para inglês embutida |
 | `styles.css` | tokens de design no `:root` do topo, depois os estilos por seção |
-| `script.js` | seletor de idioma, nav grudada, botão flutuante do WhatsApp, animação de entrada |
+| `script.js` | seletor de idioma (PT/EN/ES), nav grudada, botão flutuante do WhatsApp, animação de entrada |
 | `projetos.json` | a lista dos 55 sites; fonte para regerar a grade (o HTML já vem pronto) |
 | `assets/` | tudo que o site mostra — marca, prints, peças de design, vídeos |
 
@@ -35,8 +35,8 @@ Abra a pasta no VS Code e use o **Live Server** (botão direito no `index.html` 
 |-------------|------|
 | Cor, fonte, tamanho, espaçamento | `styles.css` → bloco `TOKENS` no topo |
 | Qualquer texto em português | `index.html` |
-| O mesmo texto em inglês | o atributo `data-en` do mesmo elemento |
-| Número ou frase do WhatsApp | `index.html` → procure `wa.me/` (7 links, cada um com versão em inglês) |
+| O mesmo texto em inglês ou espanhol | os atributos `data-en` e `data-es` do mesmo elemento |
+| Número ou frase do WhatsApp | `index.html` → procure `wa.me/` (7 links, cada um com versão em inglês e espanhol) |
 | A marca | `index.html` → o `<symbol id="marca-cuoncient">`, uma vez só |
 | Adicionar/remover projeto | `index.html` → seção `#projetos`, e o total no texto acima dela |
 | Domínio | `index.html` → procure `cuoncient.com` (12 ocorrências, com o schema) |

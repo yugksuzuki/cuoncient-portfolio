@@ -88,10 +88,35 @@ isso não é opinião: os quatro círculos têm raio 29% com centros em (50,29),
 (50,71), (29,50) e (71,50), então a posição decide sozinha. Mexeu num `left`/
 `top` de rótulo, recalcule o `data-venn`. Passar o mouse acende; clicar trava;
 Esc solta. Quem não enxerga recebe a mesma informação pelo `.venn__fala`, um
-`aria-live` montado a partir do próprio DOM — ele acompanha o PT/EN sozinho.
+`aria-live` montado a partir do próprio DOM — ele acompanha PT/EN/ES sozinho.
 
 **Contato.** 7 links de WhatsApp com o número escrito direto no `href`, sem
-JavaScript montando nada. Cada um leva uma frase diferente. Procure `wa.me/`.
+JavaScript montando nada. Cada um leva uma frase diferente, e cada um leva
+essa frase nos três idiomas (`data-en-href`, `data-es-href`) — são 21 `href`
+ao todo, mais o do schema. Procure `wa.me/`.
+
+**O site fala três idiomas: português, inglês e espanhol.** O português é o
+que está escrito no HTML — é ele que é servido, indexado e lido pelo robô do
+WhatsApp. Os outros dois vivem em atributos e entram sem recarregar a página:
+
+| Atributo | Traduz |
+|----------|--------|
+| `data-en` / `data-es` | o texto (aceita `<b>`, porque a troca é de `innerHTML`) |
+| `data-en-href` / `data-es-href` | o endereço — as frases do WhatsApp |
+| `data-en-label` / `data-es-label` | o `aria-label` |
+| `data-en-alt` / `data-es-alt` | o `alt` das fotos que fogem do padrão |
+
+O `data-pt` (e irmãos) é criado pelo script na primeira troca e guarda o
+original, então ir e voltar não perde nada. Idioma que não declare uma dessas
+partes cai no português em vez de esvaziar o elemento.
+
+Os alts das 55 miniaturas não usam atributo: seguem o padrão `Home do site X`
+e três expressões regulares por idioma dão conta de todos — ver `PADROES_ALT`.
+
+**Para entrar com um quarto idioma:** sigla em `IDIOMAS`, uma linha em
+`FRASES`, outra em `TAG_HTML`, outra em `PADROES_ALT`, um botão no seletor, e
+os `data-<sigla>` no HTML. O resto do `script.js` não precisa saber que ele
+existe — o seletor de elementos traduzíveis nasce da própria tabela.
 
 ## Armadilhas conhecidas
 
@@ -139,6 +164,16 @@ Enquanto ela interpola, o navegador ainda trata o elemento como invisível e
 `focus()` não pega. O padrão certo é `visibility 0s linear .3s` no estado
 fechado e `0s linear 0s` no aberto: instantânea ao abrir, espera o fade ao
 fechar.
+
+**A barra do topo é o lugar mais justo do site, e o espanhol é quem aperta.**
+Acima de 980px ela carrega marca, seis seções, o seletor e a pílula do
+orçamento. Em espanhol os rótulos são os mais longos dos três ("Nosotros",
+"Publicidad", "Proyectos"), a pílula vira "Pide tu presupuesto" e o seletor
+tem três siglas: num viewport de 1024 a pílula ia até 1053px e saía da tela.
+A faixa `@media (min-width:981px) and (max-width:1180px)` resolve encolhendo
+só a respiração entre os itens — tipografia nenhuma muda de tamanho. Mexeu
+nos rótulos da nav ou no texto da pílula, meça de novo em **981px**, que é
+onde a folga é menor.
 
 **A barra do topo não encolhe mais para caber.** Abaixo de 980px ela carrega só
 a marca e o botão do menu; seções, idioma e CTA vivem no painel. Se voltar a

@@ -125,7 +125,7 @@ As duas fotos aparecem **só no rodapé**. Ícone do navegador, atalho do celula
 prévia de link usam a marca, nunca uma foto — decisão do Gui.
 
 Para somar alguém ao time, copie um `<div class="footer__card">` dentro do
-`.footer__time` e troque foto, nome e cargo. O cargo leva `data-en` para a
+`.footer__time` e troque foto, nome e cargo. O cargo leva `data-en`/`data-es` para a
 versão em inglês. A foto entra em 240×240, quadrada e centrada no rosto.
 
 No HTML a marca é declarada **uma vez só**, num `<symbol id="marca-cuoncient">`
@@ -179,9 +179,9 @@ Para reativar um deles quando a URL voltar: troque a `<div>` por
 `<a class="proj" href="URL" target="_blank" rel="noopener" data-mercado="...">`,
 apague o `<span class="proj__fora">` e o `data-url`, e feche com `</a>`.
 
-## O seletor de idioma (PT / EN)
+## O seletor de idioma (PT / EN / ES)
 
-Fica na barra do topo: um globo e as duas siglas, a do idioma em uso em branco.
+Fica na barra do topo: um globo e as três siglas, a do idioma em uso em branco.
 Clicar troca a página inteira **sem recarregar**.
 
 Como o texto é guardado:
@@ -189,29 +189,45 @@ Como o texto é guardado:
 | Onde | O quê |
 |------|-------|
 | O HTML escrito | o **português** — é ele que é servido, indexado e lido pelo WhatsApp |
-| `data-en="..."` | o inglês do mesmo elemento (80 no total) |
-| `data-en-href="..."` | a versão inglesa dos 7 links de WhatsApp, com a frase traduzida |
-| `data-pt` | criado pelo script na primeira troca, para o caminho de volta |
+| `data-en` / `data-es` | o mesmo texto em inglês e espanhol (90 e 93) |
+| `data-en-href` / `data-es-href` | os 7 links de WhatsApp, com a frase traduzida |
+| `data-en-label` / `data-es-label` | o `aria-label` (16 de cada) |
+| `data-en-alt` / `data-es-alt` | o `alt` das 4 peças de design, que fogem do padrão |
+| `data-pt`, `data-ptHref`, … | criados pelo script na primeira troca, para o caminho de volta |
 
-Para **traduzir um texto novo**, basta pôr o inglês num `data-en` no elemento:
+O espanhol tem três atributos a mais que o inglês porque "Design" e "Cases"
+são iguais em português e inglês — só o espanhol os traduz ("Diseño",
+"Casos"). Um `data-es` sozinho, sem `data-en` ao lado, é legítimo.
+
+Para **traduzir um texto novo**, ponha as duas versões no elemento:
 
 ```html
-<p data-en="Every campaign is planned, run and monitored.">
+<p data-en="Every campaign is planned, run and monitored."
+   data-es="Cada campaña es planificada, ejecutada y monitoreada.">
   Cada campanha é planejada, executada e monitorada.
 </p>
 ```
 
-O `data-en` aceita marcação dentro (`<b>`, `<strong>`), porque a troca é de
+Os dois aceitam marcação dentro (`<b>`, `<strong>`), porque a troca é de
 `innerHTML`, não de texto puro. Aspas duplas dentro do atributo precisam virar
-`&quot;`.
+`&quot;`, e `<` vira `&lt;`.
 
-Os textos alternativos das imagens não usam atributo: os 55 seguem um padrão
-(`Home do site X`) e o script traduz por expressão regular. Se criar um alt fora
-do padrão e quiser ele em inglês, aí sim use `data-en-alt`... ou me peça.
+Esqueceu um idioma num elemento? Ele cai no português em vez de ficar vazio —
+o que aparece no site é o texto errado, nunca um buraco.
+
+Os textos alternativos das 55 miniaturas não usam atributo: seguem um padrão
+(`Home do site X`) e o script traduz por expressão regular, uma lista por
+idioma em `PADROES_ALT`. Fora do padrão, use `data-en-alt` e `data-es-alt`.
 
 **Qual idioma abre primeiro:** o que a pessoa escolheu da última vez (guardado
 no navegador dela). Sem escolha anterior, vale o idioma do navegador — quem
-chega de fora do Brasil cai direto no inglês.
+chega num navegador em espanhol cai no espanhol, em português fica no
+português, e o resto do mundo cai no inglês.
+
+**Um quarto idioma** é uma sigla em `IDIOMAS`, uma linha em `FRASES` (as
+frases que o JS monta sozinho: contagem do filtro, rótulo do menu, fala do
+Venn), uma em `TAG_HTML`, uma em `PADROES_ALT`, um botão no seletor e os
+`data-<sigla>` no HTML. Nada mais no `script.js` precisa mudar.
 
 **Limite que vale conhecer:** o Google indexa o HTML servido, que é o português.
 O inglês vive só no navegador de quem clica. Para o inglês ranquear no Google
