@@ -125,8 +125,10 @@ As duas fotos aparecem **só no rodapé**. Ícone do navegador, atalho do celula
 prévia de link usam a marca, nunca uma foto — decisão do Gui.
 
 Para somar alguém ao time, copie um `<div class="footer__card">` dentro do
-`.footer__time` e troque foto, nome e cargo. O cargo leva `data-en`/`data-es` para a
-versão em inglês. A foto entra em 240×240, quadrada e centrada no rosto.
+`.footer__time` e troque foto, nome e cargo. Os dois cargos de hoje não levam
+atributo de idioma nenhum — "Dev - Owner" e "Dev - Ceo" são iguais nos três.
+Se entrar um cargo que mude de idioma, aí sim ponha `data-en` e `data-es`.
+A foto entra em 240×240, quadrada e centrada no rosto.
 
 No HTML a marca é declarada **uma vez só**, num `<symbol id="marca-cuoncient">`
 logo depois do `<body>`. A nav e o hero apontam para ela:
