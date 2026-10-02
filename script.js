@@ -209,7 +209,7 @@
     // girar o celular ou alargar a janela para o desktop não pode deixar a
     // rolagem travada com o painel já fora de cena
     window.addEventListener('resize', function () {
-      if (menuAberto && window.innerWidth > 980) abrirMenu(false);
+      if (menuAberto && window.innerWidth > 1099) abrirMenu(false);
     }, { passive: true });
   }
 
@@ -423,6 +423,78 @@
     b.addEventListener('click', function () { filtrar(b.dataset.mercado); });
   });
   if (cards.length) filtrar('todos');
+
+  // --------------------------------------------------------------- esteira
+  // A esteira de Automações & IA. O ScrollTrigger do GSAP escreve --p de 0 a
+  // 1 conforme a rolagem e o CSS faz o resto.
+  //
+  // GSAP + ScrollTrigger pesam 116 KB — mais de trinta vezes o resto do JS
+  // deste site. Por isso eles ficam em assets/vendor (nada de CDN, o site não
+  // faz requisição externa) e só descem quando a esteira chega a menos de
+  // duas telas de distância. Quem sai antes nunca paga por eles.
+  //
+  // Todo caminho de falha termina com a esteira inteira e acesa: sem JS, com
+  // o download quebrado, ou com prefers-reduced-motion ligado.
+  var pipe = document.getElementById('pipe');
+  if (pipe) (function () {
+    var nos = [].slice.call(pipe.querySelectorAll('.pipe__no'));
+
+    function mostrarTudo() {
+      pipe.classList.remove('is-vivo');
+      pipe.style.setProperty('--p', 1);
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+    var pediu = false;
+
+    function talvezBaixar() {
+      if (pediu) return;
+      if (pipe.getBoundingClientRect().top > window.innerHeight * 2) return;
+      pediu = true;
+      window.removeEventListener('scroll', talvezBaixar);
+      baixar(['assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js'], ligar);
+    }
+
+    function baixar(lista, pronto) {
+      var i = 0;
+      (function proximo() {
+        if (i >= lista.length) { pronto(); return; }
+        var s = document.createElement('script');
+        s.src = lista[i++];
+        s.onload = proximo;
+        s.onerror = mostrarTudo;
+        document.head.appendChild(s);
+      })();
+    }
+
+    function pintar(s) {
+      pipe.style.setProperty('--p', s.progress);
+      for (var i = 0; i < nos.length; i++) {
+        nos[i].classList.toggle('is-on', s.progress >= (i / nos.length) * 0.94);
+      }
+    }
+
+    function ligar() {
+      if (!window.gsap || !window.ScrollTrigger) { mostrarTudo(); return; }
+      gsap.registerPlugin(ScrollTrigger);
+      var st = ScrollTrigger.create({
+        trigger: pipe,
+        start: 'top 72%',
+        end: 'bottom 85%',
+        scrub: 0.4,
+        onUpdate: pintar
+      });
+      // Pinta o estado certo ANTES de autorizar o apagado. Na ordem inversa,
+      // se o primeiro onUpdate demorasse um quadro, a esteira inteira piscava
+      // apagada antes de acender o que devia.
+      pintar(st);
+      pipe.classList.add('is-vivo');
+    }
+
+    window.addEventListener('scroll', talvezBaixar, { passive: true });
+    talvezBaixar();
+  })();
 
   // ---------------------------------------------------------------- reveal
   // Anima os blocos ao entrarem na tela.

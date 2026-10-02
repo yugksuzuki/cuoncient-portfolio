@@ -317,7 +317,10 @@ a{color:inherit;text-decoration:none}
    ========================================================================== */
 .disc{padding:var(--pad-section) 0;border-top:1px solid var(--line-soft)}
 .disc__head{display:flex;align-items:flex-end;gap:34px;margin-bottom:12px}
-.disc__head .section-title{flex:none}
+/* flex:none travava o titulo no tamanho do conteudo: "Automacoes & IA"
+   pedia 309px numa calha de 288px em 320px de tela e vazava. Com shrink
+   ele quebra em duas linhas so quando nao cabe; onde cabe, nada muda. */
+.disc__head .section-title{flex:0 1 auto;min-width:0}
 .disc__head .rule{flex:1;margin-bottom:26px}
 .disc__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:var(--gap-col);align-items:start;padding-top:44px}
 .disc__body p{color:var(--ink-2);font-size:var(--fs-body);line-height:1.8;margin:0 0 24px;max-width:46ch}
@@ -568,6 +571,93 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ==========================================================================
+   11 · AUTOMAÇÕES & IA — a esteira
+   --------------------------------------------------------------------------
+   Um valor só manda em tudo: --p, de 0 a 1, escrito pelo ScrollTrigger. O CSS
+   decide o resto — na horizontal ele vira largura, na vertical vira altura.
+   O padrão é 1: sem JS, sem GSAP ou com prefers-reduced-motion, a esteira
+   aparece inteira e acesa. A classe .is-vivo só entra quando o GSAP assume,
+   e é ela que autoriza apagar os nós — assim nada pisca antes de carregar.
+   ========================================================================== */
+.pipe{margin:64px 0 0;padding:0}
+/* a largura de uma coluna, para o trilho comecar e terminar no centro da
+   primeira e da ultima bolha em vez de vazar ate a borda */
+.pipe__palco{position:relative;--gap:18px;--cols:6;
+  --colw:calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols))}
+
+.pipe__trilho{
+  position:absolute;left:27px;right:calc(var(--colw) - 27px);top:27px;height:1px;
+  background:var(--line-soft);overflow:hidden;
+}
+.pipe__luz{
+  display:block;height:100%;width:calc(var(--p,1) * 100%);
+  background:linear-gradient(90deg,rgba(var(--glow-rgb),.42),rgba(var(--glow-rgb),1));
+  box-shadow:0 0 12px rgba(var(--glow-rgb),.6);
+}
+
+.pipe__fluxo{
+  position:relative;list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:18px;
+}
+.pipe__no{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.pipe__bolha{
+  width:54px;height:54px;flex:none;display:grid;place-items:center;
+  border-radius:50%;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink-3);
+  transition:color .45s var(--ease),border-color .45s var(--ease),
+             box-shadow .45s var(--ease),background-color .45s var(--ease);
+}
+.pipe__bolha svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.pipe__no b{font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.pipe__no > span:last-child{
+  font-size:12px;line-height:1.45;color:var(--ink-4);max-width:17ch;
+  transition:color .45s var(--ease);
+}
+
+/* apagado só depois que o GSAP assume o comando */
+.pipe.is-vivo .pipe__no{opacity:.34;transition:opacity .45s var(--ease)}
+.pipe.is-vivo .pipe__no.is-on{opacity:1}
+.pipe.is-vivo .pipe__no.is-on .pipe__bolha{
+  color:var(--ink);border-color:rgba(var(--glow-rgb),.85);
+  background:rgba(var(--glow-rgb),.07);
+  box-shadow:0 0 26px -6px rgba(var(--glow-rgb),.55);
+}
+.pipe.is-vivo .pipe__no.is-on > span:last-child{color:var(--ink-2)}
+
+.pipe__cap{
+  margin:34px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-4);
+  max-width:60ch;
+}
+
+/* ---------- a esteira em pé ----------
+   Abaixo de 860px seis colunas viram seis linhas e o trilho roda junto: o
+   mesmo --p que era largura passa a ser altura, sem tocar no JavaScript. */
+@media (max-width:860px){
+  .pipe{margin-top:48px}
+  .pipe__trilho{
+    /* 26px = raio da bolha: o trilho vai do centro da primeira ao centro
+       da ultima, nao da borda a borda */
+    left:26px;right:auto;top:26px;bottom:26px;height:auto;width:1px;
+  }
+  .pipe__luz{width:100%;height:calc(var(--p,1) * 100%);
+    background:linear-gradient(180deg,rgba(var(--glow-rgb),.42),rgba(var(--glow-rgb),1))}
+  .pipe__fluxo{grid-template-columns:1fr;gap:26px}
+  .pipe__no{flex-direction:row;align-items:flex-start;gap:16px}
+  .pipe__bolha{width:52px;height:52px}
+  .pipe__no b{font-size:15px}
+  .pipe__no > span:last-child{max-width:none;font-size:12.5px}
+  /* o nome e a frase ficam numa coluna ao lado da bolha */
+  .pipe__no{display:grid;grid-template-columns:52px 1fr;column-gap:16px;row-gap:3px}
+  .pipe__bolha{grid-row:span 2}
+  .pipe__cap{margin-top:28px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pipe__no,.pipe__bolha,.pipe__no > span:last-child{transition:none}
+}
+
+/* ==========================================================================
    BOTÃO FLUTUANTE DO WHATSAPP
    O ícone é um balão de conversa desenhado aqui — não é a marca do WhatsApp.
    Se quiser o símbolo oficial, baixe em whatsappbrand.com e troque o <svg>.
@@ -664,7 +754,11 @@ a{color:inherit;text-decoration:none}
    Mexeu nos rótulos da nav ou no texto da pílula? Meça de novo em 981px, que
    é onde a folga é menor.
    ========================================================================== */
-@media (min-width:981px) and (max-width:1180px){
+/* Faixa apertada: 1100 a 1239. Medido com os sete itens do menu e os rotulos
+   em espanhol, que sao os mais longos. Com este aperto a pilula cabe na calha
+   a partir de 1100px; sem ele, so a partir de 1240px. Abaixo de 1100 nao ha
+   aperto que salve — vai para o painel. */
+@media (min-width:1100px) and (max-width:1239px){
   .nav__inner{gap:16px}
   .nav__links{gap:17px}
   .lang{gap:3px}
@@ -683,7 +777,49 @@ a{color:inherit;text-decoration:none}
   /* em coluna única a moldura ocupa a largura inteira; sem soltar o teto de
      150px o celular ficava miúdo demais ao lado dela */
   .phone{width:22%;max-width:none}
+}
+@media (max-width:620px){
+  .wrap{width:calc(100% - 32px)}
+  :root{--pad-section:64px}
+  .hero__inner{padding:130px 0 80px}
+  /* no celular o celularzinho encolhe e sai mais para a quina, para não
+     cobrir o miolo do mockup (que também ficou baixinho) */
+  .phone{right:-6px;bottom:-22px;width:23%;max-width:none}
+  /* A barra do topo ja nao carrega links, idioma nem CTA: tudo isso mora no
+     painel. Sem a disputa por espaco, a pilula deixou de furar a calha do
+     .wrap (ia ate 374,3px num viewport de 375) e a tipografia voltou para
+     tamanhos legiveis. Nada aqui encolhe mais para caber. */
+  .brand__mark{width:24px;height:24px}
+  .brand__name{font-size:17px}
+  .brand__sub{font-size:9px;letter-spacing:.36em}
+  .zap{right:14px;bottom:14px;padding:11px 15px 11px 12px;font-size:11px;letter-spacing:.09em;gap:7px}
+  .zap__icon{width:18px;height:18px}
+  .disc__aside{padding:26px 22px}
+  .disc__head{gap:18px}
+  .hero__scroll{font-size:11px;letter-spacing:.14em}
+  .footer__grid{align-items:flex-start}
+}
 
+
+
+
+/* ==========================================================================
+   NAVEGACAO EM PAINEL — ate 1099px
+   --------------------------------------------------------------------------
+   O limite nao e 980 nem 1160: e 1099, e saiu de medicao, nao de chute.
+   Sao sete itens no menu, mais o seletor de tres idiomas e a pilula do
+   orcamento. Com os rotulos em espanhol (os mais longos) e com o aperto da
+   faixa 1100–1239 ligado, a pilula so cabe dentro da calha do .wrap a partir
+   de 1100px. Em 1024 ela furava em 64px e saia 25px da tela; em 981, furava
+   em 107px e saia 68px. Isso nao aparece como rolagem horizontal porque a nav
+   e position:fixed — e elemento fixo nao entra no scrollWidth do documento.
+   Varredura de largura nao pega; so medir a pilula contra a calha pega.
+
+   Mexeu no menu, nos rotulos ou no texto da pilula? Remeca em espanhol, nos
+   tres regimes, e mova o numero em tres lugares: aqui, na faixa apertada e no
+   resize do script.js.
+   ========================================================================== */
+@media (max-width:1099px){
   /* ---------- navegacao no celular ----------
      Antes daqui os links simplesmente sumiam (display:none) e nada entrava
      no lugar: numa pagina de ~28.000px o visitante de celular ficava sem
@@ -726,29 +862,9 @@ a{color:inherit;text-decoration:none}
   .nav__menu .lang__op{font-size:15px;letter-spacing:.12em;padding:13px 14px}
   .nav__menu .lang__sep{font-size:13px}
   .nav__menu .btn{font-size:12px;padding:17px 32px}
-}
-@media (max-width:620px){
-  .wrap{width:calc(100% - 32px)}
-  :root{--pad-section:64px}
-  .hero__inner{padding:130px 0 80px}
-  /* no celular o celularzinho encolhe e sai mais para a quina, para não
-     cobrir o miolo do mockup (que também ficou baixinho) */
-  .phone{right:-6px;bottom:-22px;width:23%;max-width:none}
-  /* A barra do topo ja nao carrega links, idioma nem CTA: tudo isso mora no
-     painel. Sem a disputa por espaco, a pilula deixou de furar a calha do
-     .wrap (ia ate 374,3px num viewport de 375) e a tipografia voltou para
-     tamanhos legiveis. Nada aqui encolhe mais para caber. */
-  .brand__mark{width:24px;height:24px}
-  .brand__name{font-size:17px}
-  .brand__sub{font-size:9px;letter-spacing:.36em}
-  .zap{right:14px;bottom:14px;padding:11px 15px 11px 12px;font-size:11px;letter-spacing:.09em;gap:7px}
-  .zap__icon{width:18px;height:18px}
-  .disc__aside{padding:26px 22px}
-  .disc__head{gap:18px}
-  .hero__scroll{font-size:11px;letter-spacing:.14em}
-  .footer__grid{align-items:flex-start}
-}
 
+
+}
 
 /* ==========================================================================
    ALVOS DE TOQUE

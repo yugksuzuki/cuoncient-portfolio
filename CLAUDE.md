@@ -34,6 +34,7 @@ assets/
   design/       peças de design gráfico              (4)
   thumbs/       prints dos sites da grade            (49)
   video/        3 filmes de marca + as capas         (6)
+  vendor/       GSAP + ScrollTrigger, auto-hospedados  (2)
 ```
 
 ### As seções
@@ -50,6 +51,7 @@ assets/
 | 8 | `#case-vbike` | Case V.BIKE Store | 8 |
 | — | `#projetos` | Grade com os 55 sites | *só no código* |
 | 9 | `#anuncios` | Anúncios | 9 |
+| — | `#automacoes` | Automações & IA + a esteira | *só no código* |
 | 10 | `#fechamento` | CTA final + rodapé | 10 |
 
 `#projetos` não tem página no Canva de propósito — é grande demais para caber
@@ -61,6 +63,19 @@ colunas com um lote de 12 cards e um botão "ver mais"; o filtro só vira
 e os 55 aparecem de uma vez — no desktop o volume é o argumento. O lote vive
 em `LOTE` no `script.js` e o botão nasce com `hidden`: sem JavaScript a grade
 aparece inteira, que é o certo para o robô do Google.
+
+**A esteira de Automações & IA.** Segunda seção sem página no Canva. O que ela
+descreve é o bot do blog da Art 7 como ele roda de verdade — ver
+`Projetos/Bot do blog Art 7` no cofre. Nada ali é promessa; se o bot mudar, a
+seção muda junto.
+
+Mecanicamente é um número só: `--p`, de 0 a 1, escrito pelo ScrollTrigger
+conforme a rolagem. O CSS decide o que fazer com ele — na horizontal vira
+largura do trilho, na vertical vira altura. **O padrão é 1**: sem JS, sem GSAP,
+com o download quebrado ou com `prefers-reduced-motion`, a esteira aparece
+inteira e acesa. A classe `.is-vivo` só entra depois que o GSAP pinta o
+primeiro estado — é ela que autoriza apagar os nós, e é por isso que nada
+pisca. Inverter essa ordem traz o piscar de volta.
 
 ## Convenções
 
@@ -166,19 +181,33 @@ fechado e `0s linear 0s` no aberto: instantânea ao abrir, espera o fade ao
 fechar.
 
 **A barra do topo é o lugar mais justo do site, e o espanhol é quem aperta.**
-Acima de 980px ela carrega marca, seis seções, o seletor e a pílula do
-orçamento. Em espanhol os rótulos são os mais longos dos três ("Nosotros",
-"Publicidad", "Proyectos"), a pílula vira "Pide tu presupuesto" e o seletor
-tem três siglas: num viewport de 1024 a pílula ia até 1053px e saía da tela.
-A faixa `@media (min-width:981px) and (max-width:1180px)` resolve encolhendo
-só a respiração entre os itens — tipografia nenhuma muda de tamanho. Mexeu
-nos rótulos da nav ou no texto da pílula, meça de novo em **981px**, que é
-onde a folga é menor.
+Ela carrega marca, sete seções, o seletor de três idiomas e a pílula do
+orçamento. Em espanhol os rótulos são os mais longos ("Nosotros", "Publicidad",
+"Proyectos", "Automatización") e a pílula vira "Pide tu presupuesto".
 
-**A barra do topo não encolhe mais para caber.** Abaixo de 980px ela carrega só
-a marca e o botão do menu; seções, idioma e CTA vivem no painel. Se voltar a
-entrar coisa na barra, a pílula do orçamento fura a calha do `.wrap` (ia até
-374,3px num viewport de 375) e a tipografia começa a ser espremida para 7–10px.
+São **três regimes, e os limites saíram de medição**, não de chute — todos com
+os rótulos em espanhol, que é o pior caso:
+
+| Largura | Regime | Por quê |
+|---|---|---|
+| até 1099px | painel | nenhum aperto salva: em 1024 a pílula furava a calha em 64px e saía 25px da tela; em 981, furava 107px e saía 68px |
+| 1100–1239px | barra apertada | `@media (min-width:1100px) and (max-width:1239px)` encolhe só a respiração entre os itens — tipografia nenhuma muda de tamanho |
+| 1240px+ | barra normal | sem aperto a pílula só cabe a partir daqui |
+
+O limite era 980/1180 e subiu em 02/10/2026, quando o sétimo item
+("Automações") entrou no menu. **Mexeu no menu, nos rótulos ou no texto da
+pílula? Remeça em espanhol nos três regimes** e mova o número em três lugares:
+no `@media (max-width:1099px)`, na faixa apertada e no `resize` do `script.js`.
+
+**E atenção ao método:** varredura de larguras **não pega** esse bug. A nav é
+`position:fixed`, e elemento fixo não entra no `scrollWidth` do documento — a
+pílula sai da tela sem gerar rolagem horizontal nenhuma. O único teste que
+pega é medir a borda direita da pílula contra a borda direita do `.wrap`.
+
+**Abaixo do limite a barra não encolhe para caber.** Ela fica só com a marca e
+o botão do menu; seções, idioma e CTA vivem no painel. Se voltar a entrar coisa
+na barra, a pílula fura a calha (ia até 374,3px num viewport de 375) e a
+tipografia começa a ser espremida para 7–10px.
 
 **Foto quebrada no servidor do Art 7.** `art7epoxy.com/wp-content/uploads/2026/08/1920x844.jpg`
 está corrompido no servidor do cliente. Não é problema do código.
@@ -187,7 +216,17 @@ está corrompido no servidor do cliente. Não é problema do código.
 
 - **Site em código**, não no Wix — mesmo com a conta Wix cheia de sites de cliente.
 - **Figma descartado**: exigiria remontar o site lá; o conector só lê.
-- **Sem framework.** Estático puro foi escolha, não limitação.
+- **Sem framework.** Estático puro foi escolha, não limitação. A tabela de
+  decisão da skill `cuoncient-web-stack` põe "portfolio" na coluna Vanilla;
+  React fica para LP, dashboard e workbench.
+- **GSAP é exceção consciente, e só para a esteira.** Entrou em 02/10/2026 a
+  pedido do Gui. Precedente: o Eloá já é Tailwind + GSAP + esbuild, então GSAP
+  sem React não é novidade na casa. Três regras que o mantêm honesto:
+  **(1)** auto-hospedado em `assets/vendor/` — nada de CDN, o site não faz
+  requisição externa; **(2)** baixado sob demanda, só quando a esteira chega a
+  menos de duas telas (116 KB brutos, ~47 KB na rede, contra 3 KB de todo o
+  resto do JS — quem sai antes não paga); **(3)** nenhuma outra seção depende
+  dele. Se um dia sair, só a esteira perde o scrub e volta a aparecer inteira.
 - **Repositório público** no GitHub, nome `cuoncient-portfolio`.
 - **`assets/` vai para o repositório.** São 8,6 MB, maior arquivo 2,7 MB, bem
   abaixo do limite do GitHub. Não precisa de LFS. Se `assets/` voltar para o
