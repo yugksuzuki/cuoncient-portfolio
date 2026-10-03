@@ -657,6 +657,32 @@ a{color:inherit;text-decoration:none}
   .pipe__no,.pipe__bolha,.pipe__no > span:last-child{transition:none}
 }
 
+/* ---------- as outras automações em produção ----------
+   Cartões no mesmo vidro do .disc__aside. O min() no minmax é o que impede o
+   cartão de pedir 300px numa calha de 288px em 320px de tela. Três colunas no
+   desktop, duas no tablet, uma no celular — sem media query. */
+.auto{margin-top:88px}
+.auto__titulo{margin:0 0 22px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);font-weight:600}
+.auto__grade{
+  list-style:none;margin:0;padding:0;display:grid;gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));
+}
+.auto__item{
+  display:flex;flex-direction:column;gap:10px;
+  border:1px solid var(--line-soft);border-radius:var(--radius);
+  background:linear-gradient(150deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  padding:26px 24px 22px;
+}
+.auto__quando{font-size:var(--fs-eyebrow);letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(var(--glow-rgb),.95);font-weight:600}
+.auto__item h4{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.auto__item p{margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.65}
+/* margin-top:auto empurra a pilha para o pé: cartões de texto curto e longo
+   terminam alinhados na mesma linha */
+.auto__stack{margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);
+  font-size:11.5px;letter-spacing:.04em;color:var(--ink-4)}
+@media (max-width:860px){ .auto{margin-top:64px} }
+
 /* ==========================================================================
    BOTÃO FLUTUANTE DO WHATSAPP
    O ícone é um balão de conversa desenhado aqui — não é a marca do WhatsApp.
