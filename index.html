@@ -919,6 +919,52 @@
       </div>
       <figcaption class="pipe__cap" data-en="The line that writes the Art 7 Epoxy blog — Monday, Wednesday and Friday, with nobody opening the editor." data-es="La línea que escribe el blog de Art 7 Epoxy — lunes, miércoles y viernes, sin que nadie abra el editor.">A esteira que escreve o blog da Art 7 Epoxy — segunda, quarta e sexta, sem ninguém abrir o editor.</figcaption>
     </figure>
+
+    <!-- As outras automações em produção. Mesma regra da esteira: só entra o
+         que roda de verdade — conferido no n8n, no GitHub e no cofre em
+         03/10/2026 (ver Automações/Mapa das ferramentas). Workflow desligado
+         ou em teste fica de fora até virar rotina. -->
+    <div class="auto reveal">
+      <h3 class="auto__titulo" data-en="Also running today" data-es="También funcionando hoy">Também rodando hoje</h3>
+      <ul class="auto__grade">
+        <li class="auto__item">
+          <span class="auto__quando" data-en="Every Monday, 10am" data-es="Todos los lunes, 10 h">Toda segunda, 10h</span>
+          <h4 data-en="Page watchman" data-es="Vigía de las páginas">Vigia das páginas</h4>
+          <p data-en="Sweeps the whole sitemap and flags what slipped past review: another city's name left behind, a keyword off the agreed plan. The report arrives ready." data-es="Recorre todo el sitemap y señala lo que se escapó en la revisión: el nombre de otra ciudad olvidado, una palabra clave fuera de lo acordado. El informe llega listo.">Varre o sitemap inteiro e aponta o que escapou na revisão: nome de outra cidade esquecido, palavra-chave fora do combinado. O relatório chega pronto.</p>
+          <span class="auto__stack">n8n · GitHub</span>
+        </li>
+        <li class="auto__item">
+          <span class="auto__quando" data-en="Every published post" data-es="Con cada post publicado">A cada post publicado</span>
+          <h4 data-en="From blog to Google" data-es="Del blog a Google">Do blog para o Google</h4>
+          <p data-en="Every article approved on the blog becomes, on its own, a post on the company's Google profile, with a button back to the full text." data-es="Cada artículo aprobado en el blog se convierte, solo, en una publicación en el perfil de la empresa en Google, con un botón de vuelta al texto.">Cada artigo aprovado no blog vira, sozinho, um post no perfil da empresa no Google, com botão de volta para o texto.</p>
+          <span class="auto__stack">RSS · OneUp · Google Business Profile</span>
+        </li>
+        <li class="auto__item">
+          <span class="auto__quando" data-en="On demand" data-es="A pedido">Sob demanda</span>
+          <h4 data-en="Landing page from Instagram" data-es="Landing page desde Instagram">Landing page a partir do Instagram</h4>
+          <p data-en="Collects the photos and captions from the client's profile, stores everything in a repository and drafts the page plan. The page is born from their real work, not from stock photos." data-es="Recoge las fotos y los textos del perfil del cliente, guarda todo en un repositorio y arma el plan de la página. La landing nace de su trabajo real, no de fotos de banco.">Coleta fotos e legendas do perfil do cliente, guarda tudo num repositório e monta o plano da página. A LP nasce do trabalho real dele, não de banco de imagem.</p>
+          <span class="auto__stack">Apify · n8n · GitHub · Claude</span>
+        </li>
+        <li class="auto__item">
+          <span class="auto__quando" data-en="On demand" data-es="A pedido">Sob demanda</span>
+          <h4 data-en="Proposals that become pages" data-es="Propuestas que se vuelven página">Proposta que vira página</h4>
+          <p data-en="Merges a partner's proposal with ours into one, publishes it as a web page and hands back a link ready to send to the client." data-es="Une la propuesta del socio con la nuestra en una sola, la publica como página web y devuelve el enlace listo para enviar al cliente.">Une a proposta do parceiro com a nossa numa só, publica como página na web e devolve o link pronto para mandar ao cliente.</p>
+          <span class="auto__stack">Claude</span>
+        </li>
+        <li class="auto__item">
+          <span class="auto__quando" data-en="Always on" data-es="Siempre encendido">Sempre ligado</span>
+          <h4 data-en="The agency's brain" data-es="El cerebro de la agencia">Cérebro da agência</h4>
+          <p data-en="A memory every AI on the team reads and writes: client notes, decisions, open items. Each person only reaches the folders that are theirs." data-es="Una memoria que toda IA del equipo lee y escribe: notas de clientes, decisiones, pendientes. Cada persona solo alcanza las carpetas que le corresponden.">Uma memória que toda IA da equipe lê e grava: notas de cliente, decisões, pendências. Cada pessoa só alcança as pastas que são dela.</p>
+          <span class="auto__stack">Obsidian · GitHub · n8n · Claude</span>
+        </li>
+        <li class="auto__item">
+          <span class="auto__quando" data-en="Weekdays, 6:40am" data-es="Días hábiles, 6:40">Dias úteis, 6h40</span>
+          <h4 data-en="Morning brief" data-es="Resumen de la mañana">Resumo da manhã</h4>
+          <p data-en="Turns loose notes into tasks, checks whether any site or automation broke overnight and delivers the day, organised, to the phone." data-es="Convierte recados sueltos en tareas, revisa si algún sitio o automatización se rompió durante la noche y entrega el día organizado en el celular.">Transforma recado solto em tarefa, confere se algum site ou automação quebrou durante a noite e entrega o dia organizado no celular.</p>
+          <span class="auto__stack">Claude · TickTick · Vercel · n8n</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 

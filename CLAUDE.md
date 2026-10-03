@@ -77,6 +77,17 @@ inteira e acesa. A classe `.is-vivo` só entra depois que o GSAP pinta o
 primeiro estado — é ela que autoriza apagar os nós, e é por isso que nada
 pisca. Inverter essa ordem traz o piscar de volta.
 
+**"Também rodando hoje".** Abaixo da esteira, seis cartões (`.auto`) com as
+outras automações em produção: vigia das páginas (QA semanal da Art 7), blog →
+Google (OneUp), LP a partir do Instagram, proposta que vira página, Cérebro da
+agência e resumo da manhã. A regra é a mesma da esteira: **só entra o que roda
+de verdade**. A lista foi conferida em 03/10/2026 contra o n8n, o GitHub e
+`Automações/Mapa das ferramentas` no cofre. Workflow desligado ou em teste
+(o RAG da Art 7, Instagram → identidade visual) fica de fora até virar rotina;
+automação que for desligada sai do site. A grade é `auto-fill` com
+`minmax(min(100%,300px),1fr)` — três colunas no desktop, duas no tablet, uma no
+celular, sem media query. O `min()` é o que segura os 320px.
+
 ## Convenções
 
 **Tokens.** Todo valor de design mora no `:root` do `styles.css`, num bloco
