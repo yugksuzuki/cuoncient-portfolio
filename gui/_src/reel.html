@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Archivo"; src: url(assets/fonts/archivo-latin-standard-normal.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+      @font-face { font-family: "Mincho"; src: url(assets/fonts/shippori-mincho-109-700-normal.woff2) format("woff2"); unicode-range: U+82B8, U+8853; font-weight: 700; }
+      @font-face { font-family: "Mincho"; src: url(assets/fonts/shippori-mincho-107-700-normal.woff2) format("woff2"); unicode-range: U+6280; font-weight: 700; }
+      :root {
+        --ground: #050506;
+        --ink: #eef0f2;
+        --mist: #b8bdc5;
+        --grey: #8a9099;
+        --glow: #1aa5b8;
+        --glow-light: #6fd3e0;
+        --shu: #c8402a;
+        --font-display: "Archivo", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: var(--font-display); color: var(--ink); overflow: hidden; }
+      .clip { position: absolute; inset: 0; }
+      .pad { position: absolute; left: 96px; right: 96px; }
+
+      /* fundo: a marca da Cuoncient desenhada em traço */
+      #marca { position: absolute; width: 1180px; height: 1180px; left: 190px; top: 120px; color: var(--glow); }
+      #marca path { fill: none; stroke: var(--glow); stroke-width: 1.4; }
+      #marca .cheio { fill: rgba(26,165,184,.10); stroke: none; }
+
+      .hanko { position: absolute; right: 96px; top: 120px; font-family: "Mincho", serif; font-weight: 700; color: var(--shu);
+        writing-mode: vertical-rl; font-size: 54px; line-height: 1.1; border: 3px solid var(--shu); border-radius: 12px; padding: 18px 12px; rotate: -2deg; }
+      .hanko i { font-style: normal; font-family: var(--font-display); font-size: .55em; padding-block: .3em; }
+
+      /* cena 1 */
+      .nome { bottom: 520px; font-weight: 800; font-size: 150px; line-height: .86; letter-spacing: -0.035em; }
+      .nome span.l { display: block; white-space: nowrap; }
+      .nome .c { display: inline-block; font-variation-settings: "wdth" var(--wd, 112), "wght" var(--wg, 800); }
+      .s1-sub { bottom: 300px; font-size: 52px; line-height: 1.22; font-weight: 450; letter-spacing: -0.01em; max-width: 860px; }
+
+      /* títulos condensados */
+      .t { font-weight: 640; font-size: 132px; line-height: .92; letter-spacing: -0.025em; font-variation-settings: "wdth" 70; }
+
+      /* cena 2 */
+      .s2-t { top: 240px; }
+      .s2-n { top: 640px; font-weight: 800; font-size: 520px; line-height: .8; letter-spacing: -0.05em; font-variation-settings: "wdth" 62; color: var(--glow); }
+      .s2-p { top: 1130px; font-size: 54px; line-height: 1.25; color: var(--ink); max-width: 860px; }
+      .s2-prova { top: 1380px; font-size: 40px; line-height: 1.35; color: var(--glow-light); border-left: 5px solid rgba(26,165,184,.6); padding-left: 32px; max-width: 860px; }
+
+      /* cena 3 */
+      .s3-t { top: 240px; }
+      .med { position: absolute; left: 96px; width: 560px; height: 560px; top: 660px; }
+      .med svg { width: 100%; height: 100%; rotate: -90deg; }
+      .med circle { fill: none; stroke-width: 9; }
+      .trilho { stroke: rgba(238,240,242,.08); }
+      .antes { stroke: rgba(238,240,242,.34); }
+      .ganho { stroke: var(--glow); }
+      .med b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 200px; font-weight: 780; letter-spacing: -0.05em; font-variation-settings: "wdth" 86; }
+      .s3-leg { position: absolute; left: 700px; top: 800px; right: 96px; font-size: 44px; line-height: 1.3; }
+      .s3-leg small { display: block; color: var(--grey); font-size: 36px; margin-top: 10px; }
+      .s3-mais { top: 1360px; display: grid; gap: 26px; }
+      .s3-mais div { font-size: 46px; border-top: 2px solid rgba(238,240,242,.13); padding-top: 22px; color: var(--mist); }
+      .s3-mais b { color: var(--ink); font-weight: 760; }
+      .s3-mais s { color: var(--grey); margin-right: 16px; }
+
+      /* cena 4 */
+      .s4-t { top: 240px; }
+      .lista { top: 620px; display: grid; }
+      .lista div { border-top: 2px solid rgba(238,240,242,.14); padding: 30px 0; }
+      .lista b { display: block; font-size: 66px; font-weight: 660; letter-spacing: -0.02em; font-variation-settings: "wdth" 84; }
+      .lista span { display: block; font-size: 34px; color: var(--glow-light); margin-top: 6px; }
+
+      /* cena 5 */
+      .s5-t { top: 520px; font-size: 150px; }
+      .s5-url { top: 1180px; font-size: 76px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+      .s5-url u { text-decoration-color: var(--glow); text-decoration-thickness: 6px; text-underline-offset: 18px; }
+      .s5-p { top: 1330px; font-size: 44px; color: var(--mist); line-height: 1.3; max-width: 860px; }
+      .s5-marca { position: absolute; left: 96px; bottom: 150px; width: 120px; height: 120px; color: var(--glow); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+
+      <!-- fundo contínuo -->
+      <div id="fundo" class="clip" data-start="0" data-duration="15" data-track-index="0">
+        <svg id="marca" viewBox="92.05 93.6 337.6 337.6" aria-hidden="true">
+          <path class="cheio" d="M250.5,419.35C222.39,414.83 201.44,400.24 187.1,375.18C180.56,363.74 179.93,363.25 170.44,361.94C126.62,355.88 92.12,315.42 92.05,270.0C92.04,260.79 94.26,245.02 96.42,239.1C99.09,231.74 110.15,214.12 116.33,207.38C128.51,194.09 157.58,179.0 171.0,179.0C173.73,179.0 175.58,175.95 177.37,168.5C182.95,145.22 202.88,122.18 225.77,112.55C249.82,102.42 273.63,102.56 296.52,112.94C319.49,123.35 339.76,148.6 344.02,172.09C345.51,180.35 345.78,180.61 354.31,182.04C388.74,187.82 418.84,215.35 427.24,248.76C430.46,261.55 430.44,285.94 427.21,297.84C418.32,330.54 390.33,356.32 356.0,363.43C343.71,365.98 343.69,365.99 336.72,376.71C322.5,398.57 305.84,411.2 283.5,417.07C275.64,419.13 257.12,420.41 250.5,419.35ZM275.55,395.51C291.04,391.58 308.44,380.59 314.58,370.87C318.35,364.9 317.9,363.81 310.63,361.27C297.12,356.56 282.53,345.94 274.47,334.96C269.9,328.73 270.21,327.94 278.66,324.51C290.75,319.61 291.79,319.57 296.52,323.81C309.41,335.39 321.89,343.02 325.59,341.6C329.36,340.16 327.28,319.46 322.38,309.73C318.01,301.04 309.46,288.65 305.14,284.75C298.38,278.64 285.08,273.0 277.45,273.0C273.76,273.0 273.04,275.27 273.0,287.0C272.89,314.88 250.43,343.43 218.6,356.19C207.41,360.67 207.0,360.96 207.0,364.47C207.0,371.45 218.51,383.87 231.11,390.49C245.64,398.12 259.21,399.66 275.55,395.51ZM356.64,339.88C397.27,327.34 416.67,288.28 401.43,249.7C392.8,227.86 381.7,215.8 363.37,208.32C347.48,201.85 345.9,202.01 344.03,210.36C342.31,218.05 338.42,226.66 333.64,233.35C328.76,240.2 316.71,252.0 314.6,252.0C313.31,252.0 305.96,235.88 305.99,233.13C305.99,232.37 308.75,228.81 312.12,225.21C317.6,219.35 324.0,208.6 324.0,205.23C324.0,203.68 320.62,204.37 313.5,207.36C294.65,215.27 281.0,228.01 275.95,242.4C273.33,249.86 273.7,250.25 285.44,252.34C320.68,258.62 348.0,293.79 348.0,332.87C348.0,339.5 348.43,342.0 349.56,342.0C349.69,342.0 352.87,341.05 356.64,339.88ZM174.43,337.43C175.32,336.53 176.0,334.17 176.0,331.92C176.0,326.71 178.7,308.93 180.01,305.47C183.48,296.35 203.35,273.0 207.65,273.0C208.43,273.0 210.61,276.42 212.55,280.68C217.83,292.27 217.84,292.4 213.22,297.01C203.96,306.28 196.66,322.66 197.21,332.97C197.58,340.03 198.53,340.22 209.22,335.42C232.78,324.83 243.61,313.06 247.97,293.26C251.63,276.62 250.78,274.0 241.75,274.0C233.14,274.0 217.15,267.46 208.0,260.2C193.26,248.49 183.28,233.27 177.59,213.78C176.26,209.23 174.86,204.71 174.48,203.75C173.3,200.78 168.29,201.71 156.24,207.16C137.08,215.82 126.4,227.56 119.31,247.78C108.78,277.78 125.4,318.46 153.81,332.21C167.28,338.73 171.95,339.91 174.43,337.43ZM249.55,249.92C249.91,249.33 250.86,246.08 251.65,242.71C257.61,217.15 279.62,195.77 311.0,185.05C326.13,179.88 326.78,176.46 316.09,158.15C296.5,124.6 252.58,117.67 219.09,142.84C206.51,152.29 193.97,174.31 199.25,177.68C199.94,178.12 204.69,179.91 209.8,181.66C225.73,187.1 239.68,196.98 248.61,209.16C252.9,214.99 253.09,214.72 241.53,219.38C230.42,223.87 230.32,223.86 225.81,219.07C215.78,208.42 196.0,197.95 196.0,203.31C196.0,213.41 212.59,238.03 223.86,244.67C232.18,249.57 247.79,252.76 249.55,249.92Z" fill-rule="evenodd" />
+          <path class="linha" d="M250.5,419.35C222.39,414.83 201.44,400.24 187.1,375.18C180.56,363.74 179.93,363.25 170.44,361.94C126.62,355.88 92.12,315.42 92.05,270.0C92.04,260.79 94.26,245.02 96.42,239.1C99.09,231.74 110.15,214.12 116.33,207.38C128.51,194.09 157.58,179.0 171.0,179.0C173.73,179.0 175.58,175.95 177.37,168.5C182.95,145.22 202.88,122.18 225.77,112.55C249.82,102.42 273.63,102.56 296.52,112.94C319.49,123.35 339.76,148.6 344.02,172.09C345.51,180.35 345.78,180.61 354.31,182.04C388.74,187.82 418.84,215.35 427.24,248.76C430.46,261.55 430.44,285.94 427.21,297.84C418.32,330.54 390.33,356.32 356.0,363.43C343.71,365.98 343.69,365.99 336.72,376.71C322.5,398.57 305.84,411.2 283.5,417.07C275.64,419.13 257.12,420.41 250.5,419.35ZM275.55,395.51C291.04,391.58 308.44,380.59 314.58,370.87C318.35,364.9 317.9,363.81 310.63,361.27C297.12,356.56 282.53,345.94 274.47,334.96C269.9,328.73 270.21,327.94 278.66,324.51C290.75,319.61 291.79,319.57 296.52,323.81C309.41,335.39 321.89,343.02 325.59,341.6C329.36,340.16 327.28,319.46 322.38,309.73C318.01,301.04 309.46,288.65 305.14,284.75C298.38,278.64 285.08,273.0 277.45,273.0C273.76,273.0 273.04,275.27 273.0,287.0C272.89,314.88 250.43,343.43 218.6,356.19C207.41,360.67 207.0,360.96 207.0,364.47C207.0,371.45 218.51,383.87 231.11,390.49C245.64,398.12 259.21,399.66 275.55,395.51ZM356.64,339.88C397.27,327.34 416.67,288.28 401.43,249.7C392.8,227.86 381.7,215.8 363.37,208.32C347.48,201.85 345.9,202.01 344.03,210.36C342.31,218.05 338.42,226.66 333.64,233.35C328.76,240.2 316.71,252.0 314.6,252.0C313.31,252.0 305.96,235.88 305.99,233.13C305.99,232.37 308.75,228.81 312.12,225.21C317.6,219.35 324.0,208.6 324.0,205.23C324.0,203.68 320.62,204.37 313.5,207.36C294.65,215.27 281.0,228.01 275.95,242.4C273.33,249.86 273.7,250.25 285.44,252.34C320.68,258.62 348.0,293.79 348.0,332.87C348.0,339.5 348.43,342.0 349.56,342.0C349.69,342.0 352.87,341.05 356.64,339.88ZM174.43,337.43C175.32,336.53 176.0,334.17 176.0,331.92C176.0,326.71 178.7,308.93 180.01,305.47C183.48,296.35 203.35,273.0 207.65,273.0C208.43,273.0 210.61,276.42 212.55,280.68C217.83,292.27 217.84,292.4 213.22,297.01C203.96,306.28 196.66,322.66 197.21,332.97C197.58,340.03 198.53,340.22 209.22,335.42C232.78,324.83 243.61,313.06 247.97,293.26C251.63,276.62 250.78,274.0 241.75,274.0C233.14,274.0 217.15,267.46 208.0,260.2C193.26,248.49 183.28,233.27 177.59,213.78C176.26,209.23 174.86,204.71 174.48,203.75C173.3,200.78 168.29,201.71 156.24,207.16C137.08,215.82 126.4,227.56 119.31,247.78C108.78,277.78 125.4,318.46 153.81,332.21C167.28,338.73 171.95,339.91 174.43,337.43ZM249.55,249.92C249.91,249.33 250.86,246.08 251.65,242.71C257.61,217.15 279.62,195.77 311.0,185.05C326.13,179.88 326.78,176.46 316.09,158.15C296.5,124.6 252.58,117.67 219.09,142.84C206.51,152.29 193.97,174.31 199.25,177.68C199.94,178.12 204.69,179.91 209.8,181.66C225.73,187.1 239.68,196.98 248.61,209.16C252.9,214.99 253.09,214.72 241.53,219.38C230.42,223.87 230.32,223.86 225.81,219.07C215.78,208.42 196.0,197.95 196.0,203.31C196.0,213.41 212.59,238.03 223.86,244.67C232.18,249.57 247.79,252.76 249.55,249.92Z" fill-rule="evenodd" pathLength="1" />
+        </svg>
+        <p class="hanko" lang="ja">芸術<i>×</i>技術</p>
+      </div>
+
+      <!-- 1. nome -->
+      <section id="s1" class="clip" data-start="0" data-duration="3.4" data-track-index="1">
+        <h1 class="pad nome">
+          <span class="l"><span class="w">Guilherme</span></span>
+          <span class="l"><span class="w">Keidi</span></span>
+          <span class="l"><span class="w">Suzuki</span></span>
+        </h1>
+        <p class="pad s1-sub">Desenvolvedor web e estrategista digital. Sistemas com IA rodando em produção.</p>
+      </section>
+
+      <!-- 2. motor do blog -->
+      <section id="s2" class="clip" data-start="3.4" data-duration="3.3" data-track-index="1">
+        <h2 class="pad t s2-t">Motor do blog<br />com o Claude</h2>
+        <p class="pad s2-n">14</p>
+        <p class="pad s2-p">regras conferidas antes de cada artigo ir para revisão.</p>
+        <p class="pad s2-prova">Se reprova, a IA reescreve até 3 vezes. US$ 0,10 a 0,21 por artigo.</p>
+      </section>
+
+      <!-- 3. velocidade -->
+      <section id="s3" class="clip" data-start="6.7" data-duration="3.2" data-track-index="1">
+        <h2 class="pad t s3-t">Site de cliente,<br />antes e depois</h2>
+        <div class="med">
+          <svg viewBox="0 0 120 120"><circle class="trilho" cx="60" cy="60" r="52" /><circle class="antes" cx="60" cy="60" r="52" /><circle class="ganho" cx="60" cy="60" r="52" /></svg>
+          <b id="n3">39</b>
+        </div>
+        <p class="s3-leg">Home no celular, PageSpeed do Google<small>era 39</small></p>
+        <div class="pad s3-mais">
+          <div>Página de cidade <s>22</s> <b>80</b></div>
+          <div>Tempo travado <s>1.440 ms</s> <b>10 ms</b></div>
+        </div>
+      </section>
+
+      <!-- 4. sistemas -->
+      <section id="s4" class="clip" data-start="9.9" data-duration="2.9" data-track-index="1">
+        <h2 class="pad t s4-t">Rodando para<br />clientes hoje</h2>
+        <div class="pad lista">
+          <div><b>Motor do blog</b><span>Claude API, GitHub Actions, Supabase</span></div>
+          <div><b>RAG das páginas</b><span>pgvector, gte-small, Edge Functions</span></div>
+          <div><b>Painel de notas fiscais</b><span>API do ERP, n8n, Claude</span></div>
+          <div><b>Motor de vídeo</b><span>Playwright, ffmpeg, n8n</span></div>
+          <div><b>Cérebro da operação</b><span>Obsidian, n8n, duas contas do Claude</span></div>
+        </div>
+      </section>
+
+      <!-- 5. fechamento -->
+      <section id="s5" class="clip" data-start="12.8" data-duration="2.2" data-track-index="1">
+        <h2 class="pad t s5-t">Currículo<br />completo</h2>
+        <p class="pad s5-url"><u>cuoncient.com/gui</u></p>
+        <p class="pad s5-p">Doze sistemas com IA, produtos no ar e os números de cada um.</p>
+        <svg class="s5-marca" viewBox="92.05 93.6 337.6 337.6" aria-hidden="true"><path d="M250.5,419.35C222.39,414.83 201.44,400.24 187.1,375.18C180.56,363.74 179.93,363.25 170.44,361.94C126.62,355.88 92.12,315.42 92.05,270.0C92.04,260.79 94.26,245.02 96.42,239.1C99.09,231.74 110.15,214.12 116.33,207.38C128.51,194.09 157.58,179.0 171.0,179.0C173.73,179.0 175.58,175.95 177.37,168.5C182.95,145.22 202.88,122.18 225.77,112.55C249.82,102.42 273.63,102.56 296.52,112.94C319.49,123.35 339.76,148.6 344.02,172.09C345.51,180.35 345.78,180.61 354.31,182.04C388.74,187.82 418.84,215.35 427.24,248.76C430.46,261.55 430.44,285.94 427.21,297.84C418.32,330.54 390.33,356.32 356.0,363.43C343.71,365.98 343.69,365.99 336.72,376.71C322.5,398.57 305.84,411.2 283.5,417.07C275.64,419.13 257.12,420.41 250.5,419.35ZM275.55,395.51C291.04,391.58 308.44,380.59 314.58,370.87C318.35,364.9 317.9,363.81 310.63,361.27C297.12,356.56 282.53,345.94 274.47,334.96C269.9,328.73 270.21,327.94 278.66,324.51C290.75,319.61 291.79,319.57 296.52,323.81C309.41,335.39 321.89,343.02 325.59,341.6C329.36,340.16 327.28,319.46 322.38,309.73C318.01,301.04 309.46,288.65 305.14,284.75C298.38,278.64 285.08,273.0 277.45,273.0C273.76,273.0 273.04,275.27 273.0,287.0C272.89,314.88 250.43,343.43 218.6,356.19C207.41,360.67 207.0,360.96 207.0,364.47C207.0,371.45 218.51,383.87 231.11,390.49C245.64,398.12 259.21,399.66 275.55,395.51ZM356.64,339.88C397.27,327.34 416.67,288.28 401.43,249.7C392.8,227.86 381.7,215.8 363.37,208.32C347.48,201.85 345.9,202.01 344.03,210.36C342.31,218.05 338.42,226.66 333.64,233.35C328.76,240.2 316.71,252.0 314.6,252.0C313.31,252.0 305.96,235.88 305.99,233.13C305.99,232.37 308.75,228.81 312.12,225.21C317.6,219.35 324.0,208.6 324.0,205.23C324.0,203.68 320.62,204.37 313.5,207.36C294.65,215.27 281.0,228.01 275.95,242.4C273.33,249.86 273.7,250.25 285.44,252.34C320.68,258.62 348.0,293.79 348.0,332.87C348.0,339.5 348.43,342.0 349.56,342.0C349.69,342.0 352.87,341.05 356.64,339.88ZM174.43,337.43C175.32,336.53 176.0,334.17 176.0,331.92C176.0,326.71 178.7,308.93 180.01,305.47C183.48,296.35 203.35,273.0 207.65,273.0C208.43,273.0 210.61,276.42 212.55,280.68C217.83,292.27 217.84,292.4 213.22,297.01C203.96,306.28 196.66,322.66 197.21,332.97C197.58,340.03 198.53,340.22 209.22,335.42C232.78,324.83 243.61,313.06 247.97,293.26C251.63,276.62 250.78,274.0 241.75,274.0C233.14,274.0 217.15,267.46 208.0,260.2C193.26,248.49 183.28,233.27 177.59,213.78C176.26,209.23 174.86,204.71 174.48,203.75C173.3,200.78 168.29,201.71 156.24,207.16C137.08,215.82 126.4,227.56 119.31,247.78C108.78,277.78 125.4,318.46 153.81,332.21C167.28,338.73 171.95,339.91 174.43,337.43ZM249.55,249.92C249.91,249.33 250.86,246.08 251.65,242.71C257.61,217.15 279.62,195.77 311.0,185.05C326.13,179.88 326.78,176.46 316.09,158.15C296.5,124.6 252.58,117.67 219.09,142.84C206.51,152.29 193.97,174.31 199.25,177.68C199.94,178.12 204.69,179.91 209.8,181.66C225.73,187.1 239.68,196.98 248.61,209.16C252.9,214.99 253.09,214.72 241.53,219.38C230.42,223.87 230.32,223.86 225.81,219.07C215.78,208.42 196.0,197.95 196.0,203.31C196.0,213.41 212.59,238.03 223.86,244.67C232.18,249.57 247.79,252.76 249.55,249.92Z" fill="currentColor" fill-rule="evenodd" /></svg>
+      </section>
+    </div>
+
+    <script>
+      // divide o nome em letras (determinístico)
+      document.querySelectorAll('.nome .w').forEach(function (w) {
+        var t = w.textContent; w.textContent = '';
+        for (var i = 0; i < t.length; i++) { var c = document.createElement('span'); c.className = 'c'; c.textContent = t[i]; w.appendChild(c); }
+      });
+      var C = 326.73;
+      function arco(el, de, ate) { el.setAttribute('stroke-dasharray', de + ' ' + ate); }
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+
+      // fundo: o traço da marca se desenha e o preenchimento acende
+      tl.fromTo('#marca .linha', { strokeDasharray: '0 1' }, { strokeDasharray: '1 0', duration: 2.6, ease: 'power2.inOut' }, 0)
+        .fromTo('#marca .cheio', { opacity: 0 }, { opacity: 1, duration: 1.2 }, 1.6)
+        .fromTo('#marca', { scale: 0.92, rotate: -6, transformOrigin: '50% 50%' }, { scale: 1, rotate: 0, duration: 3.2, ease: 'power3.out' }, 0)
+        .to('#marca', { x: 220, y: -40, scale: 1.18, opacity: 0.45, duration: 3, ease: 'power2.inOut' }, 3.2)
+        .to('#marca', { x: 120, y: 360, scale: 0.9, opacity: 0.32, duration: 3, ease: 'power2.inOut' }, 6.6)
+        .to('#marca', { x: 380, y: 520, scale: 1.3, opacity: 0.22, duration: 2.6, ease: 'power2.inOut' }, 9.8)
+        .to('#marca', { opacity: 0, duration: 0.6, ease: 'power2.out' }, 12.6)
+        .fromTo('.hanko', { opacity: 0, scale: 1.4, rotate: -10 }, { opacity: 1, scale: 1, rotate: -2, duration: 0.7, ease: 'back.out(2)' }, 1.2);
+
+      // 1. nome: as letras chegam condensadas e abrem
+      tl.fromTo('.nome .c', { '--wd': 62, '--wg': 300, opacity: 0, yPercent: 22 },
+        { '--wd': 112, '--wg': 800, opacity: 1, yPercent: 0, duration: 1.3, stagger: 0.04 }, 0.15)
+        .fromTo('.s1-sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9 }, 1.2)
+        .to('#s1 .nome, #s1 .s1-sub', { opacity: 0, y: -40, duration: 0.4, ease: 'power2.in' }, 3.0);
+
+      // 2. motor do blog
+      tl.fromTo('.s2-t', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, 3.45)
+        .fromTo('.s2-n', { opacity: 0, scale: 0.6, transformOrigin: '0% 80%' }, { opacity: 1, scale: 1, duration: 0.9 }, 3.7)
+        .fromTo('.s2-p', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7 }, 4.1)
+        .fromTo('.s2-prova', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.7 }, 4.5)
+        .to('#s2 > *', { opacity: 0, y: -40, duration: 0.4, ease: 'power2.in', stagger: 0.03 }, 6.25);
+
+      // 3. velocidade: o número e o arco sobem de 39 para 71
+      var g = { v: 39 };
+      var ganho = document.querySelector('#s3 .ganho'), antes = document.querySelector('#s3 .antes'), n3 = document.getElementById('n3');
+      arco(antes, C * 0.39, 400);
+      arco(ganho, 0, 400);
+      tl.fromTo('.s3-t', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, 6.75)
+        .fromTo('.med', { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8 }, 6.9)
+        .fromTo('.s3-leg', { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.7 }, 7.1)
+        .fromTo(g, { v: 39 }, {
+          v: 71, duration: 1.6, ease: 'power3.out',
+          onUpdate: function () {
+            ganho.setAttribute('stroke-dasharray', '0 ' + (C * 0.39) + ' ' + (C * (g.v - 39) / 100) + ' 400');
+            n3.textContent = Math.round(g.v);
+          }
+        }, 7.2)
+        .fromTo('.s3-mais div', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.18 }, 7.9)
+        .to('#s3 > *', { opacity: 0, y: -40, duration: 0.4, ease: 'power2.in' }, 9.45);
+
+      // 4. lista de sistemas
+      tl.fromTo('.s4-t', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, 9.95)
+        .fromTo('.lista div', { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.6, stagger: 0.16 }, 10.15)
+        .to('#s4 > *', { opacity: 0, y: -40, duration: 0.4, ease: 'power2.in' }, 12.35);
+
+      // 5. fechamento
+      tl.fromTo('.s5-t', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, 12.85)
+        .fromTo('.s5-url', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7 }, 13.1)
+        .fromTo('.s5-p', { opacity: 0 }, { opacity: 1, duration: 0.6 }, 13.4)
+        .fromTo('.s5-marca', { opacity: 0, rotate: -90, scale: 0.5, transformOrigin: '50% 50%' }, { opacity: 1, rotate: 0, scale: 1, duration: 0.9, ease: 'back.out(1.6)' }, 13.3);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

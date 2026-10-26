@@ -88,6 +88,15 @@ automação que for desligada sai do site. A grade é `auto-fill` com
 `minmax(min(100%,300px),1fr)` — três colunas no desktop, duas no tablet, uma no
 celular, sem media query. O `min()` é o que segura os 320px.
 
+## Currículo do Gui em `/gui`
+
+Página própria em `gui/` (cuoncient.com/gui), separada do portfólio: não usa o
+`styles.css` nem o `script.js` da raiz. Lá dentro, Tailwind compilado, GSAP
+(ScrollTrigger, Flip, DrawSVG), Lenis e Three.js, todos auto-hospedados, mais
+os PDFs (PT e EN), a imagem de compartilhamento e um reel de 15 s feito em
+HyperFrames. A fonte e o passo a passo para regerar estão em `gui/_src/`
+(fora do deploy). Mesma regra dos cases: nenhum número sem estar no cofre.
+
 ## Convenções
 
 **Tokens.** Todo valor de design mora no `:root` do `styles.css`, num bloco
