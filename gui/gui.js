@@ -24,7 +24,7 @@
       dias: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
       diasCurtos: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
       agora: function (hm, dia, prox) {
-        return 'Agora são ' + hm + ' de ' + dia + ' em Brasília. Próxima automação na agenda: ' + prox + '.';
+        return 'Horário de Brasília: ' + dia + ', ' + hm + '. Próxima automação: ' + prox + '.';
       },
       proxFmt: function (nome, dia, hm, hoje, amanha) {
         var quando = hoje ? 'hoje' : amanha ? 'amanhã' : dia;
@@ -46,7 +46,7 @@
       dias: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       diasCurtos: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       agora: function (hm, dia, prox) {
-        return 'It is ' + hm + ' on ' + dia + ' in Brasília. Next scheduled automation: ' + prox + '.';
+        return 'Brasília time: ' + dia + ', ' + hm + '. Next automation: ' + prox + '.';
       },
       proxFmt: function (nome, dia, hm, hoje, amanha) {
         var quando = hoje ? 'today' : amanha ? 'tomorrow' : dia;
@@ -489,6 +489,9 @@
       if (podeEmbaralhar) gsap.to(palco, { duration: 0.7, scrambleText: { text: id, chars: 'abcdefghijklmnopqrstuvwxyz.', speed: 0.6 }, ease: 'none', overwrite: true });
       else palco.textContent = id;
     }
+    // o primeiro app já começa em foco, igual ao identificador que vem no HTML
+    atual = itens[0];
+    itens[0].classList.add('is-ativa');
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) ativar(en.target); });
     }, { rootMargin: '-40% 0px -55% 0px' });

@@ -99,6 +99,12 @@ passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
 (cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
 cases: nenhum número sem estar no cofre ou numa fonte pública.
 
+**Partículas em `/gui`.** O canvas `#gl` é fixo e fica atrás da página inteira
+(`z-index: -1`), por isso o `body` do currículo não tem fundo (só o `html`) e as
+faixas de seção são translúcidas. Fundo opaco numa seção nova esconde as
+partículas ali. O desenho de cada seção mora em `SECOES`, no
+`gui/_src/hero3d.src.js`.
+
 **Subdomínio.** `suzuki.cuoncient.com` é o endereço principal do currículo
 (canonical, og:url e o contato do PDF apontam para ele). O `vercel.json` da
 raiz tem uma rota por host que manda `/` desse domínio para `/gui/index.html`. Precisa ser `routes`, não `rewrites`: no `rewrites` o

@@ -62,7 +62,7 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 
 | Onde | O que | Por quê |
 |---|---|---|
-| Capa | 11 mil partículas (Three.js) montam a marca da Cuoncient em cor de papel. A rolagem reagrupa em 鈴木, em vermelho | o momento autoral: a agência vira o nome |
+| Página inteira | 11 mil partículas (5.200 no celular) numa tela fixa atrás de todo o conteúdo. Na capa montam a marca; em cada seção mudam de desenho (ver Partículas) | o fio que atravessa a página |
 | Capa, clique | clicar ou tocar nas partículas troca o desenho (marca → 鈴木 → 恵二) com uma explosão que sai do ponto clicado; o carimbo da capa pulsa junto. GSAP conduz as transições do shader | o nome inteiro, 鈴木 恵二, aparece pela mão de quem visita |
 | Capa, arrastar | arrastar gira o desenho em 3D (as formas têm espessura), com inércia, e ele volta sozinho | mostra que é 3D de verdade |
 | Capa, cursor e rolagem | o cursor afasta e avermelha as partículas perto dele; rolar rápido agita o enxame | resposta ao gesto |
@@ -91,6 +91,30 @@ Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), 
 
 O reel de 18 s (`reel-guilherme-keidi-suzuki.mp4`) é HTML + GSAP renderizado com HyperFrames, com as mesmas cores, as mesmas fontes e o mesmo carimbo. A fonte está em `_src/reel.html`.
 
+## Partículas
+
+Pedido do Gui: "abuse das partículas". É uma tela só (`#gl`, `position: fixed`, `z-index: -1`) e um único `Points`; o que muda é o desenho. Cada seção que chega ao meio da tela troca o alvo, e a troca sai do ponto onde cada partícula está, então não há salto nem no meio de outra transição.
+
+| Seção | Desenho | Detalhe |
+|---|---|---|
+| Capa | marca, 鈴木 ou 恵二 | clicar troca, arrastar gira, botão "Trocar o desenho" |
+| Aplicativos | celular com a grade de ícones | um ícone em vermelho, carcaça com espessura |
+| Agentes | rede de agentes em 3D | nós vermelhos, arestas em papel, gira sem parar |
+| Automações | relógio | os ponteiros marcam a hora de Brasília no momento em que a seção aparece; mais apagado para não competir com a agenda |
+| Cuoncient | a marca | |
+| Resultados | três anéis | 71, 80 e 98: a parte em vermelho é a nota |
+| Experiência | linha de crescimento | marcos em vermelho |
+| Formação | 学 (aprender) | |
+| Competências | grade cúbica 7×7×7 | gira sem parar |
+| Princípios | ensō, o círculo de tinta | aberto no alto, com traço seco |
+| Contato | o carimbo 鈴木 | entre o texto e o reel |
+
+Fora da capa as partículas ficam a 62% de opacidade (38% no celular) e as faixas de seção são translúcidas (45%) para elas aparecerem. Formas planas param de girar e voltam de frente; só as em 3D (rede, cubo) giram sem parar. A rolagem agita o enxame e dá um empurrão limitado no giro. O laço de desenho para quando a aba fica escondida.
+
+## Texto em registro de currículo (26/10)
+
+O Gui achou o texto informal demais para um currículo. A cópia foi reescrita em registro formal, em PT e EN: títulos de seção como num CV ("Aplicativos desenvolvidos", "Experiência profissional", "Competências técnicas", "Princípios de trabalho"), descrições em frase nominal ou terceira pessoa ("Direção da agência e responsabilidade técnica por…"), sem "faço", "me conta" ou "toco e dou aula". As regras do Stop Slop continuam valendo: sem travessão, sem frase de efeito, número com fonte.
+
 ## O que o passe de Enhance mudou (26/10)
 
 - **animate:** saíram a largura dos títulos presa à rolagem e o parallax do celular nos cases. No passe seguinte, a pedido do Gui, voltou mais GSAP, cada efeito ligado a um conteúdo (ver Movimento).
@@ -103,7 +127,7 @@ Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpee
 
 ## Texto
 
-- Humanizer e Stop Slop em toda copy: nada de travessão no meio da frase, trio de adjetivos, "não é X, é Y", pergunta retórica, frase de efeito no fim do parágrafo ou palavra de vendedor.
+- Registro formal de currículo, com Stop Slop: nada de travessão no meio da frase, trio de adjetivos, "não é X, é Y", pergunta retórica, frase de efeito no fim do parágrafo ou palavra de vendedor.
 - Primeira pessoa, verbo concreto, número com fonte. Nenhum número entra sem estar no cofre ou numa fonte pública (loja, repositório).
 - PT no HTML, EN em `data-en*`. A troca não recarrega a página.
 

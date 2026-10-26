@@ -58,7 +58,7 @@
   html { background: var(--color-sumi); scroll-padding-top: calc(var(--bar-h) + 16px); overflow-x: clip; }
   body {
     overflow-x: clip;
-    background: var(--color-sumi);
+    background: transparent;
     color: var(--color-papel);
     font-family: var(--font-sans); font-size: 17.5px; line-height: 1.7; font-weight: 360;
     font-variation-settings: "wdth" 100;
@@ -124,7 +124,8 @@
 
   /* ---------- capa ---------- */
   .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; isolation: isolate; }
-  .hero__gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  /* partículas: uma tela fixa atrás da página inteira; as faixas são translúcidas para elas aparecerem */
+  .fundo-gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
   .hero__fallback { position: absolute; z-index: -2; color: var(--color-shu); opacity: .14; width: min(62vw, 640px); aspect-ratio: 1; right: -6vw; top: 50%; translate: 0 -50%; }
   .gl-on .hero__fallback { display: none; }
   .hero__grid { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); align-items: end; padding-top: calc(var(--bar-h) + 40px); padding-bottom: 28px; gap: 28px; position: relative; }
@@ -168,8 +169,8 @@
   /* ---------- seções: a separação muda de faixa para faixa ---------- */
   .sec { position: relative; padding-block: 96px; }
   @media (min-width: 900px) { .sec { padding-block: 136px; } }
-  .sec--apps, .sec--agenda, .sec--res, .sec--form, .sec--fim { background: var(--color-sumi-2); }
-  .sec--agenda { background: var(--color-sumi-3); }
+  .sec--apps, .sec--agenda, .sec--res, .sec--form, .sec--fim { background: color-mix(in oklab, var(--color-sumi-2) 45%, transparent); }
+  .sec--agenda { background: color-mix(in oklab, var(--color-sumi-3) 50%, transparent); }
   .sec--linha::before { content: ""; position: absolute; top: 0; left: 50%; translate: -50% 0; width: var(--shell); height: 1px; background: var(--color-linha); }
   .sec__head { display: grid; gap: 22px; margin-bottom: 52px; }
   @media (min-width: 900px) { .sec__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 56px; margin-bottom: 72px; } }
@@ -427,7 +428,7 @@
   .reel figcaption a { color: var(--color-shu-claro); text-decoration: underline; display: inline-flex; min-height: 44px; align-items: center; }
 
   .carimbo { position: fixed; z-index: 90; pointer-events: none; display: grid; place-items: center; writing-mode: vertical-rl; font-family: var(--font-mincho); font-weight: 700; font-size: 22px; line-height: 1.02; color: var(--color-shu); width: 46px; height: 66px; border: 2px solid var(--color-shu); border-radius: 7px; background: color-mix(in oklab, var(--color-shu) 10%, var(--color-sumi)); rotate: -4deg; }
-  .rodape { border-top: 1px solid var(--color-linha); padding: 28px 0 40px; background: var(--color-sumi-2); }
+  .rodape { border-top: 1px solid var(--color-linha); padding: 28px 0 40px; background: color-mix(in oklab, var(--color-sumi-2) 62%, transparent); }
   .rodape__in { display: flex; gap: 14px; align-items: center; }
   .rodape p { margin: 0; font-size: 14px; color: var(--color-gin); }
 }
@@ -445,10 +446,10 @@
 /* ---------------- impressão / PDF ---------------- */
 .print-contato { display: none; }
 @media print {
-  @page { size: A4; margin: 11mm 13mm; }
+  @page { size: A4; margin: 9.5mm 13mm; }
   :root { color-scheme: light; }
   html, body { background: var(--p-papel) !important; color: var(--p-tinta) !important; font-size: 9pt; line-height: 1.35; font-weight: 400; }
-  #agenda, #contato, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .hero__gl, .hero__fallback, .hanko, .hero__now, .filtros, .filtros__n, .sis__mais,
+  #agenda, #contato, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .fundo-gl, .hero__fallback, .hanko, .hero__now, .filtros, .filtros__n, .sis__mais,
   .semana, .semana__dica, .prod__sig, .app__sig, .apps__palco, .medidores svg, .linha__fio, .hero__cta, .como__kanji, .sec--fim .fim__p, .caso__media { display: none !important; }
   .sec, .rodape { background: none !important; }
   .js .nome { visibility: visible !important; }
@@ -560,7 +561,7 @@
   .extras__l li { border: 0; padding: 1pt 0; display: block; }
   .extras__l b { font-size: 9.4pt; } .extras__l b::after { content: ". "; }
   .extras__l span { font-size: 9pt; color: var(--p-sub); }
-  .stack div { display: grid; grid-template-columns: 112pt 1fr; gap: 6pt; padding: 1.5pt 0; border: 0; }
+  .stack div { display: grid; grid-template-columns: 112pt 1fr; gap: 6pt; padding: 0.4pt 0; border: 0; line-height: 1.28; }
   .stack dt { font-size: 9pt; } .stack dd { font-size: 8.8pt; color: var(--p-sub); }
   .como { display: block; }
   .regras div { padding: 2pt 0; border: 0; }
