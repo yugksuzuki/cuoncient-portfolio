@@ -27,6 +27,8 @@ diz que cada sistema "existe e roda" — se algum for desligado, sai daqui tamb�
 **PDFs:** gerados da própria página com `@media print` (Chromium, A4). Mudou o conteúdo,
 gere de novo os dois (`curriculo-...pdf` em PT, `resume-...pdf` em EN).
 
-**Reel:** `reel.html` é a composição do HyperFrames (1080×1920, 15 s). Para renderizar,
+**Reel:** `reel.html` é a composição do HyperFrames (1080×1920, 18 s). Para renderizar,
 copie para um projeto `npx hyperframes init` com `assets/gsap.min.js` e as fontes locais,
 e rode `npx hyperframes render -o reel.mp4`.
+
+**Design:** cores, tipo, movimento e regras estão em `DESIGN.md`. Mexeu num token ou numa animação, atualize lá.

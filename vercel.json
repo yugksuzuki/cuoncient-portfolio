@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    {
+      "src": "/",
+      "has": [{ "type": "host", "value": "gsuzuki.cuoncient.com" }],
+      "dest": "/gui/index.html"
+    }
+  ]
+}

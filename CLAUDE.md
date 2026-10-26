@@ -92,10 +92,20 @@ celular, sem media query. O `min()` é o que segura os 320px.
 
 Página própria em `gui/` (cuoncient.com/gui), separada do portfólio: não usa o
 `styles.css` nem o `script.js` da raiz. Lá dentro, Tailwind compilado, GSAP
-(ScrollTrigger, Flip, DrawSVG), Lenis e Three.js, todos auto-hospedados, mais
-os PDFs (PT e EN), a imagem de compartilhamento e um reel de 15 s feito em
-HyperFrames. A fonte e o passo a passo para regerar estão em `gui/_src/`
-(fora do deploy). Mesma regra dos cases: nenhum número sem estar no cofre.
+(ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis e Three.js, todos
+auto-hospedados, mais os PDFs (PT e EN, 4 páginas cada), a imagem de
+compartilhamento e um reel de 18 s feito em HyperFrames. A fonte e o passo a
+passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
+(cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
+cases: nenhum número sem estar no cofre ou numa fonte pública.
+
+**Subdomínio.** `gsuzuki.cuoncient.com` abre o mesmo currículo. O `vercel.json`
+da raiz tem uma rota por host que manda `/` desse domínio para
+`/gui/index.html`. Precisa ser `routes`, não `rewrites`: no `rewrites` o
+arquivo existente ganha, e `/` cairia no `index.html` do portfólio. O DNS já
+resolve pelo curinga `*` da Vercel; o domínio precisa estar adicionado no
+projeto (Settings → Domains). Por isso os links da página para o portfólio
+são absolutos (`https://cuoncient.com/`).
 
 ## Convenções
 

@@ -1,4 +1,5 @@
-/* Capa em Three.js: partículas que montam a marca da Cuoncient.
+/* Capa em Three.js: partículas que montam a marca da Cuoncient e, com a rolagem,
+   se reagrupam em 鈴木 (Suzuki) escrito na vertical, como no carimbo.
    Compilado com esbuild para ../hero3d.js (ver README.md desta pasta).
    Sem WebGL ou com "reduzir movimento", a capa fica com a marca em SVG. */
 import {
@@ -48,20 +49,71 @@ function amostrarMarca(n) {
   return pts;
 }
 
+// 鈴木 na vertical, em Shippori Mincho; só roda se a fonte carregou de verdade
+async function amostrarKanji(n) {
+  if (!document.fonts || !document.fonts.load) return null;
+  const fonte = '700 380px "Shippori Mincho"';
+  try {
+    await Promise.race([
+      document.fonts.load(fonte, '鈴木'),
+      new Promise((_, nao) => setTimeout(nao, 4000))
+    ]);
+  } catch (e) { return null; }
+  if (!document.fonts.check(fonte, '鈴木')) return null;
+  const W = 420, H = 840;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.fillStyle = '#fff';
+  ctx.font = fonte;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('鈴', W / 2, H * 0.26);
+  ctx.fillText('木', W / 2, H * 0.74);
+  const dados = ctx.getImageData(0, 0, W, H).data;
+  const cheios = [];
+  for (let y = 0; y < H; y += 1) {
+    for (let x = 0; x < W; x += 1) {
+      if (dados[(y * W + x) * 4 + 3] > 140) cheios.push(x, y);
+    }
+  }
+  const total = cheios.length / 2;
+  if (total < 500) return null;
+  const pts = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const j = (Math.random() * total) | 0;
+    const x = cheios[j * 2] + Math.random() - 0.5;
+    const y = cheios[j * 2 + 1] + Math.random() - 0.5;
+    pts[i * 3] = (x / W - 0.5) * 1.15;
+    pts[i * 3 + 1] = -(y / H - 0.5) * 2.3;
+    pts[i * 3 + 2] = (Math.random() - 0.5) * 0.1;
+  }
+  return pts;
+}
+
 const VERT = /* glsl */`
   uniform float uProg;
   uniform float uTime;
   uniform vec2 uMouse;
   uniform float uPixel;
   uniform float uSize;
+  uniform float uMorph;
   attribute vec3 aStart;
+  attribute vec3 aMorph;
   attribute vec4 aRand;
   varying float vBright;
   varying float vAlpha;
+  varying float vMorph;
   void main() {
     float p = clamp((uProg - aRand.x * 0.45) / 0.55, 0.0, 1.0);
     p = 1.0 - pow(1.0 - p, 3.0);
-    vec3 pos = mix(aStart, position, p);
+    float m = clamp((uMorph - aRand.z * 0.35) / 0.65, 0.0, 1.0);
+    m = m * m * (3.0 - 2.0 * m);
+    vec3 alvo = mix(position, aMorph, m);
+    // no meio da troca as partículas se soltam um pouco, depois assentam
+    alvo.xy += (aRand.yw - 0.5) * 0.32 * sin(m * 3.14159);
+    vec3 pos = mix(aStart, alvo, p);
+    vMorph = m;
     float t = uTime * (0.35 + aRand.w * 0.3);
     pos += vec3(sin(t + aRand.z * 6.2831), cos(t * 0.9 + aRand.z * 4.0), sin(t * 0.7 + aRand.z * 3.0)) * (0.006 + 0.012 * aRand.w);
     vec2 d = pos.xy - uMouse;
@@ -80,15 +132,19 @@ const VERT = /* glsl */`
 const FRAG = /* glsl */`
   uniform vec3 uCorA;
   uniform vec3 uCorB;
+  uniform vec3 uCorShu;
+  uniform float uAlfa;
   varying float vBright;
   varying float vAlpha;
+  varying float vMorph;
   void main() {
     vec2 c = gl_PointCoord - 0.5;
     float r = length(c);
     float a = smoothstep(0.5, 0.0, r);
     a *= a;
     vec3 cor = mix(uCorA, uCorB, clamp(vBright * 0.85, 0.0, 1.0));
-    gl_FragColor = vec4(cor, a * vAlpha * 0.9);
+    cor = mix(cor, uCorShu, vMorph * 0.8);
+    gl_FragColor = vec4(cor, a * vAlpha * uAlfa);
   }
 `;
 
@@ -126,6 +182,8 @@ function iniciar() {
   const geo = new BufferGeometry();
   geo.setAttribute('position', new BufferAttribute(alvo, 3));
   geo.setAttribute('aStart', new BufferAttribute(inicio, 3));
+  const morfo = new BufferAttribute(alvo.slice(), 3);
+  geo.setAttribute('aMorph', morfo);
   geo.setAttribute('aRand', new BufferAttribute(rand, 4));
 
   const uniforms = {
@@ -135,8 +193,18 @@ function iniciar() {
     uPixel: { value: dpr },
     uSize: { value: celular ? 4.2 : 5.2 },
     uCorA: { value: new Color('#1aa5b8') },
-    uCorB: { value: new Color('#e9fbff') }
+    uCorB: { value: new Color('#e9fbff') },
+    uCorShu: { value: new Color('#e3573c') },
+    uMorph: { value: 0 },
+    uAlfa: { value: celular ? 0.62 : 0.9 }
   };
+  let temKanji = false;
+  amostrarKanji(N).then((pts) => {
+    if (!pts) return;
+    morfo.array.set(pts);
+    morfo.needsUpdate = true;
+    temKanji = true;
+  });
   const mat = new ShaderMaterial({
     vertexShader: VERT, fragmentShader: FRAG, uniforms,
     transparent: true, depthWrite: false, blending: AdditiveBlending
@@ -147,6 +215,7 @@ function iniciar() {
   scene.add(grupo);
 
   let escala = 1;
+  let baseY = 0, pxMundo = 0;
   function tamanho() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     renderer.setSize(w, h, false);
@@ -164,6 +233,8 @@ function iniciar() {
       grupo.position.set(largura * 0.24, altura * 0.04, 0);
     }
     grupo.scale.setScalar(escala);
+    baseY = grupo.position.y;
+    pxMundo = altura / Math.max(h, 1);
   }
   tamanho();
   addEventListener('resize', tamanho);
@@ -203,6 +274,13 @@ function iniciar() {
     antes = agora;
     uniforms.uTime.value += dt;
     if (t0 !== null) uniforms.uProg.value = Math.min(1, (agora - t0) / 2600);
+    // rolar a capa troca a marca por 鈴木
+    if (temKanji && hero) {
+      const alvoM = Math.min(1, Math.max(0, window.scrollY / (hero.offsetHeight * 0.32)));
+      uniforms.uMorph.value += (alvoM - uniforms.uMorph.value) * 0.08;
+    }
+    // o grupo desce junto com parte da rolagem, para o 鈴木 ficar à vista enquanto se forma
+    grupo.position.y = baseY - Math.min(window.scrollY, innerHeight) * pxMundo * 0.75;
 
     if (ndc.x < 5) {
       tmp.set(ndc.x, ndc.y, 0.5).unproject(camera);

@@ -19,7 +19,7 @@
   var lang = 'pt';
   var TEXTOS = {
     pt: {
-      titulo: 'Guilherme Keidi Suzuki — currículo',
+      titulo: 'Currículo de Guilherme Keidi Suzuki',
       anos: function (n) { return n + ' anos'; },
       dias: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
       diasCurtos: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
@@ -41,7 +41,7 @@
       sistemas: function (n) { return n === 1 ? 'sistema' : 'sistemas'; }
     },
     en: {
-      titulo: 'Guilherme Keidi Suzuki — résumé',
+      titulo: 'Guilherme Keidi Suzuki, résumé',
       anos: function (n) { return n + ' years old'; },
       dias: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       diasCurtos: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -69,7 +69,8 @@
     ['en', 'innerHTML'],
     ['en-href', 'href'],
     ['en-label', 'aria-label'],
-    ['en-title', 'title']
+    ['en-title', 'title'],
+    ['en-alt', 'alt']
   ];
   function aplicarIdioma(novo) {
     lang = novo === 'en' ? 'en' : 'pt';
@@ -118,11 +119,11 @@
   /* ------------------------------------------------------- agenda semanal */
   // dias: 0 = domingo ... 6 = sábado (como o Date). Horário de Brasília.
   var ROTINAS = [
-    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: '#6fd3e0', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
-    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: '#1aa5b8', pt: 'Resumo da manhã', en: 'Morning brief' },
-    { id: 'blog', dias: [1, 3, 5], h: 10, m: 0, cor: '#eef0f2', pt: 'Motor do blog da Art 7', en: 'Art 7 blog engine' },
-    { id: 'qa', dias: [1], h: 10, m: 0, cor: '#9be7f0', pt: 'Vigia semanal das páginas', en: 'Weekly page watch' },
-    { id: 'revisao', dias: [5], h: 21, m: 0, cor: '#4cb8c8', pt: 'Revisão semanal', en: 'Weekly review' }
+    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: 'var(--color-asagi-claro)', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
+    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: 'var(--color-asagi)', pt: 'Resumo da manhã', en: 'Morning brief' },
+    { id: 'blog', dias: [1, 3, 5], h: 10, m: 0, cor: 'var(--color-papel)', pt: 'Motor do blog da Art 7', en: 'Art 7 blog engine' },
+    { id: 'qa', dias: [1], h: 10, m: 0, cor: 'var(--color-matcha)', pt: 'Vigia semanal das páginas', en: 'Weekly page watch' },
+    { id: 'revisao', dias: [5], h: 21, m: 0, cor: 'var(--color-shu-claro)', pt: 'Revisão semanal', en: 'Weekly review' }
   ];
   var ORDEM_DIAS = [1, 2, 3, 4, 5, 6, 0]; // linhas: seg..dom
 
@@ -247,9 +248,10 @@
         if (!temGsap || reduz) { painel.hidden = !abrir; return; }
         if (abrir) {
           painel.hidden = false;
-          gsap.fromTo(painel, { height: 0, opacity: 0 }, { height: 'auto', opacity: 1, duration: 0.5, ease: 'expo.out', clearProps: 'height' });
+          gsap.fromTo(painel, { opacity: 0, y: -8, clipPath: 'inset(0 0 100% 0)' },
+            { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.45, ease: 'expo.out', clearProps: 'clipPath,transform' });
         } else {
-          gsap.to(painel, { height: 0, opacity: 0, duration: 0.32, ease: 'power2.in', onComplete: function () { painel.hidden = true; gsap.set(painel, { clearProps: 'all' }); } });
+          gsap.to(painel, { opacity: 0, duration: 0.18, ease: 'power2.in', onComplete: function () { painel.hidden = true; gsap.set(painel, { clearProps: 'all' }); } });
         }
       });
     });
@@ -326,7 +328,27 @@
         .from('.hero__role', { opacity: 0, y: 16, duration: 0.9 }, 0.55)
         .from('.hero__facts, .hero__cta', { opacity: 0, y: 12, duration: 0.8, stagger: 0.08 }, 0.7)
         .from('.hanko', { opacity: 0, scale: 1.25, rotate: -8, duration: 0.7, ease: 'back.out(2)' }, 0.95)
-        .from('.hero__now', { opacity: 0, duration: 0.8 }, 1.1);
+        .from('.hero__now', { opacity: 0, duration: 0.8 }, 1.1)
+        .add(respirar, 1.6);
+    }
+
+    // respiração: uma onda lenta no eixo de largura passa pelas letras
+    var respirando = false;
+    function respirar() {
+      if (respirando || reduz || !temGsap) return;
+      respirando = true;
+      var t0 = performance.now();
+      var visivel = true;
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; }).observe(h1);
+      }
+      gsap.ticker.add(function () {
+        if (!visivel || document.hidden) return;
+        var t = (performance.now() - t0) / 1000;
+        for (var i = 0; i < chars.length; i++) {
+          chars[i].style.setProperty('--resp', (5 * Math.sin(t * 1.15 - i * 0.42)).toFixed(2));
+        }
+      });
     }
 
     var pronto = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
@@ -366,6 +388,121 @@
     });
     window.addEventListener('resize', function () { medido = false; });
     window.addEventListener('scroll', function () { medido = false; }, { passive: true });
+  }
+
+  /* ------------------------------------------------- títulos que respiram */
+  // a largura do título acompanha a rolagem: chega condensado e abre até a medida
+  function titulos() {
+    if (!temGsap || reduz || !window.ScrollTrigger) return;
+    $$('.sec__t').forEach(function (t) {
+      gsap.fromTo(t, { '--twd': 58 }, {
+        '--twd': 74, ease: 'none',
+        scrollTrigger: { trigger: t, start: 'top 98%', end: 'top 42%', scrub: 0.4 }
+      });
+    });
+    // fecho: as linhas do convite sobem por trás de uma máscara (SplitText)
+    var fim = $('.fim__t');
+    if (fim && window.SplitText) {
+      gsap.registerPlugin(SplitText);
+      var sp = new SplitText(fim, { type: 'lines', mask: 'lines', linesClass: 'fim__l' });
+      gsap.from(sp.lines, {
+        yPercent: 105, duration: 1, ease: 'expo.out', stagger: 0.09,
+        scrollTrigger: { trigger: fim, start: 'top 92%', once: true },
+        onComplete: function () { sp.revert(); }
+      });
+    }
+  }
+
+  /* ------------------------------------------------------- botões magnéticos */
+  function magneticos() {
+    if (!ponteiroFino || reduz || !temGsap) return;
+    $$('.js-ima').forEach(function (b) {
+      var x = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'power3' });
+      var y = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'power3' });
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        x((e.clientX - (r.left + r.width / 2)) * 0.22);
+        y((e.clientY - (r.top + r.height / 2)) * 0.3);
+      });
+      b.addEventListener('pointerleave', function () { x(0); y(0); });
+    });
+  }
+
+  /* ---------------------------------------------------------- parede de sites */
+  // as três fileiras correm em sentidos alternados e aceleram com a rolagem
+  function parede() {
+    var filas = $$('.parede__fila');
+    if (!filas.length || !temGsap || reduz || !window.ScrollTrigger) return;
+    var tweens = filas.map(function (f) {
+      var trilho = $('.parede__trilho', f);
+      Array.prototype.slice.call(trilho.children).forEach(function (c) { trilho.appendChild(c.cloneNode(true)); });
+      var dir = +f.dataset.dir || 1;
+      var tw = gsap.fromTo(trilho, { xPercent: dir > 0 ? 0 : -50 }, { xPercent: dir > 0 ? -50 : 0, duration: 70 + filas.indexOf(f) * 12, ease: 'none', repeat: -1, paused: true });
+      f.addEventListener('pointerenter', function () { gsap.to(tw, { timeScale: 0.15, duration: 0.6 }); });
+      f.addEventListener('pointerleave', function () { gsap.to(tw, { timeScale: 1, duration: 0.6 }); });
+      return tw;
+    });
+    var caixa = $('.parede');
+    ScrollTrigger.create({
+      trigger: caixa, start: 'top bottom', end: 'bottom top',
+      onToggle: function (st) { tweens.forEach(function (tw) { if (st.isActive) tw.play(); else tw.pause(); }); },
+      onUpdate: function (st) {
+        var v = Math.min(Math.abs(st.getVelocity()) / 600, 4);
+        tweens.forEach(function (tw) { gsap.to(tw, { timeScale: 1 + v, duration: 0.3, overwrite: true }); gsap.to(tw, { timeScale: 1, duration: 1.2, delay: 0.3 }); });
+      }
+    });
+  }
+
+  /* ---------------------------------------------------- celular dos cases */
+  function cases() {
+    if (!temGsap || reduz || !window.ScrollTrigger) return;
+    $$('.caso').forEach(function (c) {
+      var cel = $('.caso__cel', c);
+      if (!cel) return;
+      gsap.fromTo(cel, { yPercent: 12 }, { yPercent: -12, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: 0.5 } });
+    });
+  }
+
+  /* ------------------------------------------------- apps: o identificador */
+  function apps() {
+    var palco = $('.js-app-id');
+    var itens = $$('.app');
+    if (!palco || !itens.length || !('IntersectionObserver' in window)) return;
+    var atual = null;
+    var podeEmbaralhar = temGsap && !reduz && window.ScrambleTextPlugin;
+    if (podeEmbaralhar) gsap.registerPlugin(ScrambleTextPlugin);
+    function ativar(li) {
+      if (li === atual) return;
+      atual = li;
+      itens.forEach(function (x) { x.classList.toggle('is-ativa', x === li); });
+      var id = li.dataset.id;
+      if (podeEmbaralhar) gsap.to(palco, { duration: 0.7, scrambleText: { text: id, chars: 'abcdefghijklmnopqrstuvwxyz.', speed: 0.6 }, ease: 'none', overwrite: true });
+      else palco.textContent = id;
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) ativar(en.target); });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    itens.forEach(function (li) { io.observe(li); });
+  }
+
+  /* ------------------------------------------------------ idiomas embaralham */
+  function idiomas() {
+    if (!temGsap || reduz || !window.ScrollTrigger || !window.ScrambleTextPlugin) return;
+    gsap.registerPlugin(ScrambleTextPlugin);
+    var lista = $('.idiomas');
+    if (!lista) return;
+    ScrollTrigger.create({
+      trigger: lista, start: 'top 80%', once: true,
+      onEnter: function () {
+        $$('.js-scramble', lista).forEach(function (el, i) {
+          var ja = el.getAttribute('lang') === 'ja';
+          gsap.to(el, {
+            duration: 1.1, delay: i * 0.12, ease: 'none',
+            scrambleText: { text: el.textContent, chars: ja ? '日本語能力試験言葉文字読書' : 'abcdefghijklmnopqrstuvwxyzñãçé', speed: 0.5, revealDelay: 0.25 }
+          });
+        });
+      }
+    });
   }
 
   /* ----------------------------------------------------------- medidores */
@@ -450,6 +587,12 @@
     agenda.montar();
     medidores();
     linhaDoTempo();
+    titulos();
+    magneticos();
+    parede();
+    cases();
+    apps();
+    idiomas();
     $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); }); });
     var pedido = new URLSearchParams(location.search).get('lang');
     aplicarIdioma(pedido || ler('gui-lang') || ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
