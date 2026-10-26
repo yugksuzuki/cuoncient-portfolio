@@ -14,26 +14,25 @@ Quem pergunta "tem um currículo seu sobre IA?" precisa sair sabendo três coisa
 
 O argumento da página são os recibos, e nunca os adjetivos.
 
-## Mundo visual
+## Mundo visual: tinta e carimbo
 
-Nasce da Cuoncient (o preto do portfólio, o ciano da marca) e do nome japonês do Gui, 鈴木 恵二.
-Cada cor tem um papel e um nome em japonês, como os pigmentos tradicionais.
+Escolhida pelo Gui em 26/10/2026, no lugar da paleta azul e ciano. A página é tinta preta, papel e um só acento: o vermelho do carimbo 鈴木. Nenhuma outra cor entra, nem a dos clientes.
 
 | Token | Hex | Papel |
 |---|---|---|
-| `sumi` 墨 | `#06070a` | fundo. Preto tingido, nunca `#000` |
-| `ai` 藍 | `#0b1222` | faixas alternadas (agenda, resultados, formação) e rodapé |
-| `ai-2` | `#111c33` | cartões dentro das faixas |
-| `papel` | `#eef1f5` | texto principal |
-| `nevoa` | `#b4bdcc` | texto de apoio (contraste > 9:1 no sumi) |
-| `gin` 銀 | `#8d96a6` | legendas e metadados (> 6:1) |
-| `asagi` 浅葱 | `#1aa5b8` | o ciano da Cuoncient: links, partículas, medidores |
-| `asagi-claro` | `#82dce8` | provas (`.sis__prova`) e links sobre o escuro |
-| `shu` 朱 | `#e3573c` | carimbo 鈴木, kanji, o japonês. Só aparece onde há japonês |
-| `yamabuki` 山吹 | `#e9b452` | a hora atual (linha "agora" da agenda, anos da linha do tempo) |
-| `matcha` | `#8fd6a6` | "NFC-e autorizada", o único verde |
+| `sumi` 墨 | `#0c0b0a` | fundo. Preto de tinta, quente, nunca `#000` |
+| `sumi-2` | `#151311` | faixas alternadas (apps, resultados, formação, contato) e rodapé |
+| `sumi-3` | `#1d1a17` | a faixa da agenda e a moldura do celular nos cases |
+| `papel` | `#ece6dc` | texto principal, partículas da capa, linha "agora" da agenda |
+| `branco` | `#f6f1e8` | hover do botão cheio |
+| `nevoa` | `#a39b8f` | texto de apoio (7,2:1 no sumi) |
+| `gin` 銀 | `#8a8378` | legendas e metadados (5,2:1) |
+| `shu` 朱 | `#d4442c` | o acento: carimbo, kanji, partículas de 鈴木 e 恵二, barras, medidores, indicador da barra. Só em tamanho grande ou em traço (4,4:1) |
+| `shu-claro` | `#e66a52` | o acento em texto pequeno: links, provas, números, anos (6,1:1) |
 
-Regra de proporção: o asagi fica abaixo de 5% de qualquer tela, menos na capa, onde as partículas são a própria marca. O shu é mais raro ainda: carimbo, kanji, idioma japonês.
+Regra de proporção: o vermelho marca o que é prova ou ação. Se um bloco inteiro ficar vermelho, está errado.
+
+No PDF o acento vira `#a8321d` sobre o papel branco.
 
 ## Tipo
 
@@ -51,7 +50,7 @@ Regra de proporção: o asagi fica abaixo de 5% de qualquer tela, menos na capa,
 - Cabeçalho de seção em 7/5: título à esquerda, abertura em Mincho à direita, alinhados pela base.
 - Listas com fio de 1 px (`linha`), sem cartões. Hierarquia por tamanho e largura de letra, não por caixa.
 - Numeração só onde há sequência real (linha do tempo). Sistemas e apps não levam número.
-- Faixas `ai` alternam com o sumi para separar blocos longos sem precisar de borda.
+- Faixas `sumi-2` alternam com o sumi para separar blocos longos sem precisar de borda.
 
 ## Assinatura
 
@@ -63,19 +62,30 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 
 | Onde | O que | Por quê |
 |---|---|---|
-| Capa | 11 mil partículas (Three.js) montam a marca da Cuoncient e, com a rolagem, se reagrupam em 鈴木 na vertical, passando do asagi para o shu | o momento autoral: a agência vira o nome |
+| Capa | 11 mil partículas (Three.js) montam a marca da Cuoncient em cor de papel. A rolagem reagrupa em 鈴木, em vermelho | o momento autoral: a agência vira o nome |
+| Capa, clique | clicar ou tocar nas partículas troca o desenho (marca → 鈴木 → 恵二) com uma explosão que sai do ponto clicado; o carimbo da capa pulsa junto. GSAP conduz as transições do shader | o nome inteiro, 鈴木 恵二, aparece pela mão de quem visita |
+| Capa, arrastar | arrastar gira o desenho em 3D (as formas têm espessura), com inércia, e ele volta sozinho | mostra que é 3D de verdade |
+| Capa, cursor e rolagem | o cursor afasta e avermelha as partículas perto dele; rolar rápido agita o enxame | resposta ao gesto |
+| Capa, botão | "Trocar o desenho" faz a mesma troca pelo teclado, e o nome da forma embaralha (ScrambleText) | acesso sem mouse |
 | Nome | entrada letra a letra, depois a respiração e a lente | assinatura |
-| Apps | o identificador do app em foco (`br.com.brazukaclubapp`…) aparece grande no palco e embaralha ao trocar (ScrambleText) | mostra que o app existe num registro de loja |
+| Barra | o traço vermelho desliza até a seção atual; uma linha de leitura enche com a rolagem | onde estou e quanto falta |
+| Títulos | as letras chegam condensadas e abrem até a largura do título (SplitText por letra, uma vez) | o eixo de largura, a voz da página |
+| Apps | o identificador em foco aparece grande no palco e embaralha; o nome do app abre no eixo de largura | o app existe num registro de loja |
 | Sistemas | abrir e fechar com opacidade, sem animar altura; filtros reordenam com Flip | estado |
-| Agenda | linha "agora" em yamabuki, ponto da próxima rotina pulsando | mostra que roda enquanto a pessoa lê |
-| Parede dos 55 sites | três fileiras em sentidos opostos que aceleram com a velocidade da rolagem e quase param no hover | volume como argumento |
-| Medidores | contagem de "antes" até "depois" | o número antigo ao lado do novo |
-| Idiomas | o nome de cada idioma embaralha uma vez ao entrar | quatro alfabetos, um gesto |
+| Agenda | os pontos aparecem na ordem da semana e a linha "agora" corre até a hora certa | mostra que roda enquanto a pessoa lê |
+| Cuoncient | 55, 46 e 16 contam até o valor | volume |
+| Cases | o print do site carrega de cima para baixo (clip-path) e o celular sobe | um site abrindo |
+| Parede dos 55 sites | três fileiras em sentidos opostos que aceleram com a rolagem e quase param no hover | volume como argumento |
+| Resultados | o número antigo é riscado antes do novo; os medidores contam de "antes" até "depois" | antes e depois |
+| Idiomas | a barra de nível cresce até o nível de cada idioma e o nome embaralha | quatro alfabetos, quatro níveis |
 | Linha do tempo | o fio se desenha com a rolagem (DrawSVG) | sequência real |
+| 芸術×技術 | o kanji aparece de cima para baixo, como pincelada, preso à rolagem | tinta |
 | Fecho | as linhas do convite sobem por trás de uma máscara (SplitText) | última frase |
 | Botões | magnéticos e com texto que rola | resposta ao ponteiro |
-| Baixar o PDF | um carimbo 鈴木 em shu bate ao lado do botão e some em 1,5 s, sem atrasar o download | o hanko assina o documento: o único momento de "delight", e só acontece quando a pessoa leva o currículo |
+| Baixar o PDF | um carimbo 鈴木 bate ao lado do botão e some, sem atrasar o download | o hanko assina o documento |
 | Rolagem | Lenis só em ponteiro fino (mouse) | o toque do celular fica nativo |
+
+O Gui pediu "bastante GSAP": cada efeito acima explica algo do conteúdo, roda uma vez (ou preso à rolagem) e some com `prefers-reduced-motion`. Tudo em JavaScript puro, sem framework; o Tailwind só compila o CSS.
 
 Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis 1.3, Three.js 0.186. Tudo auto-hospedado em `/gui/vendor`.
 
@@ -83,10 +93,10 @@ O reel de 18 s (`reel-guilherme-keidi-suzuki.mp4`) é HTML + GSAP renderizado co
 
 ## O que o passe de Enhance mudou (26/10)
 
-- **animate:** saíram a largura dos títulos presa à rolagem (era a mesma entrada em toda seção) e o parallax do celular nos cases (genérico). O movimento ficou concentrado na capa, no nome e nos momentos que explicam estado.
+- **animate:** saíram a largura dos títulos presa à rolagem e o parallax do celular nos cases. No passe seguinte, a pedido do Gui, voltou mais GSAP, cada efeito ligado a um conteúdo (ver Movimento).
 - **typeset:** corpo de 340 para 360, título de seção limitado a 96 px, Archivo sem o eixo itálico (não era usado, era download à toa).
 - **layout:** o print dos cases e o vídeo ficaram só com a borda de 1 px. Borda com sombra larga embaixo é o "cartão fantasma".
-- **colorize:** nenhuma cor nova. O shu ganhou um uso coerente com o papel dele (o carimbo do PDF).
+- **colorize:** nenhuma cor nova naquele passe. Depois o Gui trocou a paleta inteira por tinta e carimbo (ver Mundo visual).
 - **delight:** o carimbo ao baixar o PDF.
 
 Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpeed do Google, que é de onde vêm as notas.
@@ -100,7 +110,7 @@ Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpee
 ## Acessibilidade e qualidade
 
 - Contraste medido no navegador, não só no lint: todo texto passa de 4,5:1 sobre o fundo real.
-- Alvos de toque de 44 px, foco visível em asagi-claro, `aria-expanded` nos sistemas, `aria-live` na agenda e no filtro.
+- Alvos de toque de 44 px, foco visível em shu-claro, `aria-expanded` nos sistemas, `aria-live` na agenda e no filtro.
 - Sem rolagem horizontal de 320 a 1920 px (a parede usa `overflow: clip`).
 - Sem JS: nome visível, sistemas fechados mas legíveis, capa com a marca em SVG.
 

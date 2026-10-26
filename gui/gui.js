@@ -119,11 +119,11 @@
   /* ------------------------------------------------------- agenda semanal */
   // dias: 0 = domingo ... 6 = sábado (como o Date). Horário de Brasília.
   var ROTINAS = [
-    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: 'var(--color-asagi-claro)', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
-    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: 'var(--color-asagi)', pt: 'Resumo da manhã', en: 'Morning brief' },
+    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: 'var(--color-shu)', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
+    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: 'var(--color-shu-claro)', pt: 'Resumo da manhã', en: 'Morning brief' },
     { id: 'blog', dias: [1, 3, 5], h: 10, m: 0, cor: 'var(--color-papel)', pt: 'Motor do blog da Art 7', en: 'Art 7 blog engine' },
-    { id: 'qa', dias: [1], h: 10, m: 0, cor: 'var(--color-matcha)', pt: 'Vigia semanal das páginas', en: 'Weekly page watch' },
-    { id: 'revisao', dias: [5], h: 21, m: 0, cor: 'var(--color-shu-claro)', pt: 'Revisão semanal', en: 'Weekly review' }
+    { id: 'qa', dias: [1], h: 10, m: 0, cor: 'var(--color-nevoa)', pt: 'Vigia semanal das páginas', en: 'Weekly page watch' },
+    { id: 'revisao', dias: [5], h: 21, m: 0, cor: 'var(--color-gin)', pt: 'Revisão semanal', en: 'Weekly review' }
   ];
   var ORDEM_DIAS = [1, 2, 3, 4, 5, 6, 0]; // linhas: seg..dom
 
@@ -589,6 +589,127 @@
     }
   }
 
+  /* ------------------------------------------------------- mais GSAP */
+  // cada efeito explica alguma coisa do conteúdo; nenhum esconde texto se o JS falhar
+  function movimento() {
+    if (!temGsap || !window.ScrollTrigger) return;
+
+    // indicador da seção atual desliza entre os links da barra
+    var nav = $('.bar__nav'), ind = $('.bar__ind');
+    if (nav && ind) {
+      document.documentElement.classList.add('tem-ind');
+      var moverInd = function () {
+        var a = $('.bar__nav a.is-aqui');
+        if (!a || !nav.offsetWidth) { gsap.to(ind, { opacity: 0, duration: 0.2 }); return; }
+        gsap.to(ind, { x: a.offsetLeft + 10, width: a.offsetWidth - 20, opacity: 1, duration: reduz ? 0 : 0.55, ease: 'expo.out' });
+      };
+      new MutationObserver(moverInd).observe(nav, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      window.addEventListener('resize', moverInd);
+    }
+
+    // barra de leitura no rodapé da barra
+    var prog = $('.bar__prog');
+    if (prog) gsap.to(prog, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.documentElement, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });
+
+    if (reduz) return;
+
+    // títulos: as letras chegam condensadas e abrem até a largura do título
+    if (window.SplitText) {
+      gsap.registerPlugin(SplitText);
+      $$('.sec__t').forEach(function (t) {
+        ScrollTrigger.create({
+          trigger: t, start: 'top 88%', once: true,
+          onEnter: function () {
+            var sp = new SplitText(t, { type: 'words,chars', charsClass: 'tl' });
+            gsap.from(sp.chars, {
+              '--cw': 34, opacity: 0, yPercent: 35, duration: 0.9, ease: 'expo.out',
+              stagger: { each: 0.018, from: 'start' },
+              onComplete: function () { sp.revert(); }
+            });
+          }
+        });
+      });
+    }
+
+    // placar da Cuoncient: os números contam até o valor
+    $$('.placar b').forEach(function (b) {
+      var fim = parseInt(b.textContent, 10);
+      if (!fim) return;
+      var o = { v: 0 };
+      ScrollTrigger.create({
+        trigger: b, start: 'top 85%', once: true,
+        onEnter: function () {
+          gsap.to(o, { v: fim, duration: 1.6, ease: 'power3.out', onUpdate: function () { b.textContent = Math.round(o.v); } });
+        }
+      });
+    });
+
+    // agenda: a semana "toca" da segunda ao domingo e a linha de agora corre até a hora certa
+    var semana = $('#semana');
+    if (semana) {
+      ScrollTrigger.create({
+        trigger: semana, start: 'top 80%', once: true,
+        onEnter: function () {
+          gsap.from($$('.ponto', semana), { scale: 0, opacity: 0, duration: 0.5, ease: 'back.out(3)', stagger: 0.035 });
+          var ag = $('.agora', semana);
+          if (ag) gsap.from(ag, { left: '52px', duration: 1.6, ease: 'power3.inOut', delay: 0.2 });
+          gsap.from($$('.dia', semana), { opacity: 0, x: -12, duration: 0.5, stagger: 0.06, ease: 'power2.out' });
+        }
+      });
+    }
+
+    // cases: o print do site "carrega" de cima para baixo e o celular sobe
+    $$('.caso').forEach(function (c) {
+      var desk = $('.caso__desk', c), cel = $('.caso__cel', c), txt = $('.caso__txt', c);
+      var tl = gsap.timeline({ scrollTrigger: { trigger: c, start: 'top 78%', once: true } });
+      if (desk) tl.fromTo(desk, { clipPath: 'inset(0% 0% 100% 0% round 12px)' }, { clipPath: 'inset(0% 0% 0% 0% round 12px)', duration: 1.1, ease: 'power3.inOut' });
+      if (cel) tl.from(cel, { yPercent: 40, opacity: 0, duration: 0.8, ease: 'expo.out' }, '-=0.45');
+      if (txt) tl.from(txt.children, { y: 18, opacity: 0, duration: 0.6, stagger: 0.06, ease: 'power2.out' }, 0.2);
+    });
+
+    // resultados: o número antigo é riscado antes do novo aparecer
+    var extra = $('.res-extra');
+    if (extra) {
+      var riscos = $$('s', extra);
+      riscos.forEach(function (r) { r.style.setProperty('--risco', '0%'); });
+      ScrollTrigger.create({
+        trigger: extra, start: 'top 85%', once: true,
+        onEnter: function () {
+          riscos.forEach(function (r, i) {
+            var o = { v: 0 };
+            gsap.to(o, { v: 100, duration: 0.6, delay: 0.2 + i * 0.25, ease: 'power2.inOut', onUpdate: function () { r.style.setProperty('--risco', o.v + '%'); } });
+          });
+        }
+      });
+    }
+
+    // idiomas: a barra de nível cresce até o nível de cada idioma
+    var idis = $$('.idiomas li');
+    if (idis.length) {
+      idis.forEach(function (li) { li.style.setProperty('--nvp', 0); });
+      ScrollTrigger.create({
+        trigger: idis[0], start: 'top 85%', once: true,
+        onEnter: function () { gsap.to(idis, { '--nvp': 1, duration: 1.2, ease: 'expo.out', stagger: 0.12 }); }
+      });
+    }
+
+    // 芸術×技術: o kanji aparece como uma pincelada, de cima para baixo
+    var kanji = $('.como__kanji');
+    if (kanji) {
+      gsap.fromTo(kanji, { clipPath: 'inset(0% 0% 100% 0%)' }, {
+        clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
+        scrollTrigger: { trigger: kanji, start: 'top 85%', end: 'bottom 55%', scrub: 0.6 }
+      });
+    }
+
+    // apps: o nome do app em foco abre no eixo de largura
+    $$('.app').forEach(function (li) {
+      var n = $('.app__nome', li);
+      if (!n) return;
+      gsap.from(n, { '--awd': 70, opacity: 0.4, duration: 0.9, ease: 'expo.out', clearProps: '--awd,opacity', scrollTrigger: { trigger: li, start: 'top 80%', once: true } });
+    });
+  }
+
   /* ------------------------------------------------------------------ início */
   function iniciar() {
     rolagem();
@@ -602,6 +723,7 @@
     parede();
     carimbo();
     apps();
+    movimento();
     idiomas();
     $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); }); });
     var pedido = new URLSearchParams(location.search).get('lang');
