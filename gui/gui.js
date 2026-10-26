@@ -127,6 +127,35 @@
   ];
   var ORDEM_DIAS = [1, 2, 3, 4, 5, 6, 0]; // linhas: seg..dom
 
+  // as faixas ficam a 9 px uma da outra: o clique e o toque pegam o ponto mais próximo (até 30 px),
+  // em vez de deixar um alvo grande cobrir o vizinho. O teclado continua indo ponto a ponto.
+  function maisPerto(trilho, x, y) {
+    var melhor = null, dm = 30;
+    $$('.ponto', trilho).forEach(function (p) {
+      var b = p.getBoundingClientRect();
+      var d = Math.sqrt(Math.pow(b.left + b.width / 2 - x, 2) + Math.pow(b.top + b.height / 2 - y, 2));
+      if (d < dm) { dm = d; melhor = p; }
+    });
+    return melhor;
+  }
+  function miraNoTrilho(trilho) {
+    var mirado = null;
+    function mirar(p) {
+      if (p === mirado) return;
+      if (mirado) mirado.classList.remove('is-perto');
+      mirado = p;
+      if (p) p.classList.add('is-perto');
+      trilho.classList.toggle('is-mira', !!p);
+    }
+    trilho.addEventListener('click', function (e) {
+      if (e.target !== trilho) return; // o clique sintético do próprio ponto não volta para cá
+      var p = maisPerto(trilho, e.clientX, e.clientY);
+      if (p) p.click();
+    });
+    trilho.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') mirar(maisPerto(trilho, e.clientX, e.clientY)); });
+    trilho.addEventListener('pointerleave', function () { mirar(null); });
+  }
+
   var agenda = {
     montado: false,
     montar: function () {
@@ -139,6 +168,7 @@
         linha.innerHTML = '<span class="dia__n"></span><div class="dia__trilho"></div>';
         box.appendChild(linha);
         var trilho = linha.lastChild;
+        miraNoTrilho(trilho);
         ROTINAS.forEach(function (r, faixa) {
           if (r.dias.indexOf(wd) < 0) return;
           var p = document.createElement('button');
@@ -302,7 +332,7 @@
       var base = parseFloat(getComputedStyle(h1).fontSize);
       var caixa = h1.parentElement.getBoundingClientRect().width;
       var celular = window.innerWidth < 640;
-      var reserva = celular ? 54 : 0; // espaço do carimbo no celular
+      var reserva = 0; // o carimbo fica sobre o retrato, longe do nome
       var maior = 0;
       $$('.nome__line', h1).forEach(function (l) {
         if (celular) {

@@ -92,7 +92,7 @@
   .bar__brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 620; letter-spacing: -0.01em; min-height: 44px; text-decoration: none; }
   .bar__mark { width: 26px; height: 26px; color: var(--color-shu); flex: none; }
   .bar__nav { display: none; gap: 2px; margin-left: auto; position: relative; }
-  .bar__nav a { font-size: 14.5px; font-weight: 420; color: var(--color-nevoa); padding: 0 10px; height: 40px; line-height: 40px; overflow: hidden; border-radius: 6px; text-decoration: none; transition: color .2s; white-space: nowrap; }
+  .bar__nav a { font-size: 14.5px; font-weight: 420; color: var(--color-nevoa); padding: 0 10px; height: 44px; line-height: 44px; overflow: hidden; border-radius: 6px; text-decoration: none; transition: color .2s; white-space: nowrap; }
   .bar__nav a:hover, .bar__nav a.is-aqui { color: var(--color-papel); }
   .bar__nav a.is-aqui { box-shadow: inset 0 -2px 0 var(--color-shu); }
   .bar__ind { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--color-shu); border-radius: 2px; opacity: 0; pointer-events: none; }
@@ -103,8 +103,8 @@
   @media (min-width: 1140px) { .bar__nav { display: flex; } .bar__tools { margin-left: 8px; } }
   @media (max-width: 520px) { .bar__tools .btn { display: none; } }
 
-  .lang { display: inline-flex; border: 1px solid var(--color-linha); border-radius: 8px; padding: 3px; }
-  .lang button { font: inherit; font-size: 13px; font-weight: 600; color: var(--color-gin); min-width: 44px; min-height: 36px; border-radius: 5px; cursor: pointer; background: none; border: 0; transition: color .2s, background-color .2s; }
+  .lang { display: inline-flex; border: 1px solid var(--color-linha); border-radius: 10px; padding: 2px; }
+  .lang button { font: inherit; font-size: 13px; font-weight: 600; color: var(--color-gin); min-width: 44px; min-height: 44px; border-radius: 7px; cursor: pointer; background: none; border: 0; transition: color .2s, background-color .2s; }
   .lang button:hover { color: var(--color-papel); }
   .lang button[aria-pressed="true"] { color: var(--color-sumi); background: var(--color-papel); }
 
@@ -114,7 +114,7 @@
     min-height: 50px; padding: 0 24px; border-radius: 999px; font-weight: 560; font-size: 16px; line-height: 1.2;
     transition: background-color .3s, color .3s, border-color .3s, box-shadow .3s; white-space: nowrap; cursor: pointer;
   }
-  .btn--sm { min-height: 40px; padding: 0 16px; font-size: 14px; }
+  .btn--sm { min-height: 44px; padding: 0 16px; font-size: 14px; }
   .btn--solid { background: var(--color-papel); color: var(--color-sumi); }
   .btn--solid:hover { background: var(--color-branco); box-shadow: 0 12px 30px -14px var(--veu-sombra); }
   .btn--solid:active { background: var(--color-nevoa); }
@@ -129,7 +129,24 @@
   .hero__fallback { position: absolute; z-index: -2; color: var(--color-shu); opacity: .14; width: min(62vw, 640px); aspect-ratio: 1; right: -6vw; top: 50%; translate: 0 -50%; }
   .gl-on .hero__fallback { display: none; }
   .hero__grid { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); align-items: end; padding-top: calc(var(--bar-h) + 40px); padding-bottom: 28px; gap: 28px; position: relative; }
-  .hero__main { max-width: 100%; min-width: 0; }
+  .hero__main { max-width: 100%; min-width: 0; position: relative; z-index: 1; }
+
+  /* retrato recortado: no celular vem antes do nome e o nome sobe sobre a parte que esmaece;
+     no desktop fica à direita, de pé sobre a linha da faixa de baixo, e o nome para antes dele */
+  .hero__retrato { display: block; position: relative; z-index: 0; justify-self: end; margin: 0 -6px calc(-1 * min(17svh, 150px)) 0;
+    height: min(60svh, 560px); aspect-ratio: 659 / 1249; }
+  .hero__retrato img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 48%, transparent 90%); mask-image: linear-gradient(to bottom, #000 48%, transparent 90%); }
+  .gl-on .hero__retrato { cursor: grab; }
+  @media (max-width: 899px) { .hero__grid { padding-top: calc(var(--bar-h) + 12px); } }
+  @media (min-width: 900px) {
+    .hero { --foto-h: min(calc(100svh - var(--bar-h) - 104px), 960px); --foto-w: calc(var(--foto-h) * 0.5276); }
+    .hero__retrato { position: absolute; right: 0; bottom: 0; margin: 0; height: var(--foto-h); }
+    .hero__retrato img { -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 99%); mask-image: linear-gradient(to bottom, #000 66%, transparent 99%); }
+    .hero__main { max-width: calc(100% - var(--foto-w) - 36px); }
+  }
+  /* na tela o retrato grande substitui o avatar; o avatar só aparece no PDF */
+  .hero__eu .hero__foto { display: none; }
 
   .nome { margin: 0; font-weight: 760; line-height: .9; letter-spacing: -0.03em; font-size: clamp(46px, 11.2vw, 168px); }
   .nome__line { display: block; white-space: nowrap; }
@@ -154,11 +171,14 @@
     font-size: 30px; line-height: 1.02; width: 66px; height: 92px; border: 2.5px solid var(--color-shu); border-radius: 9px;
     rotate: -3deg; background: var(--veu-shu);
   }
-  @media (max-width: 639px) { .hanko { top: calc(var(--bar-h) + 16px); } .hanko__selo { font-size: 21px; width: 46px; height: 66px; } }
+  .hanko__selo[role=button] { cursor: pointer; transition: background-color .2s; }
+  .hanko__selo[role=button]:hover { background: var(--veu-shu-forte); }
+  @media (max-width: 899px) { .hanko { right: auto; left: 0; top: calc(var(--bar-h) + 20px); } }
+  @media (max-width: 639px) { .hanko__selo { font-size: 21px; width: 46px; height: 66px; } }
 
   .hero__now { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; padding-top: 14px; padding-bottom: 22px; border-top: 1px solid var(--color-linha); }
   .hero__now p { flex: 1 1 320px; margin: 0; font-size: 15px; color: var(--color-nevoa); font-variant-numeric: tabular-nums; }
-  .hero__forma { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 6px 0 16px; border-radius: 999px; border: 1px solid var(--color-linha-forte); background: none; color: var(--color-papel); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: border-color .2s, background-color .2s; }
+  .hero__forma { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 8px 0 18px; border-radius: 999px; border: 1px solid var(--color-linha-forte); background: none; color: var(--color-papel); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: border-color .2s, background-color .2s; }
   .hero__forma:hover { border-color: var(--color-shu); }
   .hero__forma:active { background: var(--veu-shu-forte); }
   .hero__forma-n { display: inline-grid; place-items: center; min-width: 52px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--veu-shu-forte); color: var(--color-shu-claro); font-family: var(--font-mincho); font-weight: 700; font-size: 14px; letter-spacing: .04em; }
@@ -257,12 +277,15 @@
   .dia.is-hoje .dia__n { color: var(--color-shu-claro); }
   .dia__trilho { position: relative; height: 56px; border-radius: 8px; background: repeating-linear-gradient(90deg, var(--color-trilho) 0 1px, transparent 1px calc(100% / 24)), var(--color-trilho); }
   .dia.is-hoje .dia__trilho { background: repeating-linear-gradient(90deg, var(--color-linha) 0 1px, transparent 1px calc(100% / 24)), color-mix(in oklab, var(--color-shu) 7%, transparent); }
-  .ponto { all: unset; position: absolute; width: 9px; height: 9px; border-radius: 50%; translate: -50% -50%; background: var(--c, var(--color-shu)); cursor: pointer; transition: scale .2s; }
-  .ponto::after { content: ""; position: absolute; inset: -12px; }
-  .ponto:hover, .ponto:focus-visible, .ponto.is-sel { scale: 1.7; }
-  .ponto:focus-visible { outline: 2px solid var(--color-shu-claro); outline-offset: 2px; }
+  /* o ponto visível é o ::before; mouse e toque são resolvidos no trilho, pelo ponto mais próximo
+     (as faixas ficam a 9 px uma da outra e um alvo grande cobriria o vizinho) */
+  .ponto { all: unset; position: absolute; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; translate: -50% -50%; pointer-events: none; }
+  .ponto::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c, var(--color-shu)); transition: scale .2s; }
+  .ponto.is-perto::before, .ponto:focus-visible::before, .ponto.is-sel::before { scale: 1.7; }
+  .ponto:focus-visible { outline: 2px solid var(--color-shu-claro); outline-offset: -3px; }
+  .dia__trilho.is-mira { cursor: pointer; }
   .ponto.is-passado { opacity: .32; }
-  .ponto.is-prox { outline: 1.5px solid var(--c); outline-offset: 3px; }
+  .ponto.is-prox::before { outline: 1.5px solid var(--c); outline-offset: 3px; }
   .agora { position: absolute; top: 24px; bottom: -6px; width: 2px; background: var(--color-papel); border-radius: 2px; pointer-events: none; }
   .agora__rot { position: absolute; top: -26px; left: 50%; translate: -50% 0; font-size: 12.5px; font-weight: 650; background: var(--color-papel); color: var(--color-sumi); border-radius: 4px; padding: 1px 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .semana__dica { min-height: 1.6em; margin: 18px 0 0; color: var(--color-papel); font-size: 16px; }
@@ -444,16 +467,16 @@
 }
 
 /* ---------------- impressão / PDF ---------------- */
-.print-contato { display: none; }
+.print-contato, .print-qr { display: none; }
 @media print {
   @page { size: A4; margin: 9.5mm 13mm; }
   :root { color-scheme: light; }
   html, body { background: var(--p-papel) !important; color: var(--p-tinta) !important; font-size: 9pt; line-height: 1.35; font-weight: 400; }
-  #agenda, #contato, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .fundo-gl, .hero__fallback, .hanko, .hero__now, .filtros, .filtros__n, .sis__mais,
+  #agenda, #contato, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .fundo-gl, .hero__fallback, .hero__retrato, .hanko, .hero__now, .filtros, .filtros__n, .sis__mais,
   .semana, .semana__dica, .prod__sig, .app__sig, .apps__palco, .medidores svg, .linha__fio, .hero__cta, .como__kanji, .sec--fim .fim__p, .caso__media { display: none !important; }
   .sec, .rodape { background: none !important; }
   .js .nome { visibility: visible !important; }
-  .hero { min-height: 0; display: block; }
+  .hero { min-height: 0; display: block; position: relative; }
   .hero__grid { padding: 0 !important; display: block; }
   .shell { width: 100%; }
   .nome { font-size: 28pt !important; line-height: 1; letter-spacing: -.02em; color: var(--p-tinta); }
@@ -464,7 +487,11 @@
   .nome::after { content: "  鈴木 恵二"; font-family: var(--font-mincho); font-size: 12pt; font-weight: 500; color: var(--p-shu); letter-spacing: .1em; vertical-align: middle; }
   .hero__role { font-size: 11.5pt; margin-top: 6pt; max-width: none; color: var(--p-tinta); line-height: 1.45; }
   .hero__eu { margin-top: 5pt; gap: 8pt; }
-  .hero__foto { width: 34pt; height: 34pt; outline: none; }
+  .hero__eu .hero__foto { display: block !important; width: 40pt; height: 40pt; outline: none; }
+  .hero__main { max-width: none !important; padding-right: 66pt; }
+  .print-qr { display: grid !important; position: absolute; top: 0; right: 0; justify-items: end; gap: 2pt; margin: 0; }
+  .print-qr svg { width: 54pt; height: 54pt; display: block; }
+  .print-qr figcaption { font-size: 6.4pt; color: var(--p-sub); white-space: nowrap; text-align: right; }
   .hero__facts { color: var(--p-sub); font-size: 9.6pt; }
   .print-contato { display: block !important; margin: 4pt 0 0; font-size: 9.4pt; color: var(--p-acento); }
   .sec { padding: 7pt 0 0 !important; border-top: 1px solid var(--p-regra); }

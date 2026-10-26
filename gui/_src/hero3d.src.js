@@ -1,7 +1,8 @@
 /* Partículas da página inteira (Three.js + GSAP).
    Uma tela fixa atrás de todo o conteúdo. As mesmas partículas mudam de desenho conforme
    a seção que está na tela:
-     capa        marca da Cuoncient, 鈴木 ou 恵二 (clicar troca, arrastar gira)
+     capa        鈴木 atrás do retrato; clicar troca para a silhueta dele (a foto se desfaz nas
+                 partículas), a marca da Cuoncient e 恵二; arrastar gira
      apps        um celular com a grade de ícones
      agentes     uma rede de agentes em 3D
      agenda      um relógio com a hora de Brasília
@@ -111,6 +112,51 @@ function fKanji(n, texto, cor) {
   const cheios = pixelsCheios(ctx, W, H);
   if (cheios.length / 2 < 500) return null;
   return dois ? deImagem(cheios, n, W, H, 1.15, 2.3, cor) : deImagem(cheios, n, W, H, 1.9, 1.9, cor);
+}
+
+// silhueta do retrato, amostrada do recorte: mais pontos no contorno e nas partes claras
+// (camisa, rosto, mãos), menos no terno; embaixo esmaece como a máscara da foto
+function fRetrato(n, img) {
+  const H = 380;
+  const W = Math.max(40, Math.round((H * img.naturalWidth) / img.naturalHeight));
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, W, H);
+  let d;
+  try { d = ctx.getImageData(0, 0, W, H).data; } catch (e) { return null; }
+  const A = new Float32Array(W * H), L = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) {
+    A[i] = d[i * 4 + 3] / 255;
+    L[i] = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
+  }
+  const acum = new Float32Array(W * H);
+  const borda = new Uint8Array(W * H);
+  let total = 0;
+  for (let i = 0; i < W * H; i++) {
+    const x = i % W, y = (i / W) | 0;
+    let w = 0;
+    if (x > 0 && y > 0 && x < W - 1 && y < H - 1 && A[i] >= 0.5) {
+      const ea = Math.abs(A[i + 1] - A[i - 1]) + Math.abs(A[i + W] - A[i - W]);
+      const el = Math.abs(L[i + 1] - L[i - 1]) + Math.abs(L[i + W] - L[i - W]);
+      borda[i] = ea > 0.35 ? 1 : 0;
+      const b = Math.min(1, ea * 1.2 + el * 1.6);
+      const v = y / H;
+      const some = v < 0.6 ? 1 : Math.max(0, 1 - (v - 0.6) / 0.36);
+      w = (0.04 + 3 * b + 1.6 * Math.pow(L[i], 2.2)) * some;
+    }
+    total += w;
+    acum[i] = total;
+  }
+  if (!total) return null;
+  const asp = W / H;
+  return forma(n, () => {
+    const r = Math.random() * total;
+    let lo = 0, hi = W * H - 1;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (acum[m] < r) lo = m + 1; else hi = m; }
+    const x = (lo % W) + Math.random(), y = ((lo / W) | 0) + Math.random();
+    return [(x / W - 0.5) * 2 * asp, -(y / H - 0.5) * 2, (Math.random() - 0.5) * PROF * 0.5, borda[lo] ? 0.95 : 0];
+  });
 }
 
 // ponto num retângulo arredondado (contorno)
@@ -275,6 +321,7 @@ const VERT = /* glsl */`
   uniform float uBurst;
   uniform vec2 uBurstPos;
   uniform float uAgito;
+  uniform float uClaro;
   attribute vec3 aStart;
   attribute vec3 aTo;
   attribute float aCorDe;
@@ -311,7 +358,7 @@ const VERT = /* glsl */`
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
     gl_PointSize = uSize * (0.55 + aRand.y) * uPixel * (2.6 / -mv.z);
-    vBright = aRand.w + f * 0.8 + bf * 0.6;
+    vBright = aRand.w + f * 0.8 + bf * 0.6 + uClaro * 0.6;
     vShu = clamp(cor * 0.9 + f * 0.55 + bf * 0.4, 0.0, 1.0);
     vAlpha = mix(0.35, 1.0, p);
   }
@@ -335,7 +382,20 @@ const FRAG = /* glsl */`
   }
 `;
 
-const NOMES = { pt: ['marca', '鈴木', '恵二'], en: ['mark', '鈴木', '恵二'] };
+// capa: a ordem do clique e o nome de cada desenho no botão
+const CAPA = ['suzuki', 'retrato', 'marca', 'keiji'];
+const ROTULOS = {
+  pt: { suzuki: '鈴木', retrato: 'retrato', marca: 'marca', keiji: '恵二' },
+  en: { suzuki: '鈴木', retrato: 'portrait', marca: 'mark', keiji: '恵二' }
+};
+// lugar de cada desenho da capa em relação ao retrato: dx em larguras, dy e s em alturas da foto.
+// Os kanji ficam atrás dele, puxados para o lado para onde ele olha; o retrato cai em cima da foto.
+const LUGAR_CAPA = {
+  suzuki: { dx: -0.55, dy: 0.02, s: 0.4 },
+  keiji: { dx: -0.55, dy: 0.02, s: 0.4 },
+  marca: { dx: -0.5, dy: 0.1, s: 0.3 },
+  retrato: { dx: 0, dy: 0, s: 0.5 }
+};
 // desenho e giro contínuo (3D) de cada seção
 // só as formas em 3D giram sem parar; as planas voltam de frente e só balançam
 const SECOES = {
@@ -354,7 +414,7 @@ const SECOES = {
 function iniciar() {
   if (!canvas || reduz || !temWebGL()) return;
   const celular = innerWidth < 760;
-  const N = celular ? 5200 : 11000;
+  const N = celular ? 7000 : 11000;
   const marca = fMarca(N);
   if (!marca) return;
 
@@ -405,16 +465,20 @@ function iniciar() {
     uBurst: { value: 0 },
     uBurstPos: { value: new Vector2(0, 0) },
     uAgito: { value: 0 },
+    uClaro: { value: 0 },
     uAlfa: { value: celular ? 0.62 : 0.85 }
   };
   const mat = new ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms, transparent: true, depthWrite: false, blending: AdditiveBlending });
   const grupo = new Group();
   grupo.add(new Points(geo, mat));
-  scene.add(grupo);
+  // na capa o desenho fica preso à foto e rola com ela; nas outras seções fica parado na tela
+  const ancora = new Group();
+  ancora.add(grupo);
+  scene.add(ancora);
+  const preso = { v: 1 };
 
   // ---------------------------------------------------------- catálogo de formas
   const formas = { marca, celular: fCelular(N), rede: fRede(N), medidores: fMedidores(N), linha: fLinha(N), cubo: fCubo(N), enso: fEnso(N) };
-  let kanjiPronto = false;
   const formaDe = (nome) => {
     if (nome === 'relogio') return fRelogio(N); // a hora certa toda vez que a agenda aparece
     return formas[nome] || null;
@@ -425,11 +489,20 @@ function iniciar() {
     formas.keiji = fKanji(N, '恵二', 1);
     formas.manabu = fKanji(N, '学', 1);
     formas.carimbo = fCarimbo(N, formas.suzuki);
-    kanjiPronto = !!formas.suzuki;
     atualizarBotao();
-    // se a seção atual esperava um kanji, aplica agora
-    if (secao && secao !== 'topo') irParaSecao(secao, true);
+    // se a seção atual esperava um kanji (a capa abre com 鈴木), aplica agora
+    if (secao) irParaSecao(secao, true);
   });
+  // o retrato vem da própria foto da capa, já baixada
+  const fotoImg = document.querySelector('.hero__retrato img');
+  if (fotoImg) {
+    const pronta = fotoImg.complete && fotoImg.naturalWidth ? Promise.resolve() : new Promise((ok) => fotoImg.addEventListener('load', ok, { once: true }));
+    pronta.then(() => {
+      const im = new Image();
+      im.src = fotoImg.currentSrc || fotoImg.src;
+      return im.decode().then(() => { formas.retrato = fRetrato(N, im); atualizarBotao(); });
+    }).catch(() => {});
+  }
 
   // ---------------------------------------------------------- transição entre desenhos
   let atual = 'marca';
@@ -448,6 +521,8 @@ function iniciar() {
     b.set(alvo.pos); cb.set(alvo.cor);
     de.needsUpdate = para.needsUpdate = corDe.needsUpdate = corPara.needsUpdate = true;
     atual = nome;
+    if (gsap) gsap.to(uniforms.uClaro, { value: nome === 'retrato' ? 1 : 0, duration: 1.2, ease: 'power2.out', overwrite: true });
+    else uniforms.uClaro.value = nome === 'retrato' ? 1 : 0;
     if (gsap) gsap.fromTo(uniforms.uT, { value: 0 }, { value: 1, duration: 1.8, ease: 'power3.out', overwrite: true });
     else uniforms.uT.value = 1;
     if (explosao) {
@@ -466,8 +541,24 @@ function iniciar() {
     altura = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
     largura = altura * camera.aspect;
   }
-  function lugar(id) {
+  // retângulo da foto em coordenadas do mundo, com a página no topo
+  let foto = null;
+  function medirFoto() {
+    const el = document.querySelector('.hero__retrato');
+    const W = canvas.clientWidth, H = canvas.clientHeight;
+    const r = el ? el.getBoundingClientRect() : null;
+    if (!r || !r.width || !r.height || !W || !H) { foto = null; return; }
+    const cx = r.left + r.width / 2, cy = r.top + window.scrollY + r.height / 2;
+    foto = { x: (cx / W - 0.5) * largura, y: -(cy / H - 0.5) * altura, w: (r.width / W) * largura, h: (r.height / H) * altura };
+  }
+  function lugar(id, nome) {
     const mob = canvas.clientWidth < 760;
+    if (id === 'topo' && foto) {
+      const k = LUGAR_CAPA[nome] || LUGAR_CAPA.marca;
+      const a = nome === 'retrato' ? 0.95 : mob ? 0.74 : 0.85;
+      const dx = mob && k.dx ? k.dx * 0.82 : k.dx;
+      return { x: foto.x + foto.w * dx, y: foto.y + foto.h * k.dy, s: foto.h * k.s, a };
+    }
     if (id === 'topo') {
       return mob
         ? { x: largura * 0.16, y: altura * 0.2, s: Math.min(largura * 0.62, altura * 0.42) / 2, a: 0.62 }
@@ -487,8 +578,8 @@ function iniciar() {
       ? { x: largura * 0.14, y: altura * 0.06, s: Math.min(largura * 0.7, altura * 0.42) / 2, a: 0.38 }
       : { x: largura * 0.28, y: -altura * 0.02, s: Math.min(largura * 0.34, altura * 0.62) / 2, a: 0.62 };
   }
-  function posicionar(id, instantaneo) {
-    const l = lugar(id);
+  function posicionar(id, instantaneo, nome) {
+    const l = lugar(id, nome);
     const d = instantaneo || !gsap ? 0 : 1.4;
     if (!gsap) { grupo.position.set(l.x, l.y, 0); grupo.scale.setScalar(l.s); uniforms.uAlfa.value = l.a; return; }
     gsap.to(grupo.position, { x: l.x, y: l.y, duration: d, ease: 'power3.inOut', overwrite: true });
@@ -496,18 +587,27 @@ function iniciar() {
     gsap.to(uniforms.uAlfa, { value: l.a, duration: d, ease: 'power2.out', overwrite: true });
   }
   medir();
+  medirFoto();
 
   // ---------------------------------------------------------- seção atual
   let secao = null;
-  let formaCapa = 0; // 0 marca, 1 鈴木, 2 恵二
+  let formaCapa = 'suzuki'; // a capa abre com 鈴木 atrás do retrato; até a fonte chegar, a marca
   const estado = { giro: 0, angulo: 0 };
-  function nomeCapa() { return ['marca', 'suzuki', 'keiji'][formaCapa]; }
+  const disponivel = (nome) => nome === 'marca' || !!formas[nome];
+  function nomeCapa() { return disponivel(formaCapa) ? formaCapa : 'marca'; }
+  function proximaCapa() {
+    const i = CAPA.indexOf(nomeCapa());
+    for (let k = 1; k <= CAPA.length; k++) { const n = CAPA[(i + k) % CAPA.length]; if (disponivel(n)) return n; }
+    return nomeCapa();
+  }
   function irParaSecao(id, forcar) {
     if (id === secao && !forcar) return;
     const primeira = secao === null;
     secao = id;
     const cfg = id === 'topo' ? { forma: nomeCapa(), giro: 0 } : (SECOES[id] || { forma: 'marca', giro: 0.05 });
-    posicionar(id, primeira);
+    posicionar(id, primeira, cfg.forma);
+    if (gsap && !primeira) gsap.to(preso, { v: id === 'topo' ? 1 : 0, duration: 1.4, ease: 'power3.inOut', overwrite: true });
+    else preso.v = id === 'topo' ? 1 : 0;
     if (cfg.giro) {
       if (gsap) gsap.to(estado, { giro: cfg.giro, duration: 1.2, overwrite: true }); else estado.giro = cfg.giro;
     } else {
@@ -528,7 +628,11 @@ function iniciar() {
     alvos.forEach((el) => io.observe(el));
   }
   irParaSecao('topo');
-  addEventListener('resize', () => { medir(); if (secao) posicionar(secao, true); });
+  const remedir = (instantaneo) => { medir(); medirFoto(); if (secao) posicionar(secao, instantaneo, secao === 'topo' ? nomeCapa() : null); };
+  addEventListener('resize', () => remedir(true));
+  // o nome só ganha o tamanho final depois da fonte; no celular isso pode mexer na foto
+  document.addEventListener('gui:entrada', () => requestAnimationFrame(() => remedir(false)));
+  addEventListener('load', () => remedir(false));
 
   // ---------------------------------------------------------- ponteiro
   const tmp = new Vector3();
@@ -544,45 +648,75 @@ function iniciar() {
     return new Vector2(tmp.x, tmp.y);
   }
   const perto = (l) => Math.abs(l.x) < 1.15 && Math.abs(l.y) < 1.3;
+  // na capa vale a foto ou o desenho, mas não o texto nem os botões
+  const sobreCapa = (alvo, l) => !alvo.closest('a,button,input,select,textarea,[role=button],.hero__main') && (!!alvo.closest('.hero__retrato') || perto(l));
   let mouseLocal = null;
   const alvoRot = new Vector2(0, 0);
   addEventListener('pointermove', (e) => {
     if (e.pointerType === 'mouse') alvoRot.set(-((e.clientY / innerHeight) * 2 - 1) * 0.12, ((e.clientX / innerWidth) * 2 - 1) * 0.22);
     mouseLocal = local(e.clientX, e.clientY);
-    if (hero) hero.classList.toggle('is-sobre-forma', secao === 'topo' && perto(mouseLocal) && !e.target.closest('a,button'));
+    if (hero) hero.classList.toggle('is-sobre-forma', secao === 'topo' && sobreCapa(e.target, mouseLocal));
   }, { passive: true });
   document.documentElement.addEventListener('mouseleave', () => { mouseLocal = null; alvoRot.set(0, 0); });
 
   // ---------------------------------------------------------- capa: clicar troca, arrastar gira
   const botao = document.querySelector('.js-forma');
+  const selo = document.querySelector('.hanko__selo');
   const rotulo = document.querySelector('.js-forma-n');
   const idioma = () => ((document.documentElement.lang || 'pt').toLowerCase().indexOf('en') === 0 ? 'en' : 'pt');
   function atualizarBotao() {
-    const nome = NOMES[idioma()][formaCapa];
+    const atualNome = nomeCapa();
+    const nome = ROTULOS[idioma()][atualNome];
     if (rotulo && rotulo.textContent !== nome) {
-      if (gsap && window.ScrambleTextPlugin) gsap.to(rotulo, { duration: 0.6, scrambleText: { text: nome, chars: '鈴木恵二marcmk', speed: 0.7 }, overwrite: true });
+      rotulo.lang = atualNome === 'suzuki' || atualNome === 'keiji' ? 'ja' : idioma();
+      if (gsap && window.ScrambleTextPlugin) gsap.to(rotulo, { duration: 0.6, scrambleText: { text: nome, chars: '鈴木恵二retaomkp', speed: 0.7 }, overwrite: true });
       else rotulo.textContent = nome;
     }
-    if (botao) botao.hidden = !kanjiPronto;
+    const varias = CAPA.filter(disponivel).length > 1;
+    if (botao) botao.hidden = !varias;
+    // o carimbo ao lado da foto faz o mesmo que o botão (no celular o botão fica abaixo da dobra)
+    if (selo && varias) {
+      selo.setAttribute('role', 'button');
+      selo.tabIndex = 0;
+      selo.setAttribute('aria-label', idioma() === 'en' ? 'Change the particle drawing, now: ' + nome : 'Trocar o desenho das partículas, agora: ' + nome);
+    }
+  }
+  // a foto se desfaz quando as partículas viram a silhueta e volta quando elas saem
+  function mostrarFoto(sim) {
+    if (!fotoImg) return;
+    if (!gsap) { fotoImg.style.opacity = sim ? '' : '0'; return; }
+    gsap.to(fotoImg, sim
+      ? { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.1, delay: 0.3, ease: 'power2.out', overwrite: true }
+      : { opacity: 0, filter: 'blur(14px)', scale: 1.03, duration: 0.9, ease: 'power2.inOut', overwrite: true });
   }
   new MutationObserver(atualizarBotao).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   function trocarCapa(ponto) {
-    if (!kanjiPronto) { uniforms.uBurstPos.value.copy(ponto || new Vector2()); if (gsap) gsap.fromTo(uniforms.uBurst, { value: 1 }, { value: 0, duration: 1.2, ease: 'expo.out' }); return; }
-    formaCapa = (formaCapa + 1) % 3;
-    if (secao === 'topo') irPara(nomeCapa(), { pos: ponto, forca: 1 });
-    const selo = document.querySelector('.hanko__selo');
+    const prox = proximaCapa();
+    if (prox === nomeCapa()) { uniforms.uBurstPos.value.copy(ponto || new Vector2()); if (gsap) gsap.fromTo(uniforms.uBurst, { value: 1 }, { value: 0, duration: 1.2, ease: 'expo.out' }); return; }
+    formaCapa = prox;
+    if (secao === 'topo') {
+      posicionar('topo', false, prox);
+      irPara(prox, { pos: ponto, forca: prox === 'retrato' ? 0.45 : 1 });
+    }
+    mostrarFoto(prox !== 'retrato');
     if (gsap && selo) gsap.fromTo(selo, { scale: 1.25, rotate: -9 }, { scale: 1, rotate: -3, duration: 0.5, ease: 'back.out(3)', overwrite: true });
     atualizarBotao();
   }
   botao?.addEventListener('click', () => trocarCapa(null));
+  selo?.addEventListener('click', () => { if (selo.getAttribute('role') === 'button') trocarCapa(null); });
+  selo?.addEventListener('keydown', (e) => {
+    if (selo.getAttribute('role') !== 'button' || (e.key !== 'Enter' && e.key !== ' ')) return;
+    e.preventDefault();
+    trocarCapa(null);
+  });
 
   let arrasto = null;
   const giro = new Vector2(0, 0);
   const vel = new Vector2(0, 0);
   hero?.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0 || secao !== 'topo' || e.target.closest('a,button,input,select,textarea')) return;
+    if (e.button !== 0 || secao !== 'topo') return;
     const l = local(e.clientX, e.clientY);
-    if (!perto(l)) return;
+    if (!sobreCapa(e.target, l)) return;
     arrasto = { id: e.pointerId, x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, moveu: false, l };
   });
   addEventListener('pointermove', (e) => {
@@ -639,6 +773,7 @@ function iniciar() {
     const ry = alvoRot.y + Math.sin(uniforms.uTime.value * 0.25) * 0.08 + giro.y + estado.angulo;
     grupo.rotation.x += (rx - grupo.rotation.x) * 0.12;
     grupo.rotation.y += (ry - grupo.rotation.y) * 0.12;
+    ancora.position.y = preso.v * window.scrollY * (altura / (canvas.clientHeight || 1));
 
     renderer.render(scene, camera);
     loop();

@@ -99,6 +99,13 @@ passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
 (cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
 cases: nenhum número sem estar no cofre ou numa fonte pública.
 
+**Retrato em `/gui`.** A foto recortada (`gui/foto/`) fica à direita da capa no
+desktop e acima do nome no celular. As partículas da capa se posicionam medindo a
+foto (`medirFoto()` e `LUGAR_CAPA` no `hero3d.src.js`): mexeu no tamanho ou no lugar
+da foto no CSS, as partículas acompanham sozinhas. O avatar redondo só aparece no PDF,
+junto com o QR code. Trocar a foto é trocar os três arquivos de `gui/foto/` e o
+`guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
+
 **Partículas em `/gui`.** O canvas `#gl` é fixo e fica atrás da página inteira
 (`z-index: -1`), por isso o `body` do currículo não tem fundo (só o `html`) e as
 faixas de seção são translúcidas. Fundo opaco numa seção nova esconde as
