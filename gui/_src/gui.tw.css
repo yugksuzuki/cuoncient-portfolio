@@ -67,7 +67,7 @@
     overflow-x: clip;
     background: var(--color-sumi);
     color: var(--color-papel);
-    font-family: var(--font-sans); font-size: 17.5px; line-height: 1.7; font-weight: 340;
+    font-family: var(--font-sans); font-size: 17.5px; line-height: 1.7; font-weight: 360;
     font-variation-settings: "wdth" 100;
     -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     scrollbar-color: var(--color-linha-forte) var(--color-sumi);
@@ -169,7 +169,7 @@
   .sec--linha::before { content: ""; position: absolute; top: 0; left: 50%; translate: -50% 0; width: var(--shell); height: 1px; background: var(--color-linha); }
   .sec__head { display: grid; gap: 22px; margin-bottom: 52px; }
   @media (min-width: 900px) { .sec__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 56px; margin-bottom: 72px; } }
-  .sec__t { margin: 0; font-weight: 540; font-size: clamp(44px, 7.4vw, 104px); line-height: .94; letter-spacing: -0.022em; font-variation-settings: "wdth" var(--twd, 72); text-wrap: balance; }
+  .sec__t { margin: 0; font-weight: 540; font-size: clamp(44px, 7.4vw, 96px); line-height: .94; letter-spacing: -0.022em; font-variation-settings: "wdth" var(--twd, 72); text-wrap: balance; }
   .sec__t .char { display: inline-block; }
   .sec__lead { margin: 0; font-family: var(--font-mincho); font-weight: 400; color: var(--color-nevoa); font-size: 19px; line-height: 1.85; max-width: 44ch; }
   .sub { margin: 0; font-size: clamp(24px, 2.6vw, 32px); font-weight: 560; letter-spacing: -0.015em; line-height: 1.1; font-variation-settings: "wdth" 86; }
@@ -295,7 +295,7 @@
   .caso--vbike { --cor-caso: var(--color-caso-vbike); }
   @media (min-width: 900px) { .caso { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; } .caso:nth-child(even) .caso__media { order: 2; } }
   .caso__media { position: relative; padding: 0 24px 34px 0; min-width: 0; }
-  .caso__desk { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-linha); box-shadow: var(--sombra); }
+  .caso__desk { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-linha); }
   .caso__cel { position: absolute; right: 0; bottom: 0; width: 24%; height: auto; border-radius: 16px; border: 3px solid var(--color-ai-2); box-shadow: var(--sombra); }
   .caso__onde { margin: 0 0 12px; font-size: 14.5px; color: color-mix(in oklab, var(--cor-caso) 70%, var(--color-papel)); }
   .caso__nome { margin: 0 0 6px; font-size: clamp(34px, 4.4vw, 56px); font-weight: 680; letter-spacing: -0.03em; line-height: 1; font-variation-settings: "wdth" 92; }
@@ -428,10 +428,11 @@
   .links a { display: inline-flex; min-height: 44px; align-items: center; color: var(--color-nevoa); text-decoration: underline; text-decoration-color: var(--color-linha-forte); }
   .links a:hover { color: var(--color-papel); }
   .reel { margin: 0; max-width: 300px; }
-  .reel video { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 16px; background: var(--color-sumi); border: 1px solid var(--color-linha); display: block; box-shadow: var(--sombra); }
+  .reel video { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 16px; background: var(--color-sumi); border: 1px solid var(--color-linha); display: block; }
   .reel figcaption { margin-top: 12px; font-size: 14px; color: var(--color-gin); }
   .reel figcaption a { color: var(--color-asagi-claro); text-decoration: underline; display: inline-flex; min-height: 44px; align-items: center; }
 
+  .carimbo { position: fixed; z-index: 90; pointer-events: none; display: grid; place-items: center; writing-mode: vertical-rl; font-family: var(--font-mincho); font-weight: 700; font-size: 22px; line-height: 1.02; color: var(--color-shu); width: 46px; height: 66px; border: 2px solid var(--color-shu); border-radius: 7px; background: color-mix(in oklab, var(--color-shu) 10%, var(--color-sumi)); rotate: -4deg; }
   .rodape { border-top: 1px solid var(--color-linha); padding: 28px 0 40px; background: var(--color-ai); }
   .rodape__in { display: flex; gap: 14px; align-items: center; }
   .rodape p { margin: 0; font-size: 14px; color: var(--color-gin); }

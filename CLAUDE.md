@@ -99,12 +99,12 @@ passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
 (cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
 cases: nenhum número sem estar no cofre ou numa fonte pública.
 
-**Subdomínio.** `gsuzuki.cuoncient.com` abre o mesmo currículo. O `vercel.json`
-da raiz tem uma rota por host que manda `/` desse domínio para
-`/gui/index.html`. Precisa ser `routes`, não `rewrites`: no `rewrites` o
+**Subdomínio.** `suzuki.cuoncient.com` é o endereço principal do currículo
+(canonical, og:url e o contato do PDF apontam para ele). O `vercel.json` da
+raiz tem uma rota por host que manda `/` desse domínio para `/gui/index.html`. Precisa ser `routes`, não `rewrites`: no `rewrites` o
 arquivo existente ganha, e `/` cairia no `index.html` do portfólio. O DNS já
 resolve pelo curinga `*` da Vercel; o domínio precisa estar adicionado no
-projeto (Settings → Domains). Por isso os links da página para o portfólio
+projeto (Settings → Domains), e o `suzuki` foi ligado em 26/10/2026. Por isso os links da página para o portfólio
 são absolutos (`https://cuoncient.com/`).
 
 ## Convenções

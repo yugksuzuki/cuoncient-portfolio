@@ -394,12 +394,6 @@
   // a largura do título acompanha a rolagem: chega condensado e abre até a medida
   function titulos() {
     if (!temGsap || reduz || !window.ScrollTrigger) return;
-    $$('.sec__t').forEach(function (t) {
-      gsap.fromTo(t, { '--twd': 58 }, {
-        '--twd': 74, ease: 'none',
-        scrollTrigger: { trigger: t, start: 'top 98%', end: 'top 42%', scrub: 0.4 }
-      });
-    });
     // fecho: as linhas do convite sobem por trás de uma máscara (SplitText)
     var fim = $('.fim__t');
     if (fim && window.SplitText) {
@@ -453,13 +447,29 @@
     });
   }
 
-  /* ---------------------------------------------------- celular dos cases */
-  function cases() {
-    if (!temGsap || reduz || !window.ScrollTrigger) return;
-    $$('.caso').forEach(function (c) {
-      var cel = $('.caso__cel', c);
-      if (!cel) return;
-      gsap.fromTo(cel, { yPercent: 12 }, { yPercent: -12, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: 0.5 } });
+  /* ------------------------------------------------- carimbo no PDF */
+  // baixar o currículo "carimba" o 鈴木 ao lado do botão, como o hanko que assina um documento
+  function carimbo() {
+    $$('.js-pdf').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = b.getBoundingClientRect();
+        var c = document.createElement('span');
+        c.className = 'carimbo';
+        c.setAttribute('aria-hidden', 'true');
+        c.lang = 'ja';
+        c.textContent = '鈴木';
+        document.body.appendChild(c);
+        var w = c.offsetWidth, h = c.offsetHeight;
+        var x = Math.min(window.innerWidth - w - 12, r.right - w * 0.35);
+        var y = Math.max(8, r.top - h * 0.55);
+        c.style.left = x + 'px';
+        c.style.top = y + 'px';
+        if (!temGsap) { setTimeout(function () { c.remove(); }, 1400); return; }
+        var tl = gsap.timeline({ onComplete: function () { c.remove(); } });
+        if (reduz) tl.fromTo(c, { opacity: 0 }, { opacity: 1, duration: 0.2 }).to(c, { opacity: 0, duration: 0.3, delay: 0.9 });
+        else tl.fromTo(c, { opacity: 0, scale: 1.7, rotate: -14 }, { opacity: 1, scale: 1, rotate: -4, duration: 0.32, ease: 'expo.out' })
+               .to(c, { opacity: 0, y: -6, duration: 0.35, ease: 'power2.in', delay: 0.9 });
+      });
     });
   }
 
@@ -590,7 +600,7 @@
     titulos();
     magneticos();
     parede();
-    cases();
+    carimbo();
     apps();
     idiomas();
     $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); }); });

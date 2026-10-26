@@ -1,8 +1,8 @@
 # DESIGN.md: o DNA do currículo do Gui
 
-> Página: cuoncient.com/gui (e gsuzuki.cuoncient.com quando o domínio estiver ligado).
+> Página: suzuki.cuoncient.com, também em cuoncient.com/gui.
 > Fonte da verdade do visual. Mudou um token, um movimento ou uma regra aqui? Mude no código também, e vice-versa.
-> Revisado em 26/10/2026 com Impeccable (craft floor, animate, typeset), Hallmark (floor e pre-emit critique) e Stop Slop no texto.
+> Revisado em 26/10/2026 com Impeccable (craft floor e os comandos de Enhance: animate, colorize, typeset, layout, delight), Hallmark (floor e pre-emit critique) e Stop Slop no texto.
 
 ## O que a página precisa fazer
 
@@ -39,9 +39,9 @@ Regra de proporção: o asagi fica abaixo de 5% de qualquer tela, menos na capa,
 
 - **Archivo variável** (largura 62–125, peso 100–900) para tudo que é título e texto. O eixo de largura é a voz da página.
   - Nome: largura 112, peso 760, e respira (ver Movimento).
-  - Títulos de seção: largura 72 em repouso, peso 540, `line-height .94`. Com JS, chegam condensados (58) e abrem até 74 com a rolagem.
+  - Títulos de seção: largura 72, peso 540, `line-height .94`, no máximo 96 px. Ficam parados: a largura só se mexe no nome.
   - Nomes de sistema e app: largura 82, que abre para 104 no hover e quando o painel está aberto.
-  - Corpo: 17,5 px, peso 340, `line-height 1.72`, até 64ch.
+  - Corpo: 17,5 px, peso 360 (um passo acima do normal, por ser texto claro no escuro), `line-height 1.7`, até 64ch.
 - **Shippori Mincho** nas frases de abertura (`.sec__lead`, `.hero__role`, `.fim__p`) e em todo japonês. É ela que dá o tom de livro ao lado do Archivo.
 - Sem caixa-alta em rótulo, sem sobretítulo acima de título, sem palavra destacada em cor dentro de título.
 
@@ -65,22 +65,31 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 |---|---|---|
 | Capa | 11 mil partículas (Three.js) montam a marca da Cuoncient e, com a rolagem, se reagrupam em 鈴木 na vertical, passando do asagi para o shu | o momento autoral: a agência vira o nome |
 | Nome | entrada letra a letra, depois a respiração e a lente | assinatura |
-| Títulos | largura 58 → 74 presa à rolagem | o título "chega" sem fade genérico |
 | Apps | o identificador do app em foco (`br.com.brazukaclubapp`…) aparece grande no palco e embaralha ao trocar (ScrambleText) | mostra que o app existe num registro de loja |
 | Sistemas | abrir e fechar com opacidade, sem animar altura; filtros reordenam com Flip | estado |
 | Agenda | linha "agora" em yamabuki, ponto da próxima rotina pulsando | mostra que roda enquanto a pessoa lê |
-| Cases | o celular desliza contra o desktop (scrub) | profundidade entre as duas telas |
 | Parede dos 55 sites | três fileiras em sentidos opostos que aceleram com a velocidade da rolagem e quase param no hover | volume como argumento |
 | Medidores | contagem de "antes" até "depois" | o número antigo ao lado do novo |
 | Idiomas | o nome de cada idioma embaralha uma vez ao entrar | quatro alfabetos, um gesto |
 | Linha do tempo | o fio se desenha com a rolagem (DrawSVG) | sequência real |
 | Fecho | as linhas do convite sobem por trás de uma máscara (SplitText) | última frase |
 | Botões | magnéticos e com texto que rola | resposta ao ponteiro |
+| Baixar o PDF | um carimbo 鈴木 em shu bate ao lado do botão e some em 1,5 s, sem atrasar o download | o hanko assina o documento: o único momento de "delight", e só acontece quando a pessoa leva o currículo |
 | Rolagem | Lenis só em ponteiro fino (mouse) | o toque do celular fica nativo |
 
 Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis 1.3, Three.js 0.186. Tudo auto-hospedado em `/gui/vendor`.
 
 O reel de 18 s (`reel-guilherme-keidi-suzuki.mp4`) é HTML + GSAP renderizado com HyperFrames, com as mesmas cores, as mesmas fontes e o mesmo carimbo. A fonte está em `_src/reel.html`.
+
+## O que o passe de Enhance mudou (26/10)
+
+- **animate:** saíram a largura dos títulos presa à rolagem (era a mesma entrada em toda seção) e o parallax do celular nos cases (genérico). O movimento ficou concentrado na capa, no nome e nos momentos que explicam estado.
+- **typeset:** corpo de 340 para 360, título de seção limitado a 96 px, Archivo sem o eixo itálico (não era usado, era download à toa).
+- **layout:** o print dos cases e o vídeo ficaram só com a borda de 1 px. Borda com sombra larga embaixo é o "cartão fantasma".
+- **colorize:** nenhuma cor nova. O shu ganhou um uso coerente com o papel dele (o carimbo do PDF).
+- **delight:** o carimbo ao baixar o PDF.
+
+Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpeed do Google, que é de onde vêm as notas.
 
 ## Texto
 

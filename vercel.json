@@ -3,7 +3,12 @@
   "routes": [
     {
       "src": "/",
-      "has": [{ "type": "host", "value": "gsuzuki.cuoncient.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "suzuki.cuoncient.com"
+        }
+      ],
       "dest": "/gui/index.html"
     }
   ]
