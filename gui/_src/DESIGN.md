@@ -2,7 +2,7 @@
 
 > Página: suzuki.cuoncient.com, também em cuoncient.com/gui.
 > Fonte da verdade do visual. Mudou um token, um movimento ou uma regra aqui? Mude no código também, e vice-versa.
-> Revisado em 26/10/2026 com Impeccable (craft floor e os comandos de Enhance: animate, colorize, typeset, layout, delight), Hallmark (floor e pre-emit critique) e Stop Slop no texto.
+> Revisado em 27/10/2026: paleta grafite e azul-aço, capa sem foto (globo em Three.js), seção Perfil, raio-X e painel medido ao vivo. Conferido com `impeccable detect` (0 achados no computador e no celular), axe-core (0 violações) e varredura de CLS.
 
 ## O que a página precisa fazer
 
@@ -14,25 +14,26 @@ Quem pergunta "tem um currículo seu sobre IA?" precisa sair sabendo três coisa
 
 O argumento da página são os recibos, e nunca os adjetivos.
 
-## Mundo visual: azul e grafite
+## Mundo visual: grafite e azul-aço
 
-Pedido do Gui em 26/10/2026 à noite ("cores de paleta azul, cinza, branco e preto"), no lugar da paleta tinta e carimbo. A página é preto frio, branco, dois cinzas e um só acento azul. Nenhuma outra cor entra, nem a dos clientes. Os nomes japoneses dos tokens ficaram onde ainda descrevem a cor (墨 sumi é preto, 銀 gin é prata); o acento, que era 朱 shu (vermelho), virou 青 `ao` (azul).
+Pedido do Gui em 27/10/2026: "cores mais profissionais, neutras". Sai o azul elétrico (#3d73ff) e o preto quase puro; entra um grafite com um azul-aço dessaturado. Nenhuma outra cor entra, nem a dos clientes. Os nomes dos tokens ficaram (墨 sumi, 銀 gin, 青 ao).
 
 | Token | Hex | Papel |
 |---|---|---|
-| `sumi` 墨 | `#07080a` | fundo. Preto frio, nunca `#000` |
-| `sumi-2` | `#0d0f13` | faixas alternadas (apps, resultados, formação, contato) e rodapé |
-| `sumi-3` | `#14171c` | a faixa da agenda e a moldura do celular nos cases |
-| `papel` | `#e8ecf1` | texto principal, partículas claras, linha "agora" da agenda (16,9:1 no sumi) |
-| `branco` | `#ffffff` | hover do botão cheio |
-| `nevoa` | `#9aa4b1` | texto de apoio (7,9:1) |
-| `gin` 銀 | `#7f8996` | legendas e metadados (5,7:1) |
-| `ao` 青 | `#3d73ff` | o acento: kanji, meridianos da esfera, barras, medidores, indicador da barra, foco (4,9:1) |
-| `ao-claro` | `#86a8ff` | o acento em texto pequeno: links, provas, números, anos, furigana do nome (8,6:1) |
+| `sumi` 墨 | `#101214` | fundo grafite |
+| `sumi-2` | `#15181b` | faixas alternadas (perfil, agentes, resultados, formação, contato) e rodapé |
+| `sumi-3` | `#1b1f23` | a faixa da agenda, as caixas dos fluxos e a moldura do celular nos cases |
+| `papel` | `#e6e8ea` | texto principal e partículas claras (15,3:1 no sumi) |
+| `branco` | `#ffffff` | hover do botão cheio e app em foco |
+| `nevoa` | `#a3a9b0` | texto de apoio (7,9:1) |
+| `gin` 銀 | `#8a9199` | legendas e metadados (5,9:1) |
+| `ao` 青 | `#6a90b9` | o acento azul-aço: marcas, fios, medidores, indicador da barra (5,6:1) |
+| `ao-claro` | `#a9c0d9` | o acento em texto pequeno: links, provas, números; fundo das etiquetas do raio-X (10:1) |
 
-Contraste calculado pela fórmula da WCAG contra o `sumi`. Regra de proporção: o azul marca o que é prova, ação ou movimento. Se um bloco inteiro ficar azul, está errado.
+Contraste calculado pela fórmula da WCAG contra o `sumi` e conferido no navegador com o axe-core. Regra de proporção: o azul marca o que é prova, ação ou movimento. Se um bloco inteiro ficar azul, está errado.
 
-No PDF o acento vira `#1d44b8` sobre o papel branco (8,2:1).
+No PDF o acento vira `#2e4d70` sobre o papel branco.
+
 
 ## Tipo
 
@@ -48,10 +49,14 @@ No PDF o acento vira `#1d44b8` sobre o papel branco (8,2:1).
 ## Layout
 
 - Shell de 1240 px, calha de 16 px no celular e 32 px a partir de 640.
+- **Capa sem foto.** Desktop (900 px ou mais): o nome à esquerda (7 colunas) e o globo à direita (5 colunas), com a legenda dos lugares embaixo. Celular: a legenda à esquerda e o globo à direita, os dois acima do nome; o nome e o primeiro botão cabem na primeira tela.
+- **Perfil** logo depois da capa: o retrato pequeno (128 px no celular, 176 px no desktop, 4:5, preto e branco, espelhado para olhar o texto), o título, um parágrafo de bio e os dados em duas colunas (idade, cargo, clientes, idiomas) com o contato numa linha só.
 - Cabeçalho de seção em 7/5: título à esquerda, abertura em Mincho à direita, alinhados pela base.
 - Listas com fio de 1 px (`linha`), sem cartões. Hierarquia por tamanho e largura de letra, não por caixa.
 - Numeração só onde há sequência real (linha do tempo). Sistemas e apps não levam número.
-- Faixas `sumi-2` alternam com o sumi para separar blocos longos sem precisar de borda.
+- Faixas `sumi-2` alternam com o fundo para separar blocos longos sem precisar de borda.
+- Menu: Perfil, Aplicativos, Agentes de IA, Resultados, Experiência e Competências, a partir de 1200 px (Cuoncient e Formação continuam na página, fora do menu).
+
 
 ## Assinatura
 
@@ -59,73 +64,88 @@ O nome respira. Uma onda lenta passa pelas letras no eixo de largura do Archivo,
 
 ## Movimento
 
-Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o único momento autoral que a página ganhou. Tudo respeita `prefers-reduced-motion` e nada some se o JavaScript falhar.
+Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o único momento autoral que a página ganhou. Tudo respeita `prefers-reduced-motion` e nada some se o JavaScript falhar. **Nada que anima mexe no layout**: só transform, opacity, clip-path e atributos de SVG (ver Estabilidade de layout).
 
 | Onde | O que | Por quê |
 |---|---|---|
-| Página inteira | 11 mil partículas (7 mil no celular) numa tela fixa atrás de todo o conteúdo. Na capa montam uma esfera pontilhada atrás do retrato; em cada seção mudam de desenho (ver Partículas) | o fio que atravessa a página |
-| Capa, retrato | a moldura abre de baixo para cima (`clip-path`, 1,1 s) e a foto assenta de 1,14 para 1 (1,6 s), as duas em `cubic-bezier(.23,1,.32,1)`. É CSS puro: roda mesmo com a página ocupada carregando e não depende do JS. `animation-fill-mode: backwards`, para soltar a foto quando acaba | a primeira coisa que chega é ele |
-| Capa, clique | clicar ou tocar na foto ou nas partículas troca o desenho (esfera → retrato → 鈴木 → marca → 恵二) com uma explosão que sai do ponto clicado. No retrato a foto se desfaz (opacidade e desfoque) e as partículas viram a silhueta dele, no mesmo lugar | o nome inteiro, 鈴木 恵二, aparece pela mão de quem visita |
-| Capa, arrastar | arrastar gira o desenho em 3D (as formas têm espessura), com inércia, e ele volta sozinho | mostra que é 3D de verdade |
-| Capa, esfera | gira devagar sem parar (0,18 rad/s); as formas planas param de frente | a única forma 3D da capa; o giro é o que mostra o volume |
-| Capa, cursor e rolagem | o cursor afasta e azula as partículas perto dele; rolar rápido agita o enxame | resposta ao gesto |
+| Página inteira | 11 mil partículas (7 mil no celular) numa tela fixa atrás de todo o conteúdo; na capa formam o globo, em cada seção mudam de desenho (ver Partículas) | o fio que atravessa a página |
+| Capa, globo | os continentes em pontos (Natural Earth), virados para as Américas; os estados dos clientes acesos em azul; três rotas Brasil ↔ EUA se desenham na entrada e um pulso corre por elas sem parar; o lado de trás do globo apaga | onde o trabalho acontece, com dado real |
+| Capa, nomes dos lugares | HTML preso aos pontos 3D a cada quadro (projeção da câmera), some quando o ponto vai para trás do globo | Three.js e DOM juntos |
+| Capa, clique e arraste | clicar troca o desenho (globo → 鈴木 → marca → 恵二) com uma explosão no ponto clicado; arrastar gira com inércia e volta sozinho | interação real com o 3D |
 | Capa, botão | "Trocar o desenho" faz a mesma troca pelo teclado, e o nome da forma embaralha (ScrambleText) | acesso sem mouse |
-| Nome | entrada letra a letra (as letras chegam finas e condensadas, largura 70 e peso 260, e abrem até 104 e 520; 1,2 s, `power4.out`, 30 ms entre letras), depois a respiração (±4 na largura) e a lente | assinatura |
-| Barra | o traço vermelho desliza até a seção atual; uma linha de leitura enche com a rolagem | onde estou e quanto falta |
-| Títulos | as letras chegam condensadas e abrem até a largura do título (SplitText por letra, uma vez) | o eixo de largura, a voz da página |
-| Apps | o identificador em foco aparece grande no palco e embaralha; o nome do app abre no eixo de largura | o app existe num registro de loja |
-| Sistemas | abrir e fechar com opacidade, sem animar altura; filtros reordenam com Flip | estado |
+| Nome | entrada letra a letra (largura 70 e peso 260 até 104 e 520), depois a respiração (±4 na largura) e a lente perto do cursor | assinatura |
+| Perfil | a moldura do retrato abre de baixo para cima (clip-path) e a foto assenta; os dados sobem em cascata | a foto chega pequena e discreta |
+| Barra | o traço desliza até a seção atual; uma linha de leitura enche com a rolagem | onde estou e quanto falta |
+| Títulos | SplitText por letra: cada letra chega estreita (scaleX 0,35) e abre. Só transform; antes era o eixo de largura da fonte, que mudava a quebra de linha | o eixo de largura, sem empurrar a página |
+| Padrões de agente | quatro fluxos em SVG: um pedido percorre as etapas como o sistema roda (reescrita no revisor, três saídas no roteamento, o visto da pessoa na aprovação, os trechos voltando do índice no RAG); os fios se desenham com DrawSVG e o laço só roda com o fluxo na tela | o padrão funcionando, não descrito |
+| Apps | o identificador em foco aparece grande no palco e embaralha; o nome do app clareia | o app existe num registro de loja |
+| Sistemas | abrir e fechar com opacidade; filtros reordenam com Flip | estado |
 | Agenda | os pontos aparecem na ordem da semana e a linha "agora" corre até a hora certa | mostra que roda enquanto a pessoa lê |
-| Cuoncient | 55, 46 e 16 contam até o valor | volume |
+| Cuoncient | 55, 46 e 16 contam até o valor, com a largura final reservada | volume |
 | Cases | o print do site carrega de cima para baixo (clip-path) e o celular sobe | um site abrindo |
-| Parede dos 55 sites | três fileiras em sentidos opostos que aceleram com a rolagem e quase param no hover | volume como argumento |
+| Parede dos 55 sites | três fileiras em sentidos opostos **presas à rolagem** (scrub): parou de rolar, a parede para. Antes era uma marquise automática | volume como argumento, no ritmo de quem lê |
 | Resultados | o número antigo é riscado antes do novo; os medidores contam de "antes" até "depois" | antes e depois |
-| Idiomas | a barra de nível cresce até o nível de cada idioma e o nome embaralha | quatro alfabetos, quatro níveis |
+| Idiomas | a barra de nível cresce e o nome embaralha | quatro alfabetos, quatro níveis |
 | Linha do tempo | o fio se desenha com a rolagem (DrawSVG) | sequência real |
-| 芸術×技術 | o kanji aparece de cima para baixo, como pincelada, preso à rolagem | tinta |
+| 芸術×技術 | o kanji aparece de cima para baixo, preso à rolagem | tinta |
 | Fecho | as linhas do convite sobem por trás de uma máscara (SplitText) | última frase |
-| Botões | magnéticos e com texto que rola | resposta ao ponteiro |
-| Baixar o PDF | um carimbo 鈴木 bate ao lado do botão e some, sem atrasar o download | o hanko assina o documento |
+| Botões | magnéticos (com mouse) e com texto que rola | resposta ao ponteiro |
+| Baixar o PDF | um carimbo 鈴木 bate ao lado do botão e some | o hanko assina o documento |
+| Raio-X | as etiquetas entram com um leve zoom e seguem cada elemento a cada quadro (gsap.ticker) | ver a tecnologia de cada parte |
 | Rolagem | Lenis só em ponteiro fino (mouse) | o toque do celular fica nativo |
 
-O Gui pediu "bastante GSAP": cada efeito acima explica algo do conteúdo, roda uma vez (ou preso à rolagem) e some com `prefers-reduced-motion`. Tudo em JavaScript puro, sem framework; o Tailwind só compila o CSS.
+Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis 1.3, Three.js 0.186, axe-core 4.14 (sob demanda). Tudo auto-hospedado em `/gui/vendor`.
 
-Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis 1.3, Three.js 0.186. Tudo auto-hospedado em `/gui/vendor`.
+O reel de 18 s (`reel-guilherme-keidi-suzuki.mp4`) é HTML + GSAP renderizado com HyperFrames, com as mesmas cores e fontes. A fonte está em `_src/reel.html`.
 
-O reel de 18 s (`reel-guilherme-keidi-suzuki.mp4`) é HTML + GSAP renderizado com HyperFrames, com as mesmas cores, as mesmas fontes e o mesmo carimbo. A fonte está em `_src/reel.html`.
 
 ## Partículas
 
-Pedido do Gui: "abuse das partículas". É uma tela só (`#gl`, `position: fixed`, `z-index: -1`) e um único `Points`; o que muda é o desenho. Cada seção que chega ao meio da tela troca o alvo, e a troca sai do ponto onde cada partícula está, então não há salto nem no meio de outra transição.
+É uma tela só (`#gl`, `position: fixed`, `z-index: -1`) com dois `Points`: o enxame que muda de desenho e, por cima, as rotas do globo (shader próprio, só aparece na capa). Cada seção que chega ao meio da tela troca o alvo, e a troca sai do ponto onde cada partícula está, sem salto.
 
 | Seção | Desenho | Detalhe |
 |---|---|---|
-| Capa | esfera, retrato, 鈴木, marca ou 恵二 | a esfera tem 15 paralelos em papel e 12 meridianos em azul, eixo inclinado. O lugar de cada desenho é medido na foto (`LUGAR_CAPA` no desktop, `LUGAR_CAPA_MOB` no celular): no desktop a esfera envolve o retrato, um pouco acima e à direita, sem chegar ao nome; no celular os desenhos ocupam o vazio à esquerda da foto. O retrato cai em cima da foto. Na capa o desenho rola junto com a foto; ao sair dela solta e vai para o lugar da seção |
-| Aplicativos | celular com a grade de ícones | um ícone em vermelho, carcaça com espessura |
-| Agentes | rede de agentes em 3D | nós vermelhos, arestas em papel, gira sem parar |
-| Automações | relógio | os ponteiros marcam a hora de Brasília no momento em que a seção aparece; mais apagado para não competir com a agenda |
+| Capa | globo, 鈴木, marca ou 恵二 | o globo usa 4.846 pontos de terra (grade de 1,5° com densidade igual, gerada por `_src/terra.mjs` a partir do world-atlas), malha de 30 em 30 graus mais fraca e os cinco lugares dos clientes em azul. Centro em 60° O, 8° N. Fica dentro da caixa `.hero__globo` (medida pelo `medirCaixa()`), rola junto com ela e solta ao sair da capa |
+| Perfil | 鈴木 | à direita do texto, apagado |
+| Aplicativos | celular com a grade de ícones | um ícone em azul |
+| Agentes | rede de agentes em 3D | mais apagada: os fluxos ocupam a largura toda |
+| Automações | relógio | marca a hora de Brasília; bem apagado atrás da agenda |
 | Cuoncient | a marca | |
-| Resultados | três anéis | 71, 80 e 98: a parte em vermelho é a nota |
-| Experiência | linha de crescimento | marcos em vermelho |
+| Resultados | três anéis | 71, 80 e 98 em azul |
+| Experiência | linha de crescimento | mais apagada, passa atrás dos cargos |
 | Formação | 学 (aprender) | |
-| Competências | grade cúbica 7×7×7 | gira sem parar |
-| Princípios | ensō, o círculo de tinta | aberto no alto, com traço seco |
+| Competências | grade cúbica 7×7×7 | bem apagada atrás do painel ao vivo |
+| Princípios | ensō | |
 | Contato | o carimbo 鈴木 | entre o texto e o reel |
 
-Fora da capa as partículas ficam a 62% de opacidade (38% no celular) e as faixas de seção são translúcidas (45%) para elas aparecerem. Formas planas param de girar e voltam de frente; só as em 3D (rede, cubo) giram sem parar. A rolagem agita o enxame e dá um empurrão limitado no giro. O laço de desenho para quando a aba fica escondida.
+A opacidade por seção fica em `ALFA_SECAO` no `hero3d.src.js`. O shader apaga o lado de trás do globo (`uFace`) e clareia a terra (`uClaro`) só nesse desenho; cor negativa no atributo deixa a partícula mais fraca (é assim que a malha fica atrás dos continentes). O laço de desenho para quando a aba fica escondida, e as medidas (fps, pontos, chamadas de desenho) ficam em `window.__gl` para o painel e o raio-X.
 
-## O retrato (26/10, refeito à noite)
+## Raio-X e painel ao vivo: a tecnologia aplicada, não só listada
 
-O Gui achou a capa feia e pediu algo "mais minimalista" com a foto. A selfie de corpo inteiro com o celular na mão saiu; ficou um retrato de ombros para cima.
+Pedido do Gui: "mostre todas as ferramentas aplicadas, não só ditas".
 
-- **Arquivos em `gui/foto/`:** `guilherme-retrato.webp` (640×800) e `-320.webp`, gerados de `guilherme-recorte.webp` (o recorte IS-Net de corpo inteiro, que continua lá como fonte): corte do recorte em x 72 a 452 e y −95 a 380 (o vazio acima da cabeça é transparente), espelhado para ele olhar para o nome, em duotom frio (sombra `#090b0f`, luz `#eef2f7`). Os 44 px do lado do celular (depois do espelho) somem num esmaecido e a base esmaece de leve. `guilherme-rosto.jpg` continua sendo o avatar do PDF, do JSON-LD e do vCard.
-- **Moldura:** 4:5, raio de 3 px, fio de 1 px (`linha`) desenhado por um `::after` por cima da foto, fundo transparente com um leve clarão no alto. Sem cartão: as partículas aparecem em volta da cabeça.
-- **Desktop (900 px ou mais):** duas colunas, o nome à esquerda e o retrato à direita com `--foto-w` entre 240 e 320 px, apoiado na base do bloco do nome. O `ajustar()` do nome encaixa na coluna, até 150 px.
-- **Celular e tablet em pé:** o retrato vem antes do nome, no alto à direita, com até 230 px de largura.
-- **Silhueta em partículas:** amostrada do alfa do retrato, com peso maior no contorno e nas partes claras (camisa, rosto) e quase nada no terno; esmaece a partir de 74% da altura. O contorno sai em azul; o brilho sobe (`uClaro`) só nesse desenho.
-- Na tela o avatar redondo some (o retrato faz o papel dele); no PDF ele volta, com o QR code de `suzuki.cuoncient.com` no canto.
-- O carimbo 鈴木 da capa saiu: era um terceiro elemento disputando com o nome e o retrato. O 鈴木 continua no clique das partículas, no fecho e no PDF.
-- A foto continua carregando com `fetchpriority="high"`. A entrada dela é CSS puro e começa na pintura, sem esperar JS nem fonte.
+- **Raio-X** (botão na barra; Esc desliga): todo elemento com `data-tec` (e `data-en-tec`) ganha um contorno tracejado e uma etiqueta com a tecnologia que o move, presa a ele a cada quadro. A etiqueta da capa mostra pontos e fps ao vivo (`{pontos}`, `{fps}`). Para marcar uma parte nova, basta pôr `data-tec` nela.
+- **Painel em Competências**, medido no navegador de quem visita: Three.js (fps com linha dos últimos 30 s, partículas, chamadas de desenho), GSAP (ScrollTriggers e animações vivas), Core Web Vitals (LCP, CLS, INP por PerformanceObserver), peso da visita (Resource Timing), acessibilidade (o axe-core só baixa quando a pessoa clica e roda na página inteira) e a revisão de design (o resultado do Impeccable, com data).
+- **"Em uso nesta página"**: botões que ligam o raio-X e levam até a parte que usa cada tecnologia.
+- O número do Impeccable no painel é estático: mudou o design, rode `impeccable detect` de novo e atualize o texto (PT e EN) no template.
+
+## Estabilidade de layout (CLS)
+
+Medido em 27/10/2026 com rolagem programada da página inteira: o CLS caiu de 0,335 para 0,024 no desktop e de 0,182 para 0,007 no celular. O que causava e como ficou:
+
+- Títulos animados no eixo de largura da fonte mudavam a quebra de linha e empurravam tudo abaixo. Agora é `scaleX` e o título guarda a altura (`min-height`) enquanto está dividido.
+- O nome do app em foco abria no eixo de largura e quebrava em duas linhas. Agora só muda a cor.
+- O placar contava a partir de 0 e mudava de largura. Agora reserva a largura final.
+- O bloco da capa aparecia antes do nome ganhar o tamanho final. Agora espera (`.hero.is-pronto`), e a linha da agenda tem altura mínima para o botão "Trocar o desenho" entrar sem empurrar nada.
+
+
+## O retrato (27/10)
+
+O Gui achou a foto da capa grande demais. A capa ficou sem foto; o retrato foi para a seção Perfil, pequeno.
+
+- **Arquivos em `gui/foto/`:** `guilherme-retrato.webp` (640×800) e `-320.webp`, os mesmos de antes (duotom frio, gerados do recorte `guilherme-recorte.webp`). No Perfil a foto é espelhada de volta pelo CSS (`scale: -1 1`) para ele olhar para o texto, que fica à direita.
+- `guilherme-rosto.jpg` continua sendo o avatar do PDF (no `.hero__eu`, que só aparece na impressão e carrega com `loading="lazy"`), do JSON-LD e do vCard.
+
 
 ## Texto em registro de currículo (26/10)
 
@@ -150,23 +170,27 @@ Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpee
 ## Acessibilidade e qualidade
 
 - Contraste medido no navegador, não só no lint: todo texto passa de 4,5:1 sobre o fundo real.
-- Alvos de toque de 44 px (links da barra, PT/EN, botões pequenos e o de trocar o desenho), foco visível em shu-claro, `aria-expanded` nos sistemas, `aria-live` na agenda e no filtro.
+- Alvos de toque de 44 px (links da barra, PT/EN, Raio-X, botões pequenos e o de trocar o desenho), foco visível em ao-claro, `aria-expanded` nos sistemas, `aria-pressed` no Raio-X, `aria-live` na agenda e no filtro.
+- axe-core na página inteira (27/10/2026, PT, depois das animações de entrada): 0 violações. A agenda era `role="img"` com botões dentro (`nested-interactive`); virou `role="group"`. Os fluxos dos agentes são `aria-hidden`: o mesmo conteúdo está no título e no parágrafo de cada padrão.
 - Os pontos da agenda são a exceção medida: as faixas ficam a 9 px uma da outra, e alvo grande cobriria o vizinho (na segunda às 10:00 há dois pontos juntos). O clique e o toque são resolvidos no trilho, pelo ponto mais próximo até 30 px; o teclado vai ponto a ponto. O `verifica.mjs` continua apontando 24×24, e é de propósito.
 - Sem rolagem horizontal de 320 a 1920 px (a parede usa `overflow: clip`).
-- Sem JS: nome visível, sistemas fechados mas legíveis, capa com a marca em SVG.
+- Sem JS, sem WebGL ou com movimento reduzido: nome visível, sistemas fechados mas legíveis, a caixa do globo mostra a marca em SVG e os nomes dos lugares ficam na legenda.
 
 ## Impressão
 
-O PDF é a mesma página com `@media print`: papel branco, 4 páginas A4, sem agenda, parede, reel nem capa animada. O 鈴木 恵二 aparece ao lado do nome, o rosto em 40 pt e um QR code de `suzuki.cuoncient.com` no canto direito do cabeçalho (gerado com segno, embutido como SVG). Gerado com Playwright (`emulateMedia print`) em PT e EN.
+O PDF é a mesma página com `@media print`: papel branco, 4 páginas A4, sem capa animada, perfil, agenda, parede, fluxos, painel ao vivo nem reel. O 鈴木 恵二 aparece ao lado do nome, o rosto em 40 pt e um QR code de `suzuki.cuoncient.com` no canto direito do cabeçalho. Gerado com Playwright (`emulateMedia print`, A4) em PT e EN; antes de imprimir, o script tira o `loading="lazy"` do avatar.
+
 
 ## Contato salvo e cabeçalhos
 
 - `gui/guilherme-keidi-suzuki.vcf`: vCard 3.0 com nome, cargo, WhatsApp, endereço do currículo, GitHub e o rosto em base64. O link fica no contato, sem `download`, para o iPhone abrir direto o cartão de "Novo contato". Sem e-mail, pela mesma regra do portfólio.
 - `vercel.json`: `X-Frame-Options`, `frame-ancestors 'none'`, `nosniff` e `Referrer-Policy` só em `/gui` e no host `suzuki.cuoncient.com` (regra da skill cuoncient-web-stack), e `text/vcard` para o `.vcf`. O portfólio da raiz ficou de fora de propósito.
 
-## Achados do Impeccable detect que ficam como estão
+## Impeccable detect
 
-- `low-contrast`: o detector estático lê o texto contra branco porque não resolve o fundo do Tailwind compilado. A medição no navegador passa.
-- `tight-leading`: vem do `line-height .9` do nome e dos títulos grandes, que é intencional em display.
-- `repeating-stripes-gradient`: são as 24 marcas de hora da agenda, e carregam informação.
-- `clipped-overflow-container`: o `overflow-x: clip` do html/body segura a parede de sites.
+27/10/2026, página servida localmente e lida pelo `impeccable detect --cdp` (o navegador já com a página aberta e as animações terminadas), em 1440×900 e 390×844: **0 achados e 0 avisos**. Na primeira leitura desta versão eram 3 achados e 16 avisos:
+
+- `low-contrast` nos números riscados (o risco era um `linear-gradient` no fundo do texto): o risco virou um `::after`.
+- `straggler` (palavra sozinha na última linha) em vários parágrafos: `text-wrap: pretty` em `p`, `li` e `dd`.
+- `repeating-stripes-gradient` na régua da agenda: virou um `linear-gradient` com `background-size` de 1/24, que é a régua de horas de verdade.
+- `marquee` não aparece mais porque a parede de sites deixou de rolar sozinha.

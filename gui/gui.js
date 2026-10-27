@@ -1,5 +1,6 @@
-/* Currículo do Gui — cuoncient.com/gui
-   Idioma, nome vivo, sistemas, agenda das automações, medidores e linha do tempo.
+/* Currículo do Gui — suzuki.cuoncient.com (também cuoncient.com/gui)
+   Idioma, nome vivo, sistemas, fluxos dos agentes, agenda das automações, medidores, linha do
+   tempo, raio-X (a tecnologia de cada parte) e o painel medido ao vivo.
    Tudo funciona sem este arquivo: ele só acrescenta. */
 (function () {
   'use strict';
@@ -38,7 +39,14 @@
       },
       proxima: 'próxima',
       dica: function (nome, dia, hm) { return nome + ': ' + dia + ' às ' + hm + '.'; },
-      sistemas: function (n) { return n === 1 ? 'sistema' : 'sistemas'; }
+      sistemas: function (n) { return n === 1 ? 'sistema' : 'sistemas'; },
+      glOff: 'Three.js desligado (movimento reduzido ou sem WebGL)',
+      axeCarrega: 'Carregando o axe-core…',
+      axeRoda: 'Auditando a página…',
+      axeDeNovo: 'Rodar de novo',
+      axeFalhou: 'Não foi possível carregar o axe-core agora.',
+      axeOk: function (pass, inc, ms) { return pass + ' regras aprovadas e ' + inc + ' para conferência manual, em ' + ms + ' ms.'; },
+      axeRuim: function (ids) { return 'Regras com problema: ' + ids + '.'; }
     },
     en: {
       titulo: 'Guilherme Keidi Suzuki, résumé',
@@ -60,7 +68,14 @@
       },
       proxima: 'next',
       dica: function (nome, dia, hm) { return nome + ': ' + dia + ' at ' + hm + '.'; },
-      sistemas: function (n) { return n === 1 ? 'system' : 'systems'; }
+      sistemas: function (n) { return n === 1 ? 'system' : 'systems'; },
+      glOff: 'Three.js off (reduced motion or no WebGL)',
+      axeCarrega: 'Loading axe-core…',
+      axeRoda: 'Auditing the page…',
+      axeDeNovo: 'Run again',
+      axeFalhou: 'Could not load axe-core right now.',
+      axeOk: function (pass, inc, ms) { return pass + ' rules passed and ' + inc + ' left for manual review, in ' + ms + ' ms.'; },
+      axeRuim: function (ids) { return 'Failing rules: ' + ids + '.'; }
     }
   };
   function T() { return TEXTOS[lang]; }
@@ -70,7 +85,8 @@
     ['en-href', 'href'],
     ['en-label', 'aria-label'],
     ['en-title', 'title'],
-    ['en-alt', 'alt']
+    ['en-alt', 'alt'],
+    ['en-tec', 'data-tec']
   ];
   function aplicarIdioma(novo) {
     lang = novo === 'en' ? 'en' : 'pt';
@@ -119,8 +135,8 @@
   /* ------------------------------------------------------- agenda semanal */
   // dias: 0 = domingo ... 6 = sábado (como o Date). Horário de Brasília.
   var ROTINAS = [
-    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: 'var(--color-shu)', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
-    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: 'var(--color-shu-claro)', pt: 'Resumo da manhã', en: 'Morning brief' },
+    { id: 'nf', dias: [1, 2, 3, 4, 5], h: 6, m: 15, cor: 'var(--color-ao)', pt: 'Planilha de pedidos para tarefas de NF', en: 'Order sheet to invoice tasks' },
+    { id: 'manha', dias: [1, 2, 3, 4, 5], h: 6, m: 40, cor: 'var(--color-ao-claro)', pt: 'Resumo da manhã', en: 'Morning brief' },
     { id: 'blog', dias: [1, 3, 5], h: 10, m: 0, cor: 'var(--color-papel)', pt: 'Motor do blog da Art 7', en: 'Art 7 blog engine' },
     { id: 'qa', dias: [1], h: 10, m: 0, cor: 'var(--color-nevoa)', pt: 'Vigia semanal das páginas', en: 'Weekly page watch' },
     { id: 'revisao', dias: [5], h: 21, m: 0, cor: 'var(--color-gin)', pt: 'Revisão semanal', en: 'Weekly review' }
@@ -349,6 +365,8 @@
     function revelar() {
       ajustar();
       h1.classList.add('is-pronto');
+      var heroEl = $('.hero');
+      if (heroEl) heroEl.classList.add('is-pronto');
       window.__guiEntrada = true;
       document.dispatchEvent(new CustomEvent('gui:entrada'));
       if (!temGsap || reduz) return;
@@ -358,7 +376,8 @@
       tl.fromTo(chars, { '--wd': 70, '--wg': 260, opacity: 0, yPercent: 26 },
         { '--wd': 104, '--wg': 520, opacity: 1, yPercent: 0, duration: 1.2, stagger: 0.03 })
         .from('.hero__role', { opacity: 0, y: 12, duration: 0.8 }, 0.45)
-        .from('.hero__facts, .hero__cta', { opacity: 0, y: 10, duration: 0.7, stagger: 0.06 }, 0.58)
+        .from('.hero__cta', { opacity: 0, y: 10, duration: 0.7 }, 0.58)
+        .from('.hero__legenda', { opacity: 0, duration: 0.8 }, 1.6)
         .from('.hero__now', { opacity: 0, duration: 0.6 }, 0.9)
         .add(respirar, 1.4);
     }
@@ -454,27 +473,19 @@
   }
 
   /* ---------------------------------------------------------- parede de sites */
-  // as três fileiras correm em sentidos alternados e aceleram com a rolagem
+  // as três fileiras andam em sentidos alternados, presas à rolagem: parou de rolar, a parede para
   function parede() {
     var filas = $$('.parede__fila');
     if (!filas.length || !temGsap || reduz || !window.ScrollTrigger) return;
-    var tweens = filas.map(function (f) {
-      var trilho = $('.parede__trilho', f);
-      Array.prototype.slice.call(trilho.children).forEach(function (c) { trilho.appendChild(c.cloneNode(true)); });
-      var dir = +f.dataset.dir || 1;
-      var tw = gsap.fromTo(trilho, { xPercent: dir > 0 ? 0 : -50 }, { xPercent: dir > 0 ? -50 : 0, duration: 70 + filas.indexOf(f) * 12, ease: 'none', repeat: -1, paused: true });
-      f.addEventListener('pointerenter', function () { gsap.to(tw, { timeScale: 0.15, duration: 0.6 }); });
-      f.addEventListener('pointerleave', function () { gsap.to(tw, { timeScale: 1, duration: 0.6 }); });
-      return tw;
-    });
     var caixa = $('.parede');
-    ScrollTrigger.create({
-      trigger: caixa, start: 'top bottom', end: 'bottom top',
-      onToggle: function (st) { tweens.forEach(function (tw) { if (st.isActive) tw.play(); else tw.pause(); }); },
-      onUpdate: function (st) {
-        var v = Math.min(Math.abs(st.getVelocity()) / 600, 4);
-        tweens.forEach(function (tw) { gsap.to(tw, { timeScale: 1 + v, duration: 0.3, overwrite: true }); gsap.to(tw, { timeScale: 1, duration: 1.2, delay: 0.3 }); });
-      }
+    filas.forEach(function (f) {
+      var trilho = $('.parede__trilho', f);
+      var dir = +f.dataset.dir || 1;
+      var dist = function () { return Math.max(0, trilho.scrollWidth - f.clientWidth); };
+      gsap.fromTo(trilho,
+        { x: function () { return dir > 0 ? 0 : -dist() * 0.5; } },
+        { x: function () { return dir > 0 ? -dist() * 0.5 : 0; }, ease: 'none',
+          scrollTrigger: { trigger: caixa, start: 'top bottom', end: 'bottom top', scrub: 0.8, invalidateOnRefresh: true } });
     });
   }
 
@@ -647,18 +658,20 @@
 
     if (reduz) return;
 
-    // títulos: as letras chegam condensadas e abrem até a largura do título
+    // títulos: as letras chegam estreitas e abrem até a largura do título. Só transform (scaleX):
+    // mexer no eixo de largura da fonte mudava a quebra de linha e empurrava a página (CLS)
     if (window.SplitText) {
       gsap.registerPlugin(SplitText);
       $$('.sec__t').forEach(function (t) {
         ScrollTrigger.create({
           trigger: t, start: 'top 88%', once: true,
           onEnter: function () {
+            t.style.minHeight = t.offsetHeight + 'px';
             var sp = new SplitText(t, { type: 'words,chars', charsClass: 'tl' });
             gsap.from(sp.chars, {
-              '--cw': 34, opacity: 0, yPercent: 35, duration: 0.9, ease: 'expo.out',
+              scaleX: 0.35, opacity: 0, yPercent: 35, transformOrigin: '0% 100%', duration: 0.9, ease: 'expo.out',
               stagger: { each: 0.018, from: 'start' },
-              onComplete: function () { sp.revert(); }
+              onComplete: function () { sp.revert(); t.style.minHeight = ''; }
             });
           }
         });
@@ -673,6 +686,9 @@
       ScrollTrigger.create({
         trigger: b, start: 'top 85%', once: true,
         onEnter: function () {
+          // reserva a largura final do número (já com a fonte carregada) enquanto ele conta
+          b.style.display = 'inline-block';
+          b.style.minWidth = b.getBoundingClientRect().width + 'px';
           gsap.to(o, { v: fim, duration: 1.6, ease: 'power3.out', onUpdate: function () { b.textContent = Math.round(o.v); } });
         }
       });
@@ -736,11 +752,271 @@
       });
     }
 
-    // apps: o nome do app em foco abre no eixo de largura
+    // apps: o nome do app chega da esquerda e assenta
     $$('.app').forEach(function (li) {
       var n = $('.app__nome', li);
       if (!n) return;
-      gsap.from(n, { '--awd': 70, opacity: 0.4, duration: 0.9, ease: 'expo.out', clearProps: '--awd,opacity', scrollTrigger: { trigger: li, start: 'top 80%', once: true } });
+      gsap.from(n, { x: -24, opacity: 0.3, duration: 0.9, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: li, start: 'top 80%', once: true } });
+    });
+  }
+
+  /* ----------------------------------------------- fluxos dos agentes (SVG + GSAP) */
+  // um pedido (o ponto) percorre cada padrão como ele roda de verdade; só anima com o fluxo na tela
+  function fluxos() {
+    var svgs = $$('.fluxo');
+    if (!svgs.length || !temGsap || reduz || !window.ScrollTrigger) return;
+    svgs.forEach(function (svg) {
+      var nos = $$('.fl-no', svg), tk = $('.fl-tk', svg);
+      var fios = $$('.fl-ar', svg);
+      var tl = gsap.timeline({ repeat: -1, repeatDelay: 0.9, paused: true, defaults: { ease: 'power2.inOut' } });
+      function on(i) { return function () { nos.forEach(function (n, k) { n.classList.toggle('is-on', k === i); }); }; }
+      function centro(i) { var r = $('rect', nos[i]); return { x: +r.getAttribute('x') + +r.getAttribute('width') / 2, y: +r.getAttribute('y') + 14 }; }
+      function ir(i, dur) { var c = centro(i); tl.to(tk, { attr: { cx: c.x, cy: c.y }, duration: dur || 0.6 }).call(on(i)); }
+      function curva(alvo, path, dur, pos) {
+        var L = path.getTotalLength(), o = { p: 0 };
+        tl.fromTo(o, { p: 0 }, { p: 1, duration: dur, ease: 'power1.inOut', onUpdate: function () {
+          var pt = path.getPointAtLength(o.p * L); alvo.setAttribute('cx', pt.x); alvo.setAttribute('cy', pt.y);
+        } }, pos);
+      }
+      function pausa(d) { tl.to({}, { duration: d }); }
+      var c0 = centro(0);
+      tl.set(tk, { attr: { cx: c0.x, cy: c0.y }, opacity: 1 }).call(on(0));
+      pausa(0.3);
+      var tipo = svg.getAttribute('data-fluxo');
+      if (tipo === 'revisor') {
+        ir(1); pausa(0.35); ir(2); pausa(0.3);
+        tl.to(tk, { attr: { cy: 78 }, duration: 0.15 });
+        curva(tk, $('.fl-ar--volta', svg), 0.9);
+        tl.to(tk, { attr: { cy: 64 }, duration: 0.15 }).call(on(1));
+        pausa(0.35); ir(2); pausa(0.3); ir(3); pausa(0.7);
+      } else if (tipo === 'rota') {
+        [2, 3, 4].forEach(function (saida, k) {
+          if (k) { tl.set(tk, { attr: { cx: c0.x, cy: c0.y }, opacity: 1 }).call(on(0)); pausa(0.25); }
+          ir(1); pausa(0.3);
+          tl.to(tk, { attr: { cx: 168 }, duration: 0.2, ease: 'none' });
+          curva(tk, fios[k + 1], 0.45);
+          ir(saida, 0.35); pausa(0.45);
+          tl.to(tk, { opacity: 0, duration: 0.2 });
+        });
+      } else if (tipo === 'aprova') {
+        var ok = $('.fl-ok', svg), traco = $('.fl-ok path', svg);
+        tl.set(ok, { opacity: 0, scale: 0.6, transformOrigin: '50% 50%' }, 0);
+        if (window.DrawSVGPlugin) tl.set(traco, { drawSVG: '0%' }, 0);
+        ir(1); pausa(0.4);
+        tl.to(ok, { opacity: 1, scale: 1, duration: 0.35, ease: 'expo.out' });
+        if (window.DrawSVGPlugin) tl.to(traco, { drawSVG: '100%', duration: 0.4, ease: 'power2.out' });
+        pausa(0.4); ir(2); pausa(0.8);
+        tl.to(ok, { opacity: 0, duration: 0.3 }, '-=0.3');
+      } else if (tipo === 'rag') {
+        var trechos = $$('.fl-tr', svg), arco = $('.fl-ar--trecho', svg);
+        ir(1); pausa(0.2);
+        trechos.forEach(function (tr, k) {
+          tl.set(tr, { opacity: 1 }, '>-' + (k ? 0.5 : 0));
+          curva(tr, arco, 0.7, '<');
+          tl.set(tr, { opacity: 0 });
+        });
+        tl.to(tk, { attr: { cx: centro(2).x }, duration: 0.5 }, '-=0.6').call(on(2));
+        pausa(0.4); ir(3); pausa(0.8);
+      }
+      tl.to(tk, { opacity: 0, duration: 0.3 }).call(on(-1));
+      // os fios se desenham na primeira vez; depois o laço só roda com o fluxo visível
+      var cheios = fios.filter(function (f) { return !f.classList.contains('fl-ar--volta') && !f.classList.contains('fl-ar--trecho'); });
+      ScrollTrigger.create({
+        trigger: svg, start: 'top 92%', end: 'bottom 8%',
+        onEnter: function () {
+          if (svg.__desenhado) return;
+          svg.__desenhado = true;
+          if (window.DrawSVGPlugin) gsap.from(cheios, { drawSVG: '0%', duration: 0.7, stagger: 0.08, ease: 'power2.out' });
+          gsap.from($$('.fl-no', svg), { opacity: 0, y: 6, duration: 0.5, stagger: 0.07, ease: 'power2.out' });
+        },
+        onToggle: function (st) { if (st.isActive) tl.play(); else tl.pause(); }
+      });
+    });
+  }
+
+  /* ------------------------------------------------- perfil: o retrato abre */
+  function perfil() {
+    if (!temGsap || reduz || !window.ScrollTrigger) return;
+    var foto = $('.perfil__foto');
+    if (!foto) return;
+    var tl = gsap.timeline({ scrollTrigger: { trigger: '.perfil', start: 'top 75%', once: true } });
+    tl.fromTo(foto, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'power3.inOut' })
+      .from($('img', foto), { scale: 1.14, duration: 1.5, ease: 'power3.out' }, 0)
+      .from('.perfil__bio', { opacity: 0, y: 14, duration: 0.8, ease: 'power2.out' }, 0.25)
+      .from($$('.perfil__dados > div'), { opacity: 0, y: 12, duration: 0.6, stagger: 0.06, ease: 'power2.out' }, 0.4);
+  }
+
+  /* ------------------------------------------- raio-X: a tecnologia de cada parte */
+  var raio = { ligado: false, ligar: function () {} };
+  function numero(n, casas) {
+    return (+n).toLocaleString(lang === 'en' ? 'en-US' : 'pt-BR', { minimumFractionDigits: casas || 0, maximumFractionDigits: casas || 0 });
+  }
+  function raioX() {
+    var botoes = $$('.js-rx');
+    if (!botoes.length) return;
+    var camada = null, tags = [];
+    function montar() {
+      camada = document.createElement('div');
+      camada.className = 'rx-camada';
+      camada.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(camada);
+      tags = $$('[data-tec]').map(function (el) {
+        var t = document.createElement('span');
+        t.className = 'rx-tag';
+        t.style.opacity = '0';
+        camada.appendChild(t);
+        return { el: el, t: t, txt: '', vis: false };
+      });
+    }
+    function vivo(txt) {
+      if (txt.indexOf('{fps}') < 0) return txt;
+      var g = window.__gl;
+      if (!g || !g.pontos) return T().glOff;
+      return txt.replace('{fps}', g.fps || '–').replace('{pontos}', numero(g.pontos));
+    }
+    function posicionar() {
+      var W = window.innerWidth, H = window.innerHeight, topo = 72;
+      tags.forEach(function (o) {
+        var r = o.el.getBoundingClientRect();
+        var ve = r.width > 0 && r.height > 0 && r.bottom > topo + 24 && r.top < H - 24;
+        if (!ve) { if (o.vis) { o.t.style.opacity = '0'; o.vis = false; } return; }
+        var txt = vivo(o.el.getAttribute('data-tec') || '');
+        if (txt !== o.txt) { o.t.textContent = txt; o.txt = txt; }
+        var w = o.t.offsetWidth, h = o.t.offsetHeight;
+        var x = Math.max(8, Math.min(r.left - 6, W - w - 8));
+        var y = Math.max(topo, Math.min(r.top - 6 - h / 2, H - h - 8)); // em cima do contorno tracejado
+        o.t.style.transform = 'translate3d(' + Math.round(x) + 'px,' + Math.round(y) + 'px,0)';
+        if (!o.vis) { o.t.style.opacity = '1'; o.vis = true; if (temGsap && !reduz) gsap.fromTo(o.t, { scale: 0.92 }, { scale: 1, duration: 0.35, ease: 'expo.out', transformOrigin: '0 100%' }); }
+      });
+    }
+    function ligar(sim) {
+      raio.ligado = sim;
+      doc.classList.toggle('rx-on', sim);
+      botoes.forEach(function (b) { b.setAttribute('aria-pressed', String(sim)); });
+      if (sim && !camada) montar();
+      if (camada) camada.hidden = !sim;
+      if (sim) { tags.forEach(function (o) { o.vis = false; o.t.style.opacity = '0'; }); posicionar(); }
+      if (temGsap) { if (sim) gsap.ticker.add(posicionar); else gsap.ticker.remove(posicionar); }
+      else if (sim) { (function laco() { if (!raio.ligado) return; posicionar(); requestAnimationFrame(laco); })(); }
+    }
+    raio.ligar = ligar;
+    botoes.forEach(function (b) { b.addEventListener('click', function () { ligar(!raio.ligado); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && raio.ligado) ligar(false); });
+
+    // "em uso nesta página": liga o raio-X e leva até a parte que usa aquela tecnologia
+    $$('.emuso [data-alvo]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var alvo = $(b.getAttribute('data-alvo'));
+        if (!alvo) return;
+        if (!raio.ligado) ligar(true);
+        if (lenis) lenis.scrollTo(alvo, { offset: -Math.round(window.innerHeight * 0.3), duration: 1.4 });
+        else alvo.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'center' });
+        $$('.is-alvo').forEach(function (x) { x.classList.remove('is-alvo'); });
+        alvo.classList.add('is-alvo');
+        setTimeout(function () { alvo.classList.remove('is-alvo'); }, 2400);
+      });
+    });
+  }
+
+  /* --------------------------------------- painel ao vivo: medido no navegador */
+  function aoVivo() {
+    var painel = $('.aovivo');
+    if (!painel) return;
+    var cwv = { lcp: null, cls: 0, inp: null };
+    function observar(tipo, fn, extra) {
+      try {
+        var o = { type: tipo, buffered: true };
+        for (var k in extra) o[k] = extra[k];
+        new PerformanceObserver(function (l) { l.getEntries().forEach(fn); }).observe(o);
+      } catch (e) {}
+    }
+    observar('largest-contentful-paint', function (e) { cwv.lcp = e.renderTime || e.startTime; });
+    observar('layout-shift', function (e) { if (!e.hadRecentInput) cwv.cls += e.value; });
+    observar('event', function (e) { if (e.interactionId) cwv.inp = Math.max(cwv.inp || 0, e.duration); }, { durationThreshold: 16 });
+    observar('first-input', function (e) { if (cwv.inp === null) cwv.inp = e.duration; });
+
+    var hist = [];
+    var linha = $('.js-v-spark', painel);
+    function pinta(sel, v) { var el = $(sel, painel); if (el && el.textContent !== v) el.textContent = v; }
+    function desenhar() {
+      if (!linha || hist.length < 2) return;
+      var max = Math.max(60, Math.max.apply(null, hist));
+      var d = hist.map(function (v, i) {
+        var x = (i / (hist.length - 1)) * 240, y = 42 - (v / max) * 38;
+        return (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+      }).join('');
+      linha.setAttribute('d', d);
+    }
+    function medir() {
+      var g = window.__gl;
+      if (g && g.pontos) {
+        pinta('.js-v-fps', String(g.fps || '–'));
+        pinta('.js-v-pts', numero(g.pontos));
+        pinta('.js-v-calls', String(g.chamadas || '–'));
+        hist.push(g.fps || 0);
+        if (hist.length > 60) hist.shift();
+        desenhar();
+      } else {
+        pinta('.js-v-fps', '0');
+        var d = $('[data-v="gl"] .vivo__d', painel);
+        if (d && d.textContent !== T().glOff) d.textContent = T().glOff;
+      }
+      if (window.ScrollTrigger) pinta('.js-v-st', String(ScrollTrigger.getAll().length));
+      if (temGsap) pinta('.js-v-tw', String(gsap.globalTimeline.getChildren(true, true, false).filter(function (t) { return t.isActive(); }).length));
+      if (cwv.lcp !== null) pinta('.js-v-lcp', numero(cwv.lcp / 1000, 1) + ' s');
+      pinta('.js-v-cls', numero(cwv.cls, 2));
+      pinta('.js-v-inp', cwv.inp === null ? '–' : Math.round(cwv.inp) + ' ms');
+      if (window.performance && performance.getEntriesByType) {
+        var nav = performance.getEntriesByType('navigation')[0];
+        var rec = performance.getEntriesByType('resource');
+        var bytes = (nav && nav.transferSize) || 0;
+        rec.forEach(function (r) { bytes += r.transferSize || 0; });
+        pinta('.js-v-kb', bytes >= 1048576 ? numero(bytes / 1048576, 1) + ' MB' : numero(bytes / 1024) + ' KB');
+        pinta('.js-v-req', String(rec.length + 1));
+      }
+    }
+    var relogio = null;
+    function ligar(sim) {
+      if (sim && !relogio) { medir(); relogio = setInterval(medir, 500); }
+      if (!sim && relogio) { clearInterval(relogio); relogio = null; }
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { ligar(es[0].isIntersecting); }, { rootMargin: '200px 0px' }).observe(painel);
+    } else ligar(true);
+    aoVivo.medir = medir;
+
+    // acessibilidade: o axe-core só baixa quando a pessoa pede
+    var bAxe = $('.js-axe', painel);
+    if (!bAxe) return;
+    function carregarAxe() {
+      if (window.axe) return Promise.resolve(window.axe);
+      return new Promise(function (ok, erro) {
+        var sc = document.createElement('script');
+        sc.src = '/gui/vendor/axe.min.js';
+        sc.onload = function () { ok(window.axe); };
+        sc.onerror = erro;
+        document.head.appendChild(sc);
+      });
+    }
+    bAxe.addEventListener('click', function () {
+      var rot = $('span', bAxe), det = $('.js-v-axe-d', painel);
+      bAxe.disabled = true;
+      det.textContent = T().axeCarrega;
+      var t0 = performance.now();
+      carregarAxe().then(function (axe) {
+        det.textContent = T().axeRoda;
+        t0 = performance.now();
+        return axe.run({ exclude: [['#gl'], ['.rx-camada'], ['.globo-rot']] }, { resultTypes: ['violations'] });
+      }).then(function (r) {
+        var ms = Math.round(performance.now() - t0);
+        pinta('.js-v-axe', String(r.violations.length));
+        var txt = T().axeOk(r.passes.length, r.incomplete.length, numero(ms));
+        if (r.violations.length) txt += ' ' + T().axeRuim(r.violations.map(function (v) { return v.id; }).join(', '));
+        det.textContent = txt;
+        if (temGsap && !reduz) gsap.fromTo($('.js-v-axe', painel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' });
+        rot.removeAttribute('data-en'); rot.removeAttribute('data-pt');
+        rot.textContent = T().axeDeNovo;
+      }).catch(function () { det.textContent = T().axeFalhou; }).then(function () { bAxe.disabled = false; });
     });
   }
 
@@ -759,6 +1035,10 @@
     apps();
     movimento();
     idiomas();
+    fluxos();
+    perfil();
+    raioX();
+    aoVivo();
     $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); }); });
     var pedido = new URLSearchParams(location.search).get('lang');
     aplicarIdioma(pedido || ler('gui-lang') || ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));

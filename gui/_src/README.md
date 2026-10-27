@@ -11,6 +11,7 @@ de três arquivos gerados:
 | `index.template.html` | `../index.html` | troca `{{MARK}}` pela marca do `index.html` da raiz e `{{V}}` pela versão (cache) |
 | `gui.tw.css` | `../gui.css` | Tailwind 4, minificado |
 | `hero3d.src.js` | `../hero3d.js` | esbuild + three@0.186 (só as classes usadas) |
+| `terra.mjs` | `terra.js` | pontos de terra do globo da capa, do world-atlas (`npm i world-atlas topojson-client d3-geo`, depois `node terra.mjs terra.js` numa pasta com essas dependências) |
 
 ```bash
 # numa pasta qualquer com as ferramentas:
@@ -28,7 +29,12 @@ diz que cada sistema "existe e roda" — se algum for desligado, sai daqui tamb�
 gere de novo os dois (`curriculo-...pdf` em PT, `resume-...pdf` em EN).
 
 **Reel:** `reel.html` é a composição do HyperFrames (1080×1920, 18 s). Para renderizar,
-copie para um projeto `npx hyperframes init` com `assets/gsap.min.js` e as fontes locais,
-e rode `npx hyperframes render -o reel.mp4`.
+copie para uma pasta como `index.html`, com `assets/gsap.min.js` e as fontes em `assets/fonts/`
+(Archivo `archivo-latin-standard-normal.woff2` e os quatro arquivos 700 da Shippori Mincho do
+@fontsource), e rode `npx hyperframes render <pasta> -o reel.mp4`. Sem o Chrome do HyperFrames, aponte
+`PRODUCER_HEADLESS_SHELL_PATH` para um chrome-headless-shell. Depois, `ffmpeg -crf 26 -preset veryfast`
+para o arquivo final e um quadro de 3 s para `reel-capa.jpg`.
+
+**og.png:** print da capa em 1200×630, sem a barra e sem a linha da agenda, com o globo já montado.
 
 **Design:** cores, tipo, movimento e regras estão em `DESIGN.md`. Mexeu num token ou numa animação, atualize lá.

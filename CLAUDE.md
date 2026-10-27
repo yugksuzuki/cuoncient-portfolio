@@ -99,20 +99,28 @@ passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
 (cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
 cases: nenhum número sem estar no cofre ou numa fonte pública.
 
-**Retrato em `/gui`.** Desde 26/10/2026 (noite) a capa usa um retrato pequeno, de
-ombros para cima, em preto e branco frio, numa moldura de 1 px (`gui/foto/guilherme-retrato.webp`
-e `-320.webp`, gerados do recorte de corpo inteiro `guilherme-recorte.webp`, que fica como
-fonte; o passo a passo do corte está em `gui/_src/DESIGN.md`). Fica à direita da capa no
-desktop e acima do nome, à direita, no celular. As partículas da capa se posicionam medindo a
-foto (`medirFoto()`, `LUGAR_CAPA` e `LUGAR_CAPA_MOB` no `hero3d.src.js`): mexeu no tamanho ou
-no lugar da foto no CSS, as partículas acompanham sozinhas. O avatar redondo só aparece no PDF,
-junto com o QR code. Trocar a foto é refazer o retrato a partir do recorte novo, trocar
-`guilherme-rosto.jpg` e o `guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
+**Capa e retrato em `/gui`.** Desde 27/10/2026 a capa não tem foto: à direita do nome fica um
+globo de partículas (Three.js) com os lugares dos clientes acesos e rotas Brasil ↔ EUA. A caixa
+`.hero__globo` só reserva o lugar; o `medirCaixa()` do `hero3d.src.js` mede essa caixa e põe o globo
+nela (mexeu no tamanho da caixa no CSS, o globo acompanha). Os pontos de terra vêm de
+`_src/terra.js`, gerado por `_src/terra.mjs` a partir do world-atlas. O retrato pequeno
+(`gui/foto/guilherme-retrato*.webp`) está na seção **Perfil**, logo depois da capa. O avatar redondo
+(`guilherme-rosto.jpg`) só aparece no PDF, junto com o QR code. Trocar a foto é refazer o retrato a
+partir do recorte novo (passo a passo no `gui/_src/DESIGN.md`) e trocar `guilherme-rosto.jpg` e o
+`guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
 
-**Paleta de `/gui`.** Azul e grafite (preto frio, branco, dois cinzas e o acento azul
-`ao`), pedida pelo Gui em 26/10/2026 no lugar do vermelho do carimbo. Tokens no `@theme`
-do `gui/_src/gui.tw.css`; as cores das partículas ficam nos `uniforms` do `hero3d.src.js` e
-as do reel no `:root` do `_src/reel.html`. Mudou a paleta? Mude os três, regere reel, og e PDFs.
+**Raio-X e painel ao vivo em `/gui`.** Todo elemento com `data-tec` (e `data-en-tec`) ganha uma
+etiqueta com a tecnologia que o move quando o botão Raio-X da barra está ligado. Em Competências, um
+painel mede a página no navegador de quem visita (fps e partículas do Three.js, ScrollTriggers do
+GSAP, LCP/CLS/INP, peso da visita) e roda o axe-core sob demanda (`gui/vendor/axe.min.js`). O número
+do Impeccable nesse painel é escrito à mão no template: mudou o design, rode `impeccable detect` de
+novo e atualize o texto.
+
+**Paleta de `/gui`.** Grafite e azul-aço (fundo `#101214`, texto `#e6e8ea`, dois cinzas e o acento
+`ao` `#6a90b9`), pedida pelo Gui em 27/10/2026 ("cores profissionais, neutras") no lugar do azul
+elétrico. Tokens no `@theme` do `gui/_src/gui.tw.css`; as cores das partículas ficam no `iniciar()`
+do `hero3d.src.js` e as do reel no `:root` do `_src/reel.html`. Mudou a paleta? Mude os três, regere
+reel, og e PDFs.
 
 **Partículas em `/gui`.** O canvas `#gl` é fixo e fica atrás da página inteira
 (`z-index: -1`), por isso o `body` do currículo não tem fundo (só o `html`) e as
