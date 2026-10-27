@@ -1,0 +1,7 @@
+total 2200
+drwxr-xr-x 2 runner runner    4096 Oct 27 13:14 .
+drwxr-xr-x 8 runner runner    4096 Oct 27 13:13 ..
+-rwxr-xr-x 1 runner runner 1181416 Oct 27 13:14 apksigner.jar
+-rw-r--r-- 1 runner runner       0 Oct 27 13:14 arquivos.txt
+-rw-r--r-- 1 runner runner    3215 Oct 27 13:14 build.log
+-rw-r--r-- 1 runner runner 1053231 Oct 27 13:14 curriculo-alinhado-sem-assinatura.apk
