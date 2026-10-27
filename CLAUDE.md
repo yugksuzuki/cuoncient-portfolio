@@ -99,12 +99,20 @@ passo para regerar estão em `gui/_src/` (fora do deploy), e o DNA visual
 (cores, tipo, movimento, regras) está em `gui/_src/DESIGN.md`. Mesma regra dos
 cases: nenhum número sem estar no cofre ou numa fonte pública.
 
-**Retrato em `/gui`.** A foto recortada (`gui/foto/`) fica à direita da capa no
-desktop e acima do nome no celular. As partículas da capa se posicionam medindo a
-foto (`medirFoto()` e `LUGAR_CAPA` no `hero3d.src.js`): mexeu no tamanho ou no lugar
-da foto no CSS, as partículas acompanham sozinhas. O avatar redondo só aparece no PDF,
-junto com o QR code. Trocar a foto é trocar os três arquivos de `gui/foto/` e o
-`guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
+**Retrato em `/gui`.** Desde 26/10/2026 (noite) a capa usa um retrato pequeno, de
+ombros para cima, em preto e branco frio, numa moldura de 1 px (`gui/foto/guilherme-retrato.webp`
+e `-320.webp`, gerados do recorte de corpo inteiro `guilherme-recorte.webp`, que fica como
+fonte; o passo a passo do corte está em `gui/_src/DESIGN.md`). Fica à direita da capa no
+desktop e acima do nome, à direita, no celular. As partículas da capa se posicionam medindo a
+foto (`medirFoto()`, `LUGAR_CAPA` e `LUGAR_CAPA_MOB` no `hero3d.src.js`): mexeu no tamanho ou
+no lugar da foto no CSS, as partículas acompanham sozinhas. O avatar redondo só aparece no PDF,
+junto com o QR code. Trocar a foto é refazer o retrato a partir do recorte novo, trocar
+`guilherme-rosto.jpg` e o `guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
+
+**Paleta de `/gui`.** Azul e grafite (preto frio, branco, dois cinzas e o acento azul
+`ao`), pedida pelo Gui em 26/10/2026 no lugar do vermelho do carimbo. Tokens no `@theme`
+do `gui/_src/gui.tw.css`; as cores das partículas ficam nos `uniforms` do `hero3d.src.js` e
+as do reel no `:root` do `_src/reel.html`. Mudou a paleta? Mude os três, regere reel, og e PDFs.
 
 **Partículas em `/gui`.** O canvas `#gl` é fixo e fica atrás da página inteira
 (`z-index: -1`), por isso o `body` do currículo não tem fundo (só o `html`) e as

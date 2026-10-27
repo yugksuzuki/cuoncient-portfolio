@@ -11,16 +11,16 @@
       @font-face { font-family: "Mincho"; src: url(assets/fonts/shippori-mincho-96-700-normal.woff2) format("woff2"); unicode-range: U+9234; font-weight: 700; }
       @font-face { font-family: "Mincho"; src: url(assets/fonts/shippori-mincho-114-700-normal.woff2) format("woff2"); unicode-range: U+6728; font-weight: 700; }
       :root {
-        --ground: #0c0b0a;
-        --ai: #151311;
-        --ink: #ece6dc;
-        --mist: #a39b8f;
-        --grey: #8a8378;
-        --glow: #d4442c;
-        --glow-light: #e66a52;
-        --shu: #d4442c;
-        --yamabuki: #e66a52;
-        --line: rgba(236,230,220,.14);
+        --ground: #07080a;
+        --ai: #0d0f13;
+        --ink: #e8ecf1;
+        --mist: #9aa4b1;
+        --grey: #7f8996;
+        --glow: #3d73ff;
+        --glow-light: #86a8ff;
+        --shu: #3d73ff;
+        --yamabuki: #86a8ff;
+        --line: rgba(232,236,241,.14);
         --font-display: "Archivo", sans-serif;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,16 +32,16 @@
       /* fundo: a marca da Cuoncient desenhada em traço */
       #marca { position: absolute; width: 1180px; height: 1180px; left: 190px; top: 120px; color: var(--ink); }
       #marca path { fill: none; stroke: var(--ink); stroke-width: 1.4; }
-      #marca .cheio { fill: rgba(236,230,220,.06); stroke: none; }
+      #marca .cheio { fill: rgba(232,236,241,.06); stroke: none; }
 
       .hanko { position: absolute; right: 96px; top: 120px; font-family: "Mincho", serif; font-weight: 700; color: var(--shu);
         writing-mode: vertical-rl; font-size: 54px; line-height: 1.1; border: 3px solid var(--shu); border-radius: 12px; padding: 18px 12px; rotate: -2deg; }
       .hanko i { font-style: normal; font-family: var(--font-display); font-size: .55em; padding-block: .3em; }
 
       /* cena 1 */
-      .nome { bottom: 520px; font-weight: 800; font-size: 150px; line-height: .86; letter-spacing: -0.035em; }
+      .nome { bottom: 520px; font-weight: 540; font-size: 150px; line-height: .9; letter-spacing: -0.035em; }
       .nome span.l { display: block; white-space: nowrap; }
-      .nome .c { display: inline-block; font-variation-settings: "wdth" var(--wd, 112), "wght" var(--wg, 800); }
+      .nome .c { display: inline-block; font-variation-settings: "wdth" var(--wd, 104), "wght" var(--wg, 540); }
       .s1-sub { bottom: 300px; font-size: 52px; line-height: 1.22; font-weight: 450; letter-spacing: -0.01em; max-width: 860px; }
 
       /* títulos condensados */
@@ -62,21 +62,21 @@
       .med { position: absolute; left: 96px; width: 560px; height: 560px; top: 660px; }
       .med svg { width: 100%; height: 100%; rotate: -90deg; }
       .med circle { fill: none; stroke-width: 9; }
-      .trilho { stroke: rgba(236,230,220,.08); }
-      .antes { stroke: rgba(236,230,220,.34); }
+      .trilho { stroke: rgba(232,236,241,.08); }
+      .antes { stroke: rgba(232,236,241,.34); }
       .ganho { stroke: var(--glow); }
       .med b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 200px; font-weight: 780; letter-spacing: -0.05em; font-variation-settings: "wdth" 86; }
       .s3-leg { position: absolute; left: 700px; top: 800px; right: 96px; font-size: 44px; line-height: 1.3; }
       .s3-leg small { display: block; color: var(--grey); font-size: 36px; margin-top: 10px; }
       .s3-mais { top: 1360px; display: grid; gap: 26px; }
-      .s3-mais div { font-size: 46px; border-top: 2px solid rgba(236,230,220,.13); padding-top: 22px; color: var(--mist); }
+      .s3-mais div { font-size: 46px; border-top: 2px solid rgba(232,236,241,.13); padding-top: 22px; color: var(--mist); }
       .s3-mais b { color: var(--ink); font-weight: 760; }
       .s3-mais s { color: var(--grey); margin-right: 16px; }
 
       /* cena 4 */
       .s4-t { top: 240px; }
       .lista { top: 620px; display: grid; }
-      .lista div { border-top: 2px solid rgba(236,230,220,.14); padding: 30px 0; }
+      .lista div { border-top: 2px solid rgba(232,236,241,.14); padding: 30px 0; }
       .lista b { display: block; font-size: 66px; font-weight: 660; letter-spacing: -0.02em; font-variation-settings: "wdth" 84; }
       .lista span { display: block; font-size: 34px; color: var(--glow-light); margin-top: 6px; }
       .lista span i { font-style: normal; color: var(--mist); }
@@ -180,8 +180,8 @@
         .fromTo('.hanko', { opacity: 0, scale: 1.4, rotate: -10 }, { opacity: 1, scale: 1, rotate: -2, duration: 0.7, ease: 'back.out(2)' }, 1.2);
 
       // 1. nome: as letras chegam condensadas e abrem
-      tl.fromTo('.nome .c', { '--wd': 62, '--wg': 300, opacity: 0, yPercent: 22 },
-        { '--wd': 112, '--wg': 800, opacity: 1, yPercent: 0, duration: 1.3, stagger: 0.04 }, 0.15)
+      tl.fromTo('.nome .c', { '--wd': 70, '--wg': 260, opacity: 0, yPercent: 26 },
+        { '--wd': 104, '--wg': 540, opacity: 1, yPercent: 0, duration: 1.2, stagger: 0.03, ease: 'power4.out' }, 0.15)
         .fromTo('.s1-sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9 }, 1.2)
         .to('#s1 .nome, #s1 .s1-sub', { opacity: 0, y: -40, duration: 0.4, ease: 'power2.in' }, 3.0);
 

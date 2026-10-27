@@ -14,34 +14,35 @@ Quem pergunta "tem um currículo seu sobre IA?" precisa sair sabendo três coisa
 
 O argumento da página são os recibos, e nunca os adjetivos.
 
-## Mundo visual: tinta e carimbo
+## Mundo visual: azul e grafite
 
-Escolhida pelo Gui em 26/10/2026, no lugar da paleta azul e ciano. A página é tinta preta, papel e um só acento: o vermelho do carimbo 鈴木. Nenhuma outra cor entra, nem a dos clientes.
+Pedido do Gui em 26/10/2026 à noite ("cores de paleta azul, cinza, branco e preto"), no lugar da paleta tinta e carimbo. A página é preto frio, branco, dois cinzas e um só acento azul. Nenhuma outra cor entra, nem a dos clientes. Os nomes japoneses dos tokens ficaram onde ainda descrevem a cor (墨 sumi é preto, 銀 gin é prata); o acento, que era 朱 shu (vermelho), virou 青 `ao` (azul).
 
 | Token | Hex | Papel |
 |---|---|---|
-| `sumi` 墨 | `#0c0b0a` | fundo. Preto de tinta, quente, nunca `#000` |
-| `sumi-2` | `#151311` | faixas alternadas (apps, resultados, formação, contato) e rodapé |
-| `sumi-3` | `#1d1a17` | a faixa da agenda e a moldura do celular nos cases |
-| `papel` | `#ece6dc` | texto principal, partículas da capa, linha "agora" da agenda |
-| `branco` | `#f6f1e8` | hover do botão cheio |
-| `nevoa` | `#a39b8f` | texto de apoio (7,2:1 no sumi) |
-| `gin` 銀 | `#8a8378` | legendas e metadados (5,2:1) |
-| `shu` 朱 | `#d4442c` | o acento: carimbo, kanji, partículas de 鈴木 e 恵二, barras, medidores, indicador da barra. Só em tamanho grande ou em traço (4,4:1) |
-| `shu-claro` | `#e66a52` | o acento em texto pequeno: links, provas, números, anos (6,1:1) |
+| `sumi` 墨 | `#07080a` | fundo. Preto frio, nunca `#000` |
+| `sumi-2` | `#0d0f13` | faixas alternadas (apps, resultados, formação, contato) e rodapé |
+| `sumi-3` | `#14171c` | a faixa da agenda e a moldura do celular nos cases |
+| `papel` | `#e8ecf1` | texto principal, partículas claras, linha "agora" da agenda (16,9:1 no sumi) |
+| `branco` | `#ffffff` | hover do botão cheio |
+| `nevoa` | `#9aa4b1` | texto de apoio (7,9:1) |
+| `gin` 銀 | `#7f8996` | legendas e metadados (5,7:1) |
+| `ao` 青 | `#3d73ff` | o acento: kanji, meridianos da esfera, barras, medidores, indicador da barra, foco (4,9:1) |
+| `ao-claro` | `#86a8ff` | o acento em texto pequeno: links, provas, números, anos, furigana do nome (8,6:1) |
 
-Regra de proporção: o vermelho marca o que é prova ou ação. Se um bloco inteiro ficar vermelho, está errado.
+Contraste calculado pela fórmula da WCAG contra o `sumi`. Regra de proporção: o azul marca o que é prova, ação ou movimento. Se um bloco inteiro ficar azul, está errado.
 
-No PDF o acento vira `#a8321d` sobre o papel branco.
+No PDF o acento vira `#1d44b8` sobre o papel branco (8,2:1).
 
 ## Tipo
 
 - **Archivo variável** (largura 62–125, peso 100–900) para tudo que é título e texto. O eixo de largura é a voz da página.
-  - Nome: largura 112, peso 760, e respira (ver Movimento).
+  - Nome: largura 104, peso 520 (era 112 e 760; o hero novo pediu um nome mais leve), e respira (ver Movimento).
+  - Frase do cargo na capa: Archivo 18 a 22 px, peso 380, até 40ch. Saiu da Mincho para a capa ficar mais limpa.
   - Títulos de seção: largura 72, peso 540, `line-height .94`, no máximo 96 px. Ficam parados: a largura só se mexe no nome.
   - Nomes de sistema e app: largura 82, que abre para 104 no hover e quando o painel está aberto.
   - Corpo: 17,5 px, peso 360 (um passo acima do normal, por ser texto claro no escuro), `line-height 1.7`, até 64ch.
-- **Shippori Mincho** nas frases de abertura (`.sec__lead`, `.hero__role`, `.fim__p`) e em todo japonês. É ela que dá o tom de livro ao lado do Archivo.
+- **Shippori Mincho** nas frases de abertura das seções (`.sec__lead`, `.fim__p`) e em todo japonês. É ela que dá o tom de livro ao lado do Archivo.
 - Sem caixa-alta em rótulo, sem sobretítulo acima de título, sem palavra destacada em cor dentro de título.
 
 ## Layout
@@ -62,12 +63,14 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 
 | Onde | O que | Por quê |
 |---|---|---|
-| Página inteira | 11 mil partículas (7 mil no celular) numa tela fixa atrás de todo o conteúdo. Na capa montam 鈴木 atrás do retrato; em cada seção mudam de desenho (ver Partículas) | o fio que atravessa a página |
-| Capa, clique | clicar ou tocar na foto ou nas partículas troca o desenho (鈴木 → retrato → marca → 恵二) com uma explosão que sai do ponto clicado; o carimbo da capa pulsa junto. No retrato a foto se desfaz (opacidade e desfoque) e as partículas viram a silhueta dele, no mesmo lugar | ele vira tinta; o nome inteiro, 鈴木 恵二, aparece pela mão de quem visita |
+| Página inteira | 11 mil partículas (7 mil no celular) numa tela fixa atrás de todo o conteúdo. Na capa montam uma esfera pontilhada atrás do retrato; em cada seção mudam de desenho (ver Partículas) | o fio que atravessa a página |
+| Capa, retrato | a moldura abre de baixo para cima (`clip-path`, 1,1 s) e a foto assenta de 1,14 para 1 (1,6 s), as duas em `cubic-bezier(.23,1,.32,1)`. É CSS puro: roda mesmo com a página ocupada carregando e não depende do JS. `animation-fill-mode: backwards`, para soltar a foto quando acaba | a primeira coisa que chega é ele |
+| Capa, clique | clicar ou tocar na foto ou nas partículas troca o desenho (esfera → retrato → 鈴木 → marca → 恵二) com uma explosão que sai do ponto clicado. No retrato a foto se desfaz (opacidade e desfoque) e as partículas viram a silhueta dele, no mesmo lugar | o nome inteiro, 鈴木 恵二, aparece pela mão de quem visita |
 | Capa, arrastar | arrastar gira o desenho em 3D (as formas têm espessura), com inércia, e ele volta sozinho | mostra que é 3D de verdade |
-| Capa, cursor e rolagem | o cursor afasta e avermelha as partículas perto dele; rolar rápido agita o enxame | resposta ao gesto |
-| Capa, botão | "Trocar o desenho" faz a mesma troca pelo teclado, e o nome da forma embaralha (ScrambleText). O carimbo 鈴木 ao lado da foto também é botão (`role=button`, Enter e espaço), porque no celular o botão fica abaixo da dobra | acesso sem mouse |
-| Nome | entrada letra a letra, depois a respiração e a lente | assinatura |
+| Capa, esfera | gira devagar sem parar (0,18 rad/s); as formas planas param de frente | a única forma 3D da capa; o giro é o que mostra o volume |
+| Capa, cursor e rolagem | o cursor afasta e azula as partículas perto dele; rolar rápido agita o enxame | resposta ao gesto |
+| Capa, botão | "Trocar o desenho" faz a mesma troca pelo teclado, e o nome da forma embaralha (ScrambleText) | acesso sem mouse |
+| Nome | entrada letra a letra (as letras chegam finas e condensadas, largura 70 e peso 260, e abrem até 104 e 520; 1,2 s, `power4.out`, 30 ms entre letras), depois a respiração (±4 na largura) e a lente | assinatura |
 | Barra | o traço vermelho desliza até a seção atual; uma linha de leitura enche com a rolagem | onde estou e quanto falta |
 | Títulos | as letras chegam condensadas e abrem até a largura do título (SplitText por letra, uma vez) | o eixo de largura, a voz da página |
 | Apps | o identificador em foco aparece grande no palco e embaralha; o nome do app abre no eixo de largura | o app existe num registro de loja |
@@ -97,7 +100,7 @@ Pedido do Gui: "abuse das partículas". É uma tela só (`#gl`, `position: fixed
 
 | Seção | Desenho | Detalhe |
 |---|---|---|
-| Capa | 鈴木, retrato, marca ou 恵二 | o lugar de cada desenho é medido na foto (`LUGAR_CAPA`): os kanji ficam atrás dele, puxados para o lado para onde ele olha, e o retrato cai em cima da foto. Na capa o desenho rola junto com a foto; ao sair dela solta e vai para o lugar da seção |
+| Capa | esfera, retrato, 鈴木, marca ou 恵二 | a esfera tem 15 paralelos em papel e 12 meridianos em azul, eixo inclinado. O lugar de cada desenho é medido na foto (`LUGAR_CAPA` no desktop, `LUGAR_CAPA_MOB` no celular): no desktop a esfera envolve o retrato, um pouco acima e à direita, sem chegar ao nome; no celular os desenhos ocupam o vazio à esquerda da foto. O retrato cai em cima da foto. Na capa o desenho rola junto com a foto; ao sair dela solta e vai para o lugar da seção |
 | Aplicativos | celular com a grade de ícones | um ícone em vermelho, carcaça com espessura |
 | Agentes | rede de agentes em 3D | nós vermelhos, arestas em papel, gira sem parar |
 | Automações | relógio | os ponteiros marcam a hora de Brasília no momento em que a seção aparece; mais apagado para não competir com a agenda |
@@ -111,15 +114,18 @@ Pedido do Gui: "abuse das partículas". É uma tela só (`#gl`, `position: fixed
 
 Fora da capa as partículas ficam a 62% de opacidade (38% no celular) e as faixas de seção são translúcidas (45%) para elas aparecerem. Formas planas param de girar e voltam de frente; só as em 3D (rede, cubo) giram sem parar. A rolagem agita o enxame e dá um empurrão limitado no giro. O laço de desenho para quando a aba fica escondida.
 
-## O retrato (26/10)
+## O retrato (26/10, refeito à noite)
 
-Foto do Gui de terno azul-marinho, recortada com IS-Net (fundo transparente) em `gui/foto/`: `guilherme-recorte.webp` (659×1249) e `-760.webp` para tela de densidade 1; `guilherme-rosto.jpg` (360×360, cabeça e ombros sobre papel quente) para o PDF, o JSON-LD e o vCard.
+O Gui achou a capa feia e pediu algo "mais minimalista" com a foto. A selfie de corpo inteiro com o celular na mão saiu; ficou um retrato de ombros para cima.
 
-- **Desktop (900 px ou mais):** à direita, de pé sobre a linha da faixa de baixo, com altura `--foto-h` (tela menos barra e faixa, até 960 px). O bloco do nome para `--foto-w + 36px` antes dele, e o `ajustar()` do nome encaixa nessa largura. A perna esmaece com `mask-image` a partir de 66%.
-- **Celular e tablet em pé:** a foto vem antes do nome, à direita, com 60svh (até 560 px), e o nome sobe sobre a parte que esmaece. O carimbo vai para o alto à esquerda, para onde ele olha.
-- **Silhueta em partículas:** amostrada do alfa do recorte, com peso maior no contorno e nas partes claras (camisa, rosto, mãos) e quase nada no terno. O contorno sai em shu; o brilho sobe (`uClaro`) só nesse desenho.
-- Na tela o avatar redondo some (o retrato grande faz o papel dele); no PDF ele volta, com o QR code de `suzuki.cuoncient.com` no canto.
-- A foto é o LCP: carrega com `fetchpriority="high"` e aparece na hora. Nenhuma animação de entrada esconde a foto.
+- **Arquivos em `gui/foto/`:** `guilherme-retrato.webp` (640×800) e `-320.webp`, gerados de `guilherme-recorte.webp` (o recorte IS-Net de corpo inteiro, que continua lá como fonte): corte do recorte em x 72 a 452 e y −95 a 380 (o vazio acima da cabeça é transparente), espelhado para ele olhar para o nome, em duotom frio (sombra `#090b0f`, luz `#eef2f7`). Os 44 px do lado do celular (depois do espelho) somem num esmaecido e a base esmaece de leve. `guilherme-rosto.jpg` continua sendo o avatar do PDF, do JSON-LD e do vCard.
+- **Moldura:** 4:5, raio de 3 px, fio de 1 px (`linha`) desenhado por um `::after` por cima da foto, fundo transparente com um leve clarão no alto. Sem cartão: as partículas aparecem em volta da cabeça.
+- **Desktop (900 px ou mais):** duas colunas, o nome à esquerda e o retrato à direita com `--foto-w` entre 240 e 320 px, apoiado na base do bloco do nome. O `ajustar()` do nome encaixa na coluna, até 150 px.
+- **Celular e tablet em pé:** o retrato vem antes do nome, no alto à direita, com até 230 px de largura.
+- **Silhueta em partículas:** amostrada do alfa do retrato, com peso maior no contorno e nas partes claras (camisa, rosto) e quase nada no terno; esmaece a partir de 74% da altura. O contorno sai em azul; o brilho sobe (`uClaro`) só nesse desenho.
+- Na tela o avatar redondo some (o retrato faz o papel dele); no PDF ele volta, com o QR code de `suzuki.cuoncient.com` no canto.
+- O carimbo 鈴木 da capa saiu: era um terceiro elemento disputando com o nome e o retrato. O 鈴木 continua no clique das partículas, no fecho e no PDF.
+- A foto continua carregando com `fetchpriority="high"`. A entrada dela é CSS puro e começa na pintura, sem esperar JS nem fonte.
 
 ## Texto em registro de currículo (26/10)
 

@@ -332,7 +332,7 @@
       var base = parseFloat(getComputedStyle(h1).fontSize);
       var caixa = h1.parentElement.getBoundingClientRect().width;
       var celular = window.innerWidth < 640;
-      var reserva = 0; // o carimbo fica sobre o retrato, longe do nome
+      var reserva = 0; // o retrato tem coluna própria no desktop e fica acima do nome no celular
       var maior = 0;
       $$('.nome__line', h1).forEach(function (l) {
         if (celular) {
@@ -342,7 +342,7 @@
         }
       });
       if (!maior) return;
-      var alvo = Math.min(base * (caixa - reserva) / maior, celular ? 112 : 176);
+      var alvo = Math.min(base * (caixa - reserva) / maior, celular ? 112 : 150);
       h1.style.fontSize = Math.floor(alvo * 0.985) + 'px';
     }
 
@@ -352,14 +352,15 @@
       window.__guiEntrada = true;
       document.dispatchEvent(new CustomEvent('gui:entrada'));
       if (!temGsap || reduz) return;
-      var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-      tl.fromTo(chars, { '--wd': 62, '--wg': 300, opacity: 0, yPercent: 18 },
-        { '--wd': 112, '--wg': 780, opacity: 1, yPercent: 0, duration: 1.4, stagger: 0.035 })
-        .from('.hero__role', { opacity: 0, y: 16, duration: 0.9 }, 0.55)
-        .from('.hero__facts, .hero__cta', { opacity: 0, y: 12, duration: 0.8, stagger: 0.08 }, 0.7)
-        .from('.hanko', { opacity: 0, scale: 1.25, rotate: -8, duration: 0.7, ease: 'back.out(2)' }, 0.95)
-        .from('.hero__now', { opacity: 0, duration: 0.8 }, 1.1)
-        .add(respirar, 1.6);
+      // as letras chegam condensadas e finas e abrem até a largura e o peso do nome (a voz da página);
+      // power4.out é a curva de saída forte, a mesma família do cubic-bezier(.23,1,.32,1) do retrato
+      var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+      tl.fromTo(chars, { '--wd': 70, '--wg': 260, opacity: 0, yPercent: 26 },
+        { '--wd': 104, '--wg': 520, opacity: 1, yPercent: 0, duration: 1.2, stagger: 0.03 })
+        .from('.hero__role', { opacity: 0, y: 12, duration: 0.8 }, 0.45)
+        .from('.hero__facts, .hero__cta', { opacity: 0, y: 10, duration: 0.7, stagger: 0.06 }, 0.58)
+        .from('.hero__now', { opacity: 0, duration: 0.6 }, 0.9)
+        .add(respirar, 1.4);
     }
 
     // respiração: uma onda lenta no eixo de largura passa pelas letras
@@ -376,7 +377,7 @@
         if (!visivel || document.hidden) return;
         var t = (performance.now() - t0) / 1000;
         for (var i = 0; i < chars.length; i++) {
-          chars[i].style.setProperty('--resp', (5 * Math.sin(t * 1.15 - i * 0.42)).toFixed(2));
+          chars[i].style.setProperty('--resp', (4 * Math.sin(t * 1.15 - i * 0.42)).toFixed(2));
         }
       });
     }
@@ -409,12 +410,12 @@
         var d = Math.sqrt(dx * dx + dy * dy);
         var k = Math.max(0, 1 - d / 260);
         k = k * k * (3 - 2 * k);
-        setters[i].wd(112 - 46 * k);
-        setters[i].wg(780 + 120 * k);
+        setters[i].wd(104 - 34 * k);
+        setters[i].wg(520 + 160 * k);
       }
     });
     hero.addEventListener('pointerleave', function () {
-      setters.forEach(function (s) { s.wd(112); s.wg(780); });
+      setters.forEach(function (s) { s.wd(104); s.wg(520); });
     });
     window.addEventListener('resize', function () { medido = false; });
     window.addEventListener('scroll', function () { medido = false; }, { passive: true });

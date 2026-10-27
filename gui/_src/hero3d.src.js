@@ -1,8 +1,9 @@
 /* Partículas da página inteira (Three.js + GSAP).
    Uma tela fixa atrás de todo o conteúdo. As mesmas partículas mudam de desenho conforme
    a seção que está na tela:
-     capa        鈴木 atrás do retrato; clicar troca para a silhueta dele (a foto se desfaz nas
-                 partículas), a marca da Cuoncient e 恵二; arrastar gira
+     capa        uma esfera pontilhada (paralelos brancos, meridianos azuis) girando atrás do
+                 retrato; clicar troca para a silhueta dele (a foto se desfaz nas partículas),
+                 鈴木, a marca da Cuoncient e 恵二; arrastar gira
      apps        um celular com a grade de ícones
      agentes     uma rede de agentes em 3D
      agenda      um relógio com a hora de Brasília
@@ -13,7 +14,7 @@
      stack       uma grade cúbica em 3D
      princípios  um ensō, o círculo de tinta
      contato     o carimbo 鈴木
-   Em toda a página o cursor afasta e avermelha as partículas e a rolagem agita e gira o desenho.
+   Em toda a página o cursor afasta e azula as partículas e a rolagem agita e gira o desenho.
    Compilado com esbuild para ../hero3d.js (ver README.md desta pasta).
    Sem WebGL ou com "reduzir movimento", a capa fica com a marca em SVG e nada disto roda. */
 import {
@@ -36,7 +37,7 @@ function temWebGL() {
 }
 
 // ------------------------------------------------------------------ formas
-// cada forma devolve { pos: x,y,z por partícula (mais ou menos entre -1 e 1), cor: 0 papel … 1 vermelho }
+// cada forma devolve { pos: x,y,z por partícula (mais ou menos entre -1 e 1), cor: 0 papel … 1 azul }
 const rnd = (a, b) => a + Math.random() * (b - a);
 const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
 
@@ -114,8 +115,30 @@ function fKanji(n, texto, cor) {
   return dois ? deImagem(cheios, n, W, H, 1.15, 2.3, cor) : deImagem(cheios, n, W, H, 1.9, 1.9, cor);
 }
 
+// esfera pontilhada da capa: paralelos em papel e meridianos em azul, com o eixo inclinado.
+// Os pontos de cada paralelo são proporcionais ao tamanho dele, então a densidade fica igual.
+function fEsfera(n) {
+  const PARALELOS = 15, MERIDIANOS = 6; // 6 círculos máximos = 12 meridianos
+  const inc = 0.36, ci = Math.cos(inc), si = Math.sin(inc);
+  return forma(n, () => {
+    let x, y, z, cor;
+    if (Math.random() < 0.7) {
+      let lat;
+      do { lat = ((((Math.random() * PARALELOS) | 0) + 0.5) / PARALELOS) * Math.PI - Math.PI / 2; } while (Math.random() > Math.cos(lat));
+      const lon = Math.random() * Math.PI * 2;
+      x = Math.cos(lat) * Math.cos(lon); y = Math.sin(lat); z = Math.cos(lat) * Math.sin(lon); cor = 0;
+    } else {
+      const lon = (((Math.random() * MERIDIANOS) | 0) / MERIDIANOS) * Math.PI;
+      const t = Math.random() * Math.PI * 2;
+      x = Math.cos(t) * Math.cos(lon); y = Math.sin(t); z = Math.cos(t) * Math.sin(lon); cor = 1;
+    }
+    const j = 1 + gauss() * 0.008;
+    return [(x * ci - y * si) * j, (x * si + y * ci) * j, z * j, cor];
+  });
+}
+
 // silhueta do retrato, amostrada do recorte: mais pontos no contorno e nas partes claras
-// (camisa, rosto, mãos), menos no terno; embaixo esmaece como a máscara da foto
+// (camisa, rosto), menos no terno; embaixo esmaece
 function fRetrato(n, img) {
   const H = 380;
   const W = Math.max(40, Math.round((H * img.naturalWidth) / img.naturalHeight));
@@ -142,7 +165,7 @@ function fRetrato(n, img) {
       borda[i] = ea > 0.35 ? 1 : 0;
       const b = Math.min(1, ea * 1.2 + el * 1.6);
       const v = y / H;
-      const some = v < 0.6 ? 1 : Math.max(0, 1 - (v - 0.6) / 0.36);
+      const some = v < 0.74 ? 1 : Math.max(0, 1 - (v - 0.74) / 0.26);
       w = (0.04 + 3 * b + 1.6 * Math.pow(L[i], 2.2)) * some;
     }
     total += w;
@@ -329,7 +352,7 @@ const VERT = /* glsl */`
   attribute vec4 aRand;
   varying float vBright;
   varying float vAlpha;
-  varying float vShu;
+  varying float vAo;
   void main() {
     float p = clamp((uProg - aRand.x * 0.45) / 0.55, 0.0, 1.0);
     p = 1.0 - pow(1.0 - p, 3.0);
@@ -359,7 +382,7 @@ const VERT = /* glsl */`
     gl_Position = projectionMatrix * mv;
     gl_PointSize = uSize * (0.55 + aRand.y) * uPixel * (2.6 / -mv.z);
     vBright = aRand.w + f * 0.8 + bf * 0.6 + uClaro * 0.6;
-    vShu = clamp(cor * 0.9 + f * 0.55 + bf * 0.4, 0.0, 1.0);
+    vAo = clamp(cor * 0.9 + f * 0.55 + bf * 0.4, 0.0, 1.0);
     vAlpha = mix(0.35, 1.0, p);
   }
 `;
@@ -367,33 +390,46 @@ const VERT = /* glsl */`
 const FRAG = /* glsl */`
   uniform vec3 uCorA;
   uniform vec3 uCorB;
-  uniform vec3 uCorShu;
+  uniform vec3 uCorAo;
   uniform float uAlfa;
   varying float vBright;
   varying float vAlpha;
-  varying float vShu;
+  varying float vAo;
   void main() {
     vec2 c = gl_PointCoord - 0.5;
     float a = smoothstep(0.5, 0.0, length(c));
     a *= a;
     vec3 cor = mix(uCorA, uCorB, clamp(vBright * 0.85, 0.0, 1.0));
-    cor = mix(cor, uCorShu, vShu);
+    cor = mix(cor, uCorAo, vAo);
     gl_FragColor = vec4(cor, a * vAlpha * uAlfa);
   }
 `;
 
 // capa: a ordem do clique e o nome de cada desenho no botão
-const CAPA = ['suzuki', 'retrato', 'marca', 'keiji'];
+const CAPA = ['esfera', 'retrato', 'suzuki', 'marca', 'keiji'];
 const ROTULOS = {
-  pt: { suzuki: '鈴木', retrato: 'retrato', marca: 'marca', keiji: '恵二' },
-  en: { suzuki: '鈴木', retrato: 'portrait', marca: 'mark', keiji: '恵二' }
+  pt: { esfera: 'esfera', suzuki: '鈴木', retrato: 'retrato', marca: 'marca', keiji: '恵二' },
+  en: { esfera: 'sphere', suzuki: '鈴木', retrato: 'portrait', marca: 'mark', keiji: '恵二' }
 };
+// giro contínuo de cada desenho da capa (só a esfera é 3D de verdade)
+const GIRO_CAPA = { esfera: 0.18 };
 // lugar de cada desenho da capa em relação ao retrato: dx em larguras, dy e s em alturas da foto.
-// Os kanji ficam atrás dele, puxados para o lado para onde ele olha; o retrato cai em cima da foto.
+// No desktop o retrato fica à direita e a esfera o envolve, um pouco acima e à direita, sem
+// chegar ao nome; os outros desenhos saem por trás dele, para cima e para a direita. No celular
+// o retrato fica no alto à direita e o desenho ocupa o vazio à esquerda.
+// O retrato (silhueta) cai em cima da foto.
 const LUGAR_CAPA = {
-  suzuki: { dx: -0.55, dy: 0.02, s: 0.4 },
-  keiji: { dx: -0.55, dy: 0.02, s: 0.4 },
-  marca: { dx: -0.5, dy: 0.1, s: 0.3 },
+  esfera: { dx: 0.16, dy: 0.1, s: 0.74 },
+  suzuki: { dx: 0.46, dy: 0.08, s: 0.42 },
+  keiji: { dx: 0.46, dy: 0.08, s: 0.42 },
+  marca: { dx: 0.44, dy: 0.14, s: 0.4 },
+  retrato: { dx: 0, dy: 0, s: 0.5 }
+};
+const LUGAR_CAPA_MOB = {
+  esfera: { dx: -0.66, dy: 0.02, s: 0.5 },
+  suzuki: { dx: -0.72, dy: 0, s: 0.36 },
+  keiji: { dx: -0.72, dy: 0, s: 0.36 },
+  marca: { dx: -0.7, dy: 0, s: 0.36 },
   retrato: { dx: 0, dy: 0, s: 0.5 }
 };
 // desenho e giro contínuo (3D) de cada seção
@@ -458,9 +494,9 @@ function iniciar() {
     uMouse: { value: new Vector2(9, 9) },
     uPixel: { value: dpr },
     uSize: { value: celular ? 4.2 : 5.2 },
-    uCorA: { value: new Color('#8f877b') },
-    uCorB: { value: new Color('#f6f1e8') },
-    uCorShu: { value: new Color('#d4442c') },
+    uCorA: { value: new Color('#5b6572') },
+    uCorB: { value: new Color('#e8ecf1') },
+    uCorAo: { value: new Color('#3d73ff') },
     uT: { value: 1 },
     uBurst: { value: 0 },
     uBurstPos: { value: new Vector2(0, 0) },
@@ -478,7 +514,7 @@ function iniciar() {
   const preso = { v: 1 };
 
   // ---------------------------------------------------------- catálogo de formas
-  const formas = { marca, celular: fCelular(N), rede: fRede(N), medidores: fMedidores(N), linha: fLinha(N), cubo: fCubo(N), enso: fEnso(N) };
+  const formas = { marca, esfera: fEsfera(N), celular: fCelular(N), rede: fRede(N), medidores: fMedidores(N), linha: fLinha(N), cubo: fCubo(N), enso: fEnso(N) };
   const formaDe = (nome) => {
     if (nome === 'relogio') return fRelogio(N); // a hora certa toda vez que a agenda aparece
     return formas[nome] || null;
@@ -554,10 +590,10 @@ function iniciar() {
   function lugar(id, nome) {
     const mob = canvas.clientWidth < 760;
     if (id === 'topo' && foto) {
-      const k = LUGAR_CAPA[nome] || LUGAR_CAPA.marca;
-      const a = nome === 'retrato' ? 0.95 : mob ? 0.74 : 0.85;
-      const dx = mob && k.dx ? k.dx * 0.82 : k.dx;
-      return { x: foto.x + foto.w * dx, y: foto.y + foto.h * k.dy, s: foto.h * k.s, a };
+      const tab = mob ? LUGAR_CAPA_MOB : LUGAR_CAPA;
+      const k = tab[nome] || tab.marca;
+      const a = nome === 'retrato' ? 0.95 : mob ? 0.7 : 0.85;
+      return { x: foto.x + foto.w * k.dx, y: foto.y + foto.h * k.dy, s: foto.h * k.s, a };
     }
     if (id === 'topo') {
       return mob
@@ -591,9 +627,20 @@ function iniciar() {
 
   // ---------------------------------------------------------- seção atual
   let secao = null;
-  let formaCapa = 'suzuki'; // a capa abre com 鈴木 atrás do retrato; até a fonte chegar, a marca
+  let formaCapa = 'esfera'; // a capa abre com a esfera atrás do retrato
   const estado = { giro: 0, angulo: 0 };
   const disponivel = (nome) => nome === 'marca' || !!formas[nome];
+  // forma 3D gira sem parar; forma plana para e volta de frente pelo caminho mais curto
+  function girar(g) {
+    if (g) {
+      if (gsap) gsap.to(estado, { giro: g, duration: 1.2, overwrite: true }); else estado.giro = g;
+      return;
+    }
+    const volta = Math.PI * 2;
+    const frente = Math.round(estado.angulo / volta) * volta;
+    if (gsap) gsap.to(estado, { giro: 0, angulo: frente, duration: 1.4, ease: 'power3.inOut', overwrite: true });
+    else { estado.giro = 0; estado.angulo = frente; }
+  }
   function nomeCapa() { return disponivel(formaCapa) ? formaCapa : 'marca'; }
   function proximaCapa() {
     const i = CAPA.indexOf(nomeCapa());
@@ -604,19 +651,11 @@ function iniciar() {
     if (id === secao && !forcar) return;
     const primeira = secao === null;
     secao = id;
-    const cfg = id === 'topo' ? { forma: nomeCapa(), giro: 0 } : (SECOES[id] || { forma: 'marca', giro: 0.05 });
+    const cfg = id === 'topo' ? { forma: nomeCapa(), giro: GIRO_CAPA[nomeCapa()] || 0 } : (SECOES[id] || { forma: 'marca', giro: 0.05 });
     posicionar(id, primeira, cfg.forma);
     if (gsap && !primeira) gsap.to(preso, { v: id === 'topo' ? 1 : 0, duration: 1.4, ease: 'power3.inOut', overwrite: true });
     else preso.v = id === 'topo' ? 1 : 0;
-    if (cfg.giro) {
-      if (gsap) gsap.to(estado, { giro: cfg.giro, duration: 1.2, overwrite: true }); else estado.giro = cfg.giro;
-    } else {
-      // forma plana: para de girar e volta de frente pelo caminho mais curto
-      const volta = Math.PI * 2;
-      const frente = Math.round(estado.angulo / volta) * volta;
-      if (gsap) gsap.to(estado, { giro: 0, angulo: frente, duration: 1.4, ease: 'power3.inOut', overwrite: true });
-      else { estado.giro = 0; estado.angulo = frente; }
-    }
+    girar(cfg.giro);
     if (cfg.forma !== atual || id === 'agenda') irPara(cfg.forma, primeira ? null : { forca: 0.35 });
   }
   const ids = ['topo'].concat(Object.keys(SECOES));
@@ -669,7 +708,7 @@ function iniciar() {
     const nome = ROTULOS[idioma()][atualNome];
     if (rotulo && rotulo.textContent !== nome) {
       rotulo.lang = atualNome === 'suzuki' || atualNome === 'keiji' ? 'ja' : idioma();
-      if (gsap && window.ScrambleTextPlugin) gsap.to(rotulo, { duration: 0.6, scrambleText: { text: nome, chars: '鈴木恵二retaomkp', speed: 0.7 }, overwrite: true });
+      if (gsap && window.ScrambleTextPlugin) gsap.to(rotulo, { duration: 0.6, scrambleText: { text: nome, chars: '鈴木恵二esfraomkp', speed: 0.7 }, overwrite: true });
       else rotulo.textContent = nome;
     }
     const varias = CAPA.filter(disponivel).length > 1;
@@ -697,6 +736,7 @@ function iniciar() {
     if (secao === 'topo') {
       posicionar('topo', false, prox);
       irPara(prox, { pos: ponto, forca: prox === 'retrato' ? 0.45 : 1 });
+      girar(GIRO_CAPA[prox] || 0);
     }
     mostrarFoto(prox !== 'retrato');
     if (gsap && selo) gsap.fromTo(selo, { scale: 1.25, rotate: -9 }, { scale: 1, rotate: -3, duration: 0.5, ease: 'back.out(3)', overwrite: true });

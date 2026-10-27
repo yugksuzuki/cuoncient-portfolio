@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "name": "Currículo do Gui — capa azul e grafite",
+    "source": "suzuki.cuoncient.com, capa refeita em 26/10/2026 (noite) a pedido do Gui: moderna, foto minimalista, azul, cinza, branco e preto",
+    "generated_with": "design-dna (zanwei/design-dna); paleta medida com scripts/measure-colors.mjs no print 1440x900 da capa",
+    "companion": "DESIGN.md (fonte da verdade escrita)"
+  },
+  "design_system": {
+    "color": {
+      "surface": { "background": "#07080a", "band": "#0d0f13", "band_strong": "#14171c" },
+      "neutral": { "scale": ["#ffffff", "#e8ecf1", "#9aa4b1", "#7f8996", "#14171c", "#07080a"], "usage": "#e8ecf1 é o texto sobre o fundo #07080a (16,9:1); #9aa4b1 apoio (7,9:1); #7f8996 metadados (5,7:1)" },
+      "accent": { "hex": "#3d73ff", "light": "#86a8ff", "usage": "um só acento: prova, ação, foco e movimento; #86a8ff em texto pequeno (8,6:1)" },
+      "print": { "accent": "#1d44b8", "on": "#ffffff", "contrast": "8,2:1" },
+      "measured_palette": [
+        { "hex": "#07080a", "coverage": 0.8777, "role": "background" },
+        { "hex": "#e7ebf0", "coverage": 0.0547, "role": "text" },
+        { "hex": "#21242a", "coverage": 0.0262, "role": "unassigned" },
+        { "hex": "#777b7f", "coverage": 0.0156, "role": "unassigned" },
+        { "hex": "#494c50", "coverage": 0.0147, "role": "unassigned" },
+        { "hex": "#a2a6ac", "coverage": 0.0088, "role": "unassigned" },
+        { "hex": "#11228c", "coverage": 0.0016, "role": "unassigned" },
+        { "hex": "#678bf0", "coverage": 0.0005, "role": "unassigned" }
+      ],
+      "measurement": { "k": 8, "sampling": { "method": "deterministic_stratified", "max_pixels": 160000 }, "reference": "print da capa, 1440x900, partículas montadas" }
+    },
+    "typography": {
+      "display": { "family": "Archivo (variável, largura 62-125)", "name": { "wdth": 104, "wght": 520, "size": "até 150 px, ajustado à coluna", "line_height": 0.92, "tracking": "-0.035em" } },
+      "body": { "family": "Archivo", "size": "17,5 px", "weight": 360, "line_height": 1.7 },
+      "hero_role": { "family": "Archivo", "size": "18-22 px", "weight": 380, "measure": "40ch" },
+      "japanese": { "family": "Shippori Mincho", "use": "furigana 恵二 / 鈴木 sobre o nome, aberturas de seção, todo japonês" }
+    },
+    "layout": { "shell": "1240 px", "gutter": "16 px celular, 32 px a partir de 640", "hero_desktop": "duas colunas: nome | retrato (240-320 px), base alinhada", "hero_mobile": "retrato no alto à direita (até 230 px), nome abaixo" },
+    "shape": { "portrait_frame": "4:5, raio 3 px, fio 1 px rgb(232 236 241 / .12)", "buttons": "pílula, 50 px de altura" },
+    "motion": {
+      "ease_out": "cubic-bezier(0.23, 1, 0.32, 1) no CSS, power4.out no GSAP",
+      "portrait_reveal": "clip-path inset(100% 0 0 0) para 0 em 1,1 s; foto 1,14 para 1 em 1,6 s; CSS puro",
+      "name_entrance": "letras de wdth 70 / wght 260 / y 26% para 104 / 520 / 0 em 1,2 s, 30 ms entre letras",
+      "reduced_motion": "sem animação; capa com a marca em SVG"
+    }
+  },
+  "design_style": {
+    "aesthetic": "editorial frio e silencioso; o nome manda, o retrato acompanha",
+    "visual_language": "preto, branco e cinza com um único azul; fios de 1 px; nada de cartão nem sombra",
+    "composition": "muito vazio acima do nome; retrato pequeno; a esfera dá profundidade sem invadir o texto",
+    "imagery": "retrato de ombros para cima em duotom frio, espelhado para olhar para o nome",
+    "interaction_feel": "preciso; o movimento explica (entrada, troca de desenho) e depois para, exceto o giro da esfera",
+    "brand_voice_in_ui": "registro formal de currículo, números com fonte"
+  },
+  "visual_effects": {
+    "overview": { "effect_intensity": "média", "performance_tier": "WebGL, 11 mil partículas (7 mil no celular), laço parado com a aba escondida" },
+    "particle_systems": { "enabled": true, "hero_shape": "esfera pontilhada: 15 paralelos #e8ecf1, 12 meridianos #3d73ff, eixo inclinado 0,36 rad, giro 0,18 rad/s", "interaction": "cursor afasta e azula; clique troca esfera → retrato → 鈴木 → marca → 恵二; arrastar gira" },
+    "text_effects": { "enabled": true, "notes": "nome respira no eixo de largura (±4) e condensa perto do cursor" },
+    "image_effects": { "enabled": true, "notes": "revelação por clip-path; no desenho 'retrato' a foto se desfaz em partículas" },
+    "glassmorphism_neumorphism": { "enabled": false }
+  }
+}
