@@ -19,6 +19,8 @@ m.launcherName = 'G. Suzuki';
 m.startUrl = '/gui/';
 const COR = { hex: () => '#101214', toString: () => '#101214' };
 m.themeColor = m.themeColorDark = m.navigationColor = m.navigationColorDark = m.navigationDividerColor = m.navigationDividerColorDark = m.backgroundColor = COR;
+// o androidbrowserhelper 2.7 exige Android 7 (API 24) ou mais novo
+m.minSdkVersion = 24;
 m.appVersionName = '1.0.0';
 m.appVersionCode = 1;
 m.signingKey = { path: './curriculo.keystore', alias: 'curriculo' };
