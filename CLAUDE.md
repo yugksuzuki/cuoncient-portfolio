@@ -137,6 +137,11 @@ resolve pelo curinga `*` da Vercel; o domínio precisa estar adicionado no
 projeto (Settings → Domains), e o `suzuki` foi ligado em 26/10/2026. Por isso os links da página para o portfólio
 são absolutos (`https://cuoncient.com/`).
 
+**`cuoncient.com/guilhermesuzuki`.** Desde 27/10/2026 o currículo também abre nesse caminho (pedido do
+Gui), por uma rota no `vercel.json` que serve o `/gui/index.html` com os mesmos cabeçalhos de
+segurança. Funciona porque todo arquivo da página é chamado por caminho absoluto (`/gui/...`,
+`/assets/...`): um caminho relativo novo quebraria aqui. O canonical continua em `suzuki.cuoncient.com`.
+
 ## Convenções
 
 **Tokens.** Todo valor de design mora no `:root` do `styles.css`, num bloco

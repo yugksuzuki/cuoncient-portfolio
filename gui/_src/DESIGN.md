@@ -1,6 +1,6 @@
 # DESIGN.md: o DNA do currículo do Gui
 
-> Página: suzuki.cuoncient.com, também em cuoncient.com/gui.
+> Página: suzuki.cuoncient.com, também em cuoncient.com/guilhermesuzuki e cuoncient.com/gui.
 > Fonte da verdade do visual. Mudou um token, um movimento ou uma regra aqui? Mude no código também, e vice-versa.
 > Revisado em 27/10/2026: paleta grafite e azul-aço, capa sem foto (globo em Three.js), seção Perfil, raio-X e painel medido ao vivo. Conferido com `impeccable detect` (0 achados no computador e no celular), axe-core (0 violações) e varredura de CLS.
 
