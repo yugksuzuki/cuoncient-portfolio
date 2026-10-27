@@ -210,7 +210,7 @@
   @media (min-width: 900px) { .perfil { grid-template-columns: 176px minmax(0, 1fr); column-gap: clamp(40px, 6vw, 96px); } }
   .perfil__foto { margin: 0; width: 128px; aspect-ratio: 4 / 5; border-radius: 3px; overflow: hidden; position: relative; background: var(--color-sumi-2); }
   @media (min-width: 900px) { .perfil__foto { width: 176px; margin-top: 10px; } }
-  .perfil__foto img { display: block; width: 100%; height: 100%; object-fit: cover; scale: -1 1; }
+  .perfil__foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
   .perfil__foto::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--color-linha); pointer-events: none; }
   .perfil__bio { margin: 26px 0 0; max-width: 54ch; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.55; font-weight: 380; text-wrap: pretty; }
   .perfil__dados { margin: 44px 0 0; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 40px; max-width: 760px; }

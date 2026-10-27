@@ -103,11 +103,12 @@ cases: nenhum número sem estar no cofre ou numa fonte pública.
 globo de partículas (Three.js) com os lugares dos clientes acesos e rotas Brasil ↔ EUA. A caixa
 `.hero__globo` só reserva o lugar; o `medirCaixa()` do `hero3d.src.js` mede essa caixa e põe o globo
 nela (mexeu no tamanho da caixa no CSS, o globo acompanha). Os pontos de terra vêm de
-`_src/terra.js`, gerado por `_src/terra.mjs` a partir do world-atlas. O retrato pequeno
-(`gui/foto/guilherme-retrato*.webp`) está na seção **Perfil**, logo depois da capa. O avatar redondo
-(`guilherme-rosto.jpg`) só aparece no PDF, junto com o QR code. Trocar a foto é refazer o retrato a
-partir do recorte novo (passo a passo no `gui/_src/DESIGN.md`) e trocar `guilherme-rosto.jpg` e o
-`guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64).
+`_src/terra.js`, gerado por `_src/terra.mjs` a partir do world-atlas. A foto (a de camisa preta,
+enviada pelo Gui em 27/10/2026; original em `gui/_src/foto-perfil-original.jpg`) aparece pequena
+na seção **Perfil**, logo depois da capa (`gui/foto/guilherme-retrato.webp`). O avatar redondo
+(`guilherme-rosto.jpg`) só aparece no PDF, junto com o QR code. Trocar a foto é refazer os dois
+recortes e o `guilherme-keidi-suzuki.vcf` (o rosto vai embutido nele em base64) e regerar os PDFs;
+o passo a passo está no `gui/_src/DESIGN.md`.
 
 **Raio-X e painel ao vivo em `/gui`.** Todo elemento com `data-tec` (e `data-en-tec`) ganha uma
 etiqueta com a tecnologia que o move quando o botão Raio-X da barra está ligado. Em Competências, um

@@ -141,10 +141,12 @@ Medido em 27/10/2026 com rolagem programada da página inteira: o CLS caiu de 0,
 
 ## O retrato (27/10)
 
-O Gui achou a foto da capa grande demais. A capa ficou sem foto; o retrato foi para a seção Perfil, pequeno.
+O Gui achou a foto da capa grande demais e, no mesmo dia, mandou uma foto nova: sorrindo, camisa preta, fundo escuro. A capa ficou sem foto; a foto nova está pequena na seção Perfil, e a antiga (de terno, em duotom) saiu do site, do PDF e do vCard.
 
-- **Arquivos em `gui/foto/`:** `guilherme-retrato.webp` (640×800) e `-320.webp`, os mesmos de antes (duotom frio, gerados do recorte `guilherme-recorte.webp`). No Perfil a foto é espelhada de volta pelo CSS (`scale: -1 1`) para ele olhar para o texto, que fica à direita.
-- `guilherme-rosto.jpg` continua sendo o avatar do PDF (no `.hero__eu`, que só aparece na impressão e carrega com `loading="lazy"`), do JSON-LD e do vCard.
+- **Fonte:** `_src/foto-perfil-original.jpg` (256×256, como chegou; fora do deploy).
+- **`gui/foto/guilherme-retrato.webp`** (320×400): recorte 4:5 centralizado, em cor natural, sem espelhar. No Perfil aparece com 128 px (celular) e 176 px (desktop). Como a original tem 256 px, em tela de alta densidade ela fica um pouco macia; chegando a foto em resolução maior, é só refazer o recorte e trocar o arquivo.
+- **`gui/foto/guilherme-rosto.jpg`** (360×360): quadrado do rosto e ombros. É o avatar do PDF (no `.hero__eu`, que só aparece na impressão e carrega com `loading="lazy"`) e a imagem do JSON-LD.
+- **`gui/guilherme-keidi-suzuki.vcf`**: o mesmo rosto em 240 px, em base64, com dobra de linha de 75 colunas.
 
 
 ## Texto em registro de currículo (26/10)
