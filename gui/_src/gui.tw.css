@@ -101,11 +101,27 @@
   @media (min-width: 1200px) { .bar__nav { display: flex; } .bar__tools { margin-left: 8px; } }
   @media (max-width: 520px) { .bar__tools .btn { display: none; } }
 
+  .rx-wrap { position: relative; display: inline-flex; }
+  .rx-dica { position: absolute; top: calc(100% + 12px); right: 0; z-index: 2; margin: 0; width: max-content; max-width: min(250px, calc(100vw - 32px));
+    display: flex; align-items: center; gap: 4px; padding: 8px 6px 8px 14px; border-radius: 10px; border: 1px solid var(--color-linha-forte);
+    background: var(--color-sumi-3); color: var(--color-papel); font-size: 13.5px; line-height: 1.4; font-weight: 450; text-wrap: balance; }
+  .rx-dica::before { content: ""; position: absolute; top: -6px; right: var(--seta, 18px); width: 10px; height: 10px; rotate: 45deg; background: inherit;
+    border-left: 1px solid var(--color-linha-forte); border-top: 1px solid var(--color-linha-forte); }
+  .rx-dica__x { flex: none; position: relative; width: 32px; height: 32px; border: 0; border-radius: 8px; background: none; color: var(--color-gin); cursor: pointer; }
+  .rx-dica__x::before, .rx-dica__x::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: currentColor; translate: -50% -50%; rotate: 45deg; }
+  .rx-dica__x::after { rotate: -45deg; }
+  .rx-dica__x:hover { color: var(--color-papel); background: var(--color-trilho); }
   .rx-btn { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--color-linha); background: none; color: var(--color-nevoa); font: inherit; font-size: 13.5px; font-weight: 560; cursor: pointer; transition: color .2s, background-color .2s, border-color .2s; }
   .rx-btn:hover { color: var(--color-papel); border-color: var(--color-linha-forte); }
   .rx-btn[aria-pressed="true"] { background: var(--color-ao-claro); border-color: var(--color-ao-claro); color: var(--color-sumi); }
   .rx-btn__i { width: 14px; height: 14px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; flex: none; }
   .rx-btn__i::after { content: ""; position: absolute; left: 2px; right: 2px; top: 50%; height: 1.5px; margin-top: -.75px; background: currentColor; }
+  /* no celular o botão fica no meio da barra: o balão se ancora na barra fixa, dentro da calha,
+     e a seta é posta embaixo do botão pelo gui.js (--seta) */
+  @media (max-width: 639px) {
+    .rx-wrap { position: static; }
+    .rx-dica { right: 16px; top: calc(100% + 6px); }
+  }
   @media (max-width: 479px) {
     .rx-btn { padding: 0; width: 44px; justify-content: center; }
     .rx-btn > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -290,11 +306,24 @@
   .sis__nome { font-size: clamp(27px, 3vw, 38px); line-height: 1.04; font-weight: 560; letter-spacing: -0.018em; font-variation-settings: "wdth" 82; transition: font-variation-settings .5s var(--ease-saida), color .3s; }
   .sis__btn:hover .sis__nome, .sis__btn[aria-expanded="true"] .sis__nome { font-variation-settings: "wdth" 104; color: var(--color-branco); }
   .sis__cli { grid-column: 1; font-size: 14.5px; color: var(--color-gin); margin-top: 8px; }
-  .sis__mais { grid-column: 2; grid-row: 1 / span 2; align-self: start; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--color-linha); position: relative; transition: border-color .25s, rotate .5s var(--ease-saida), background-color .25s; }
-  .sis__mais::before, .sis__mais::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 1.5px; background: var(--color-papel); translate: -50% -50%; }
-  .sis__mais::after { rotate: 90deg; }
-  .sis__btn:hover .sis__mais { border-color: var(--color-ao-claro); }
-  .sis__btn[aria-expanded="true"] .sis__mais { rotate: 45deg; background: var(--veu-ao-forte); border-color: var(--color-ao); }
+  /* "Como funciona": uma pílula com o + num círculo cheio, para ninguém passar sem ver que abre */
+  .sis__mais { grid-column: 2; grid-row: 1 / span 2; align-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+    padding: 0 6px 0 16px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--color-ao) 70%, transparent);
+    background: color-mix(in oklab, var(--color-ao) 16%, transparent); color: var(--color-papel); font-size: 14px; font-weight: 560; white-space: nowrap;
+    transition: background-color .25s, border-color .25s, color .25s; }
+  .sis__mais i { position: relative; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--color-ao-claro); transition: rotate .5s var(--ease-saida), background-color .25s; }
+  .sis__mais i::before, .sis__mais i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 13px; height: 2px; border-radius: 1px; background: var(--color-sumi); translate: -50% -50%; }
+  .sis__mais i::after { rotate: 90deg; }
+  .sis__btn:hover .sis__mais { background: var(--color-ao-claro); border-color: var(--color-ao-claro); color: var(--color-sumi); }
+  .sis__btn:hover .sis__mais i { background: var(--color-sumi); }
+  .sis__btn:hover .sis__mais i::before, .sis__btn:hover .sis__mais i::after { background: var(--color-ao-claro); }
+  .sis__btn[aria-expanded="true"] .sis__mais { background: var(--color-ao-claro); border-color: var(--color-ao-claro); color: var(--color-sumi); }
+  .sis__btn[aria-expanded="true"] .sis__mais i { rotate: 45deg; background: var(--color-sumi); }
+  .sis__btn[aria-expanded="true"] .sis__mais i::before, .sis__btn[aria-expanded="true"] .sis__mais i::after { background: var(--color-ao-claro); }
+  @media (max-width: 559px) {
+    .sis__mais { padding: 0 6px; }
+    .sis__mais-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  }
   .sis__o { margin: 0; font-size: 18.5px; line-height: 1.6; font-weight: 380; color: var(--color-papel); max-width: 52ch; }
   .sis__prova { margin: 6px 0 0; font-size: 15.5px; line-height: 1.65; color: var(--color-ao-claro); padding-left: 16px; border-left: 1px solid var(--color-ao); max-width: 60ch; }
   .sis__det p { margin: 12px 0 0; color: var(--color-nevoa); font-size: 16px; max-width: 64ch; }
@@ -502,6 +531,12 @@
   @media (min-width: 900px) { .fim { grid-template-columns: minmax(0, 1fr) 300px; gap: 72px; } }
   .fim__t { margin: 0; font-size: clamp(40px, 6.6vw, 92px); line-height: .96; letter-spacing: -.028em; font-weight: 600; font-variation-settings: "wdth" 76; max-width: 17ch; text-wrap: balance; }
   .fim__p { margin: 24px 0 0; font-family: var(--font-mincho); color: var(--color-nevoa); font-size: 19px; line-height: 1.85; max-width: 46ch; }
+  /* o convite para levar o currículo como app */
+  .app-oferta { margin: 40px 0 0; padding: 22px 0 4px; border-top: 1px solid var(--color-linha-forte); max-width: 46rem; }
+  .app-oferta__t { margin: 0; font-size: clamp(22px, 2.2vw, 28px); font-weight: 600; letter-spacing: -.015em; line-height: 1.15; font-variation-settings: "wdth" 88; }
+  .app-oferta__p { margin: 10px 0 0; color: var(--color-nevoa); font-size: 16.5px; line-height: 1.65; max-width: 58ch; }
+  .app-oferta__b { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .app-oferta__nota { margin: 14px 0 0; font-size: 14.5px; color: var(--color-ao-claro); }
   .links { list-style: none; padding: 0; margin: 36px 0 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
   .links a { display: inline-flex; min-height: 44px; align-items: center; color: var(--color-nevoa); text-decoration: underline; text-decoration-color: var(--color-linha-forte); }
   .links a:hover { color: var(--color-papel); }
@@ -542,7 +577,7 @@
   @page { size: A4; margin: 9.5mm 13mm; }
   :root { color-scheme: light; }
   html, body { background: var(--p-papel) !important; color: var(--p-tinta) !important; font-size: 9pt; line-height: 1.35; font-weight: 400; }
-  #agenda, #contato, #perfil, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .fundo-gl, .hero__mapa, .globo-rot, .rx-camada, .aovivo, .emuso, .stack__t, .fluxo, .hero__now, .filtros, .filtros__n, .sis__mais,
+  #agenda, #contato, #perfil, .app-oferta, .parede, .parede-cab, .causas, .como__gloss, .filtros__n, .reel, .bar, .skip, .fundo-gl, .hero__mapa, .globo-rot, .rx-camada, .aovivo, .emuso, .stack__t, .fluxo, .hero__now, .filtros, .filtros__n, .sis__mais,
   .semana, .semana__dica, .prod__sig, .app__sig, .apps__palco, .medidores svg, .linha__fio, .hero__cta, .como__kanji, .sec--fim .fim__p, .caso__media { display: none !important; }
   .sec, .rodape { background: none !important; }
   .js .nome { visibility: visible !important; }

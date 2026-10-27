@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regera index.html, gui.css e hero3d.js a partir de _src/.
+# Regera index.html, sw.js, gui.css e hero3d.js a partir de _src/.
 # Uso: TOOLS=/caminho/com/node_modules bash gui/_src/build.sh
 # (precisa de: tailwindcss@4 + @tailwindcss/cli, esbuild e three@0.186 em $TOOLS/node_modules)
 set -euo pipefail
@@ -23,6 +23,9 @@ for i, fila in enumerate(filas):
 t = pathlib.Path('index.template.html').read_text(encoding='utf-8')
 t = t.replace('{{MARK}}', mark).replace('{{V}}', v).replace('{{PAREDE}}', '\n'.join(blocos))
 pathlib.Path('../index.html').write_text(t, encoding='utf-8')
+# service worker com a mesma versão do ?v= dos arquivos
+sw = pathlib.Path('sw.template.js').read_text(encoding='utf-8').replace('{{V}}', v)
+pathlib.Path('../sw.js').write_text(sw, encoding='utf-8')
 PY
 ln -sfn "$TOOLS/node_modules" node_modules   # o Tailwind resolve o @import a partir desta pasta
 trap 'rm -f node_modules' EXIT

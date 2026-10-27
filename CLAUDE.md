@@ -142,6 +142,21 @@ Gui), por uma rota no `vercel.json` que serve o `/gui/index.html` com os mesmos 
 segurança. Funciona porque todo arquivo da página é chamado por caminho absoluto (`/gui/...`,
 `/assets/...`): um caminho relativo novo quebraria aqui. O canonical continua em `suzuki.cuoncient.com`.
 
+**O currículo é um app (desde 27/10/2026).** PWA (`gui/manifest.webmanifest` + `gui/sw.js`, escopo
+`/gui/`, abre sem internet) e APK Android em Trusted Web Activity (`gui/app/curriculo-guilherme-keidi-suzuki.apk`,
+pacote `com.cuoncient.curriculo`), oferecidos no bloco "Este currículo também é um app", no contato.
+O projeto Android sai do `gui/_src/twa.mjs`; o GitHub Actions (`.github/workflows/apk-curriculo.yml`)
+compila e deixa o APK sem assinatura no ramo `apk-saida`, e a assinatura usa a chave do Gui, que **não
+fica no repositório**. O `/.well-known/assetlinks.json` carrega a impressão digital dessa chave: trocou a
+chave, troque lá, senão o app abre com barra de endereço. Passo a passo em `gui/_src/README.md`.
+Ao mexer no `sw.js`: ele nasce de `_src/sw.template.js` no `build.sh`, e o `vercel.json` o serve com
+`no-cache` para a versão nova chegar.
+
+**Sem nome de plataforma de terceiros em `/gui`.** Pedido do Gui em 27/10/2026: nada de "Wix" na
+página, no PDF ou no reel. A fase antiga é "sites em plataformas externas" e a virada, "migrei a agência
+para desenvolvimento próprio". (O portfólio da raiz também não cita o nome em texto; só os
+endereços dos sites antigos aparecem nos links da grade.)
+
 ## Convenções
 
 **Tokens.** Todo valor de design mora no `:root` do `styles.css`, num bloco

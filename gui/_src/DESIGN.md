@@ -50,11 +50,12 @@ No PDF o acento vira `#2e4d70` sobre o papel branco.
 
 - Shell de 1240 px, calha de 16 px no celular e 32 px a partir de 640.
 - **Capa sem foto.** Desktop (900 px ou mais): o nome à esquerda (7 colunas) e o globo à direita (5 colunas), com a legenda dos lugares embaixo. Celular: a legenda à esquerda e o globo à direita, os dois acima do nome; o nome e o primeiro botão cabem na primeira tela.
-- **Perfil** logo depois da capa: o retrato pequeno (128 px no celular, 176 px no desktop, 4:5, preto e branco, espelhado para olhar o texto), o título, um parágrafo de bio e os dados em duas colunas (idade, cargo, clientes, idiomas) com o contato numa linha só.
+- **Perfil** logo depois da capa: o retrato pequeno (128 px no celular, 176 px no desktop, 4:5, em cor natural, sem espelhar), o título, um parágrafo de bio e os dados em duas colunas (idade, cargo, clientes, idiomas) com o contato numa linha só.
 - Cabeçalho de seção em 7/5: título à esquerda, abertura em Mincho à direita, alinhados pela base.
 - Listas com fio de 1 px (`linha`), sem cartões. Hierarquia por tamanho e largura de letra, não por caixa.
 - Numeração só onde há sequência real (linha do tempo). Sistemas e apps não levam número.
 - Faixas `sumi-2` alternam com o fundo para separar blocos longos sem precisar de borda.
+- **"Como funciona"** nos 14 sistemas (27/10, o Gui achou o + discreto demais): uma pílula azul-aço translúcida com o texto e um + num círculo cheio de 32 px. No hover e aberta, a pílula enche e o + vira ×. Abaixo de 560 px o texto fica só para leitor de tela e sobra o círculo, que ainda é o elemento mais claro da linha.
 - Menu: Perfil, Aplicativos, Agentes de IA, Resultados, Experiência e Competências, a partir de 1200 px (Cuoncient e Formação continuam na página, fora do menu).
 
 
@@ -79,7 +80,7 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 | Títulos | SplitText por letra: cada letra chega estreita (scaleX 0,35) e abre. Só transform; antes era o eixo de largura da fonte, que mudava a quebra de linha | o eixo de largura, sem empurrar a página |
 | Padrões de agente | quatro fluxos em SVG: um pedido percorre as etapas como o sistema roda (reescrita no revisor, três saídas no roteamento, o visto da pessoa na aprovação, os trechos voltando do índice no RAG); os fios se desenham com DrawSVG e o laço só roda com o fluxo na tela | o padrão funcionando, não descrito |
 | Apps | o identificador em foco aparece grande no palco e embaralha; o nome do app clareia | o app existe num registro de loja |
-| Sistemas | abrir e fechar com opacidade; filtros reordenam com Flip | estado |
+| Sistemas | abrir e fechar com opacidade; filtros reordenam com Flip; quando a seção entra, o + de cada "Como funciona" dá meia volta, um depois do outro | estado, e um aceno de que abre |
 | Agenda | os pontos aparecem na ordem da semana e a linha "agora" corre até a hora certa | mostra que roda enquanto a pessoa lê |
 | Cuoncient | 55, 46 e 16 contam até o valor, com a largura final reservada | volume |
 | Cases | o print do site carrega de cima para baixo (clip-path) e o celular sobe | um site abrindo |
@@ -91,7 +92,7 @@ Uma regra do Impeccable (animate) guia tudo: movimento explica estado ou é o ú
 | Fecho | as linhas do convite sobem por trás de uma máscara (SplitText) | última frase |
 | Botões | magnéticos (com mouse) e com texto que rola | resposta ao ponteiro |
 | Baixar o PDF | um carimbo 鈴木 bate ao lado do botão e some | o hanko assina o documento |
-| Raio-X | as etiquetas entram com um leve zoom e seguem cada elemento a cada quadro (gsap.ticker) | ver a tecnologia de cada parte |
+| Raio-X | as etiquetas entram com um leve zoom e seguem cada elemento a cada quadro (gsap.ticker); a dica ao lado do botão desce 6 px e acende | ver a tecnologia de cada parte |
 | Rolagem | Lenis só em ponteiro fino (mouse) | o toque do celular fica nativo |
 
 Ferramentas: GSAP 3.15 (ScrollTrigger, SplitText, ScrambleText, Flip, DrawSVG), Lenis 1.3, Three.js 0.186, axe-core 4.14 (sob demanda). Tudo auto-hospedado em `/gui/vendor`.
@@ -126,6 +127,7 @@ Pedido do Gui: "mostre todas as ferramentas aplicadas, não só ditas".
 
 - **Raio-X** (botão na barra; Esc desliga): todo elemento com `data-tec` (e `data-en-tec`) ganha um contorno tracejado e uma etiqueta com a tecnologia que o move, presa a ele a cada quadro. A etiqueta da capa mostra pontos e fps ao vivo (`{pontos}`, `{fps}`). Para marcar uma parte nova, basta pôr `data-tec` nela.
 - **Painel em Competências**, medido no navegador de quem visita: Three.js (fps com linha dos últimos 30 s, partículas, chamadas de desenho), GSAP (ScrollTriggers e animações vivas), Core Web Vitals (LCP, CLS, INP por PerformanceObserver), peso da visita (Resource Timing), acessibilidade (o axe-core só baixa quando a pessoa clica e roda na página inteira) e a revisão de design (o resultado do Impeccable, com data).
+- **A dica do Raio-X** (27/10, pedido do Gui): um balão discreto embaixo do botão, "Veja as ferramentas usadas neste próprio portfólio". Aparece 1,8 s depois da entrada da capa, some quando a pessoa rola para fora da capa e volta se ela voltar. Usou o Raio-X ou fechou o balão no ×, ele não aparece mais (`localStorage` `gui-rx-dica`). Abaixo de 640 px o botão fica no meio da barra, então o balão se ancora na barra fixa, dentro da calha de 16 px, e o `gui.js` põe a seta embaixo do botão (`--seta`). Antes disso ele saía 48 px para fora da tela em 320 px.
 - **"Em uso nesta página"**: botões que ligam o raio-X e levam até a parte que usa cada tecnologia.
 - O número do Impeccable no painel é estático: mudou o design, rode `impeccable detect` de novo e atualize o texto (PT e EN) no template.
 
@@ -168,12 +170,13 @@ Ficou de propósito: os medidores circulares. Eles repetem o formato do PageSpee
 - Registro formal de currículo, com Stop Slop: nada de travessão no meio da frase, trio de adjetivos, "não é X, é Y", pergunta retórica, frase de efeito no fim do parágrafo ou palavra de vendedor.
 - Primeira pessoa, verbo concreto, número com fonte. Nenhum número entra sem estar no cofre ou numa fonte pública (loja, repositório).
 - PT no HTML, EN em `data-en*`. A troca não recarrega a página.
+- **Sem nome de plataforma de terceiros** (27/10, pedido do Gui: citar o Wix "cria uma imagem ruim"). A fase antiga é "sites em plataformas externas" (EN "third-party platforms") e a virada é "migrei a agência para desenvolvimento próprio". Vale para a página, o PDF, o JSON-LD e o reel. O `parede.json` guarda os endereços originais, mas só o nome e a miniatura vão para a página.
 
 ## Acessibilidade e qualidade
 
 - Contraste medido no navegador, não só no lint: todo texto passa de 4,5:1 sobre o fundo real.
 - Alvos de toque de 44 px (links da barra, PT/EN, Raio-X, botões pequenos e o de trocar o desenho), foco visível em ao-claro, `aria-expanded` nos sistemas, `aria-pressed` no Raio-X, `aria-live` na agenda e no filtro.
-- axe-core na página inteira (27/10/2026, PT, depois das animações de entrada): 0 violações. A agenda era `role="img"` com botões dentro (`nested-interactive`); virou `role="group"`. Os fluxos dos agentes são `aria-hidden`: o mesmo conteúdo está no título e no parágrafo de cada padrão.
+- axe-core na página inteira (27/10/2026, PT, depois das animações de entrada): 0 violações. O botão do painel espera as transições de CSS terminarem antes de rodar (`semTransicao()`): desligar o Raio-X e clicar logo em seguida pegava o botão no meio da troca de cor (2,7:1) e o painel acusava um contraste que não existe parado. A agenda era `role="img"` com botões dentro (`nested-interactive`); virou `role="group"`. Os fluxos dos agentes são `aria-hidden`: o mesmo conteúdo está no título e no parágrafo de cada padrão.
 - Os pontos da agenda são a exceção medida: as faixas ficam a 9 px uma da outra, e alvo grande cobriria o vizinho (na segunda às 10:00 há dois pontos juntos). O clique e o toque são resolvidos no trilho, pelo ponto mais próximo até 30 px; o teclado vai ponto a ponto. O `verifica.mjs` continua apontando 24×24, e é de propósito.
 - Sem rolagem horizontal de 320 a 1920 px (a parede usa `overflow: clip`).
 - Sem JS, sem WebGL ou com movimento reduzido: nome visível, sistemas fechados mas legíveis, a caixa do globo mostra a marca em SVG e os nomes dos lugares ficam na legenda.
@@ -188,9 +191,19 @@ O PDF é a mesma página com `@media print`: papel branco, 4 páginas A4, sem ca
 - `gui/guilherme-keidi-suzuki.vcf`: vCard 3.0 com nome, cargo, WhatsApp, endereço do currículo, GitHub e o rosto em base64. O link fica no contato, sem `download`, para o iPhone abrir direto o cartão de "Novo contato". Sem e-mail, pela mesma regra do portfólio.
 - `vercel.json`: `X-Frame-Options`, `frame-ancestors 'none'`, `nosniff` e `Referrer-Policy` só em `/gui` e no host `suzuki.cuoncient.com` (regra da skill cuoncient-web-stack), e `text/vcard` para o `.vcf`. O portfólio da raiz ficou de fora de propósito.
 
+## O app: PWA e APK (27/10)
+
+Pedido do Gui: "faça do site um apk e ofereça ao cliente no final [...] isso mostra meus conhecimentos e profissionalismo". O bloco "Este currículo também é um app" fica no contato, logo depois dos botões de WhatsApp e PDF.
+
+- **PWA:** `gui/manifest.webmanifest` (id, `start_url` e `scope` em `/gui/`, `standalone`, fundo e tema `#101214`, ícones 192 e 512 com versão maskable, atalho para o PDF) e `gui/sw.js`, gerado de `_src/sw.template.js` com a versão do build. A página vem da rede primeiro e cai no cache sem conexão; CSS, JS, bibliotecas, foto e ícones vêm do cache (o `?v=` muda a cada build); as fontes do Google respondem do cache e atualizam por trás; PDF, vídeo, APK, vCard e axe passam direto. O botão "Instalar o app" só aparece quando o navegador dispara `beforeinstallprompt`; no iPhone aparece a instrução de "Adicionar à Tela de Início" e o link do APK some; dentro do app instalado, o bloco diz "Você está usando o app".
+- **APK:** uma Trusted Web Activity (o Chrome abre a página em tela cheia, sem barra de endereço). O projeto Android em `_src/android` sai do `_src/twa.mjs` (@bubblewrap/core), pacote `com.cuoncient.curriculo`, Android 7 ou mais novo (API 24, o mínimo do androidbrowserhelper 2.7). O GitHub Actions compila (`.github/workflows/apk-curriculo.yml`) e põe o APK alinhado no ramo `apk-saida`; a assinatura é feita com a chave do Gui, que não fica no repositório. O site prova que é dono do app em `/.well-known/assetlinks.json` (SHA-256 da chave); APK assinado com outra chave abre com barra de endereço. Ícone da tela inicial: o mesmo do PWA, marca em azul-aço sobre grafite.
+- **No Raio-X:** o bloco tem `data-tec`, e "PWA" e "Trusted Web Activity" estão nos botões de "Em uso nesta página".
+
 ## Impeccable detect
 
-27/10/2026, página servida localmente e lida pelo `impeccable detect --cdp` (o navegador já com a página aberta e as animações terminadas), em 1440×900 e 390×844: **0 achados e 0 avisos**. Na primeira leitura desta versão eram 3 achados e 16 avisos:
+27/10/2026, de novo depois da dica do Raio-X, das pílulas "Como funciona" e do bloco do app: **0 achados**, em 1440×900 e 390×844.
+
+Primeira leitura desta versão: 27/10/2026, página servida localmente e lida pelo `impeccable detect --cdp` (o navegador já com a página aberta e as animações terminadas), em 1440×900 e 390×844: **0 achados e 0 avisos**. Na primeira leitura desta versão eram 3 achados e 16 avisos:
 
 - `low-contrast` nos números riscados (o risco era um `linear-gradient` no fundo do texto): o risco virou um `::after`.
 - `straggler` (palavra sozinha na última linha) em vários parágrafos: `text-wrap: pretty` em `p`, `li` e `dd`.

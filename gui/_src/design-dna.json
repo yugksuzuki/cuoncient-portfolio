@@ -71,7 +71,9 @@
     "shape": {
       "portrait_frame": "4:5, raio 3 px, fio 1 px rgb(230 232 234 / .11)",
       "buttons": "pílula, 50 px de altura",
-      "flow_nodes": "retângulo 60x28, raio 5, fio 1 px"
+      "flow_nodes": "retângulo 60x28, raio 5, fio 1 px",
+      "disclosure_pill": "\"Como funciona\": pílula 44 px, fundo azul-aço a 16%, fio azul-aço a 70%, + num círculo cheio de 32 px em ao-claro; aberta, enche e o + vira ×",
+      "tip_balloon": "dica do Raio-X: raio 10 px, fio linha-forte, fundo sumi-3, seta de 10 px apontada para o botão"
     },
     "motion": {
       "ease_out": "cubic-bezier(0.23, 1, 0.32, 1) no CSS, power4.out no GSAP",
@@ -84,8 +86,8 @@
   "design_style": {
     "aesthetic": "editorial, profissional e neutro; o nome manda, o globo mostra onde o trabalho acontece",
     "visual_language": "grafite, off-white e cinzas com um único azul-aço; fios de 1 px; nada de cartão nem sombra",
-    "composition": "capa sem foto; retrato pequeno no Perfil; tecnologias mostradas funcionando (raio-X e painel ao vivo)",
-    "imagery": "globo de pontos (Natural Earth) com os lugares dos clientes; retrato pequeno em duotom",
+    "composition": "capa sem foto; retrato pequeno no Perfil; tecnologias mostradas funcionando (raio-X com dica na barra e painel ao vivo); o próprio currículo instalável como app (PWA e APK) no fecho",
+    "imagery": "globo de pontos (Natural Earth) com os lugares dos clientes; retrato pequeno em cor natural no Perfil",
     "interaction_feel": "preciso; o movimento explica (entrada, troca de desenho) e depois para, exceto o giro da esfera",
     "brand_voice_in_ui": "registro formal de currículo, números com fonte"
   },

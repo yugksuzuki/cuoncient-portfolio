@@ -678,6 +678,17 @@
       });
     }
 
+    // sistemas: o + de cada "Como funciona" gira uma vez quando a lista entra na tela
+    var listaSis = $('#sistemas');
+    if (listaSis) {
+      ScrollTrigger.create({
+        trigger: listaSis, start: 'top 80%', once: true,
+        onEnter: function () {
+          gsap.fromTo($$('.sis__mais i', listaSis), { rotation: 0 }, { rotation: 180, duration: 0.9, ease: 'power3.inOut', stagger: 0.07, clearProps: 'transform' });
+        }
+      });
+    }
+
     // placar da Cuoncient: os números contam até o valor
     $$('.placar b').forEach(function (b) {
       var fim = parseInt(b.textContent, 10);
@@ -900,7 +911,42 @@
       else if (sim) { (function laco() { if (!raio.ligado) return; posicionar(); requestAnimationFrame(laco); })(); }
     }
     raio.ligar = ligar;
-    botoes.forEach(function (b) { b.addEventListener('click', function () { ligar(!raio.ligado); }); });
+    botoes.forEach(function (b) { b.addEventListener('click', function () { ligar(!raio.ligado); dica.fechar(true); }); });
+
+    // dica discreta ao lado do botão: aparece depois da entrada da capa, some ao rolar e para de
+    // aparecer quando a pessoa usa o Raio-X ou fecha a dica
+    var dica = { fechar: function () {} };
+    var balao = $('.js-rx-dica');
+    if (balao) {
+      var CHAVE = 'gui-rx-dica';
+      var dispensada = ler(CHAVE) === '1';
+      var aberta = false;
+      var botaoRx = $('.js-rx', balao.parentNode);
+      // a seta aponta para o centro do botão, onde quer que o balão tenha ficado
+      var seta = function () {
+        var b = botaoRx.getBoundingClientRect(), d = balao.getBoundingClientRect();
+        balao.style.setProperty('--seta', Math.round(Math.max(12, Math.min(d.width - 22, d.right - (b.left + b.width / 2) - 5))) + 'px');
+      };
+      window.addEventListener('resize', function () { if (aberta) seta(); });
+      var mostrar = function (sim) {
+        if (sim === aberta || (sim && (dispensada || raio.ligado))) return;
+        aberta = sim;
+        if (sim) { balao.hidden = false; seta(); }
+        if (!temGsap || reduz) { balao.hidden = !sim; return; }
+        if (sim) gsap.fromTo(balao, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', overwrite: true });
+        else gsap.to(balao, { opacity: 0, y: -4, duration: 0.25, ease: 'power2.in', overwrite: true, onComplete: function () { if (!aberta) balao.hidden = true; } });
+      };
+      dica.fechar = function (lembrar) {
+        if (lembrar) { dispensada = true; guardar(CHAVE, '1'); }
+        mostrar(false);
+      };
+      var naCapa = function () { return window.scrollY < window.innerHeight * 0.5; };
+      var abrirDepois = function () { setTimeout(function () { jaApareceu = true; if (naCapa()) mostrar(true); }, 1800); };
+      if (window.__guiEntrada) abrirDepois(); else document.addEventListener('gui:entrada', abrirDepois, { once: true });
+      var jaApareceu = false;
+      window.addEventListener('scroll', function () { if (!dispensada && (jaApareceu || !naCapa())) mostrar(naCapa()); }, { passive: true });
+      $('.js-rx-dica-x', balao).addEventListener('click', function () { dica.fechar(true); });
+    }
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && raio.ligado) ligar(false); });
 
     // "em uso nesta página": liga o raio-X e leva até a parte que usa aquela tecnologia
@@ -998,12 +1044,22 @@
         document.head.appendChild(sc);
       });
     }
+    // o axe mede a página parada: uma transição de CSS no meio (o Raio-X acabou de desligar, um hover
+    // saindo) tem cores de passagem que reprovariam o contraste sem existir de verdade
+    function semTransicao() {
+      var t = document.getAnimations && typeof CSSTransition !== 'undefined'
+        ? document.getAnimations().filter(function (a) { return a instanceof CSSTransition; }) : [];
+      return Promise.race([
+        Promise.all(t.map(function (a) { return a.finished.catch(function () {}); })),
+        new Promise(function (ok) { setTimeout(ok, 1500); })
+      ]);
+    }
     bAxe.addEventListener('click', function () {
       var rot = $('span', bAxe), det = $('.js-v-axe-d', painel);
       bAxe.disabled = true;
       det.textContent = T().axeCarrega;
       var t0 = performance.now();
-      carregarAxe().then(function (axe) {
+      carregarAxe().then(function (axe) { return semTransicao().then(function () { return axe; }); }).then(function (axe) {
         det.textContent = T().axeRoda;
         t0 = performance.now();
         return axe.run({ exclude: [['#gl'], ['.rx-camada'], ['.globo-rot']] }, { resultTypes: ['violations'] });
@@ -1018,6 +1074,39 @@
         rot.textContent = T().axeDeNovo;
       }).catch(function () { det.textContent = T().axeFalhou; }).then(function () { bAxe.disabled = false; });
     });
+  }
+
+  /* ------------------------------------------- o currículo como app (PWA e APK) */
+  function app() {
+    var bloco = $('.app-oferta');
+    var podeSW = 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost');
+    if (podeSW) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/gui/sw.js', { scope: '/gui/' }).then(function (reg) {
+          return navigator.serviceWorker.ready.then(function () { var n = bloco && $('.js-sw', bloco); if (n) n.hidden = false; return reg; });
+        }).catch(function () {});
+      });
+    }
+    if (!bloco) return;
+    var bInst = $('.js-instalar', bloco), ios = $('.js-ios', bloco), ok = $('.js-instalado', bloco), apk = $('.js-apk', bloco);
+    var noApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (noApp) { ok.hidden = false; $('.app-oferta__b', bloco).hidden = true; return; }
+    var ehIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ehIOS) { ios.hidden = false; if (apk) apk.hidden = true; }
+    // Chrome, Edge e Android oferecem a instalação; o botão só aparece quando o navegador deixa
+    var pedido = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      pedido = e;
+      bInst.hidden = false;
+      if (temGsap && !reduz) gsap.from(bInst, { opacity: 0, y: 8, duration: 0.5, ease: 'expo.out' });
+    });
+    bInst.addEventListener('click', function () {
+      if (!pedido) return;
+      pedido.prompt();
+      pedido.userChoice.then(function (r) { if (r.outcome === 'accepted') bInst.hidden = true; pedido = null; });
+    });
+    window.addEventListener('appinstalled', function () { bInst.hidden = true; ok.hidden = false; });
   }
 
   /* ------------------------------------------------------------------ início */
@@ -1039,6 +1128,7 @@
     perfil();
     raioX();
     aoVivo();
+    app();
     $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { aplicarIdioma(b.dataset.lang); }); });
     var pedido = new URLSearchParams(location.search).get('lang');
     aplicarIdioma(pedido || ler('gui-lang') || ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));

@@ -2,6 +2,28 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "routes": [
     {
+      "src": "/gui/sw\\.js",
+      "headers": {
+        "Cache-Control": "no-cache"
+      },
+      "continue": true
+    },
+    {
+      "src": "/gui/.+\\.apk",
+      "headers": {
+        "Content-Type": "application/vnd.android.package-archive"
+      },
+      "continue": true
+    },
+    {
+      "src": "/\\.well-known/assetlinks\\.json",
+      "headers": {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      "continue": true
+    },
+    {
       "src": "/gui/.+\\.vcf",
       "headers": {
         "Content-Type": "text/vcard; charset=utf-8"

@@ -27,9 +27,13 @@
 <meta name="twitter:description" content="Desenvolvedor fullstack e CEO da Cuoncient. Aplicativos, agentes de IA e automação de processos, com resultados documentados.">
 <meta name="twitter:image" content="https://suzuki.cuoncient.com/gui/og.png?v={{V}}">
 <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/gui/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/gui/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="G. Suzuki">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<link crossorigin href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/gui/gui.css?v={{V}}">
 <script>document.documentElement.classList.replace('no-js','js');</script>
 <script type="application/ld+json">
@@ -83,7 +87,10 @@
       <span class="bar__ind" aria-hidden="true"></span>
     </nav>
     <div class="bar__tools">
-      <button type="button" class="rx-btn js-rx" aria-pressed="false" title="Mostra qual tecnologia move cada parte da página" data-en-title="Shows which technology drives each part of the page"><span class="rx-btn__i" aria-hidden="true"></span><span data-en="X-ray">Raio-X</span></button>
+      <div class="rx-wrap">
+        <button type="button" class="rx-btn js-rx" aria-pressed="false" title="Mostra qual tecnologia move cada parte da página" data-en-title="Shows which technology drives each part of the page"><span class="rx-btn__i" aria-hidden="true"></span><span data-en="X-ray">Raio-X</span></button>
+        <p class="rx-dica js-rx-dica" hidden><span data-en="See the tools used in this very portfolio">Veja as ferramentas usadas neste próprio portfólio</span><button type="button" class="rx-dica__x js-rx-dica-x" aria-label="Fechar a dica" data-en-label="Close the tip"></button></p>
+      </div>
       <div class="lang" role="group" aria-label="Idioma" data-en-label="Language">
         <button type="button" data-lang="pt" aria-pressed="true">PT</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -139,7 +146,7 @@
     </figure>
     <div class="perfil__txt">
       <h2 class="sec__t" id="perfil-t" data-en="Profile">Perfil</h2>
-      <p class="perfil__bio" data-en="I delivered 55 Wix sites to clients in Brazil and the United States before moving the agency to custom code in 2026. Since then I build applications, AI agents and automations that run in production, with each result measured and logged.">Entreguei 55 sites em Wix para clientes no Brasil e nos Estados Unidos antes de migrar a agência para código próprio, em 2026. Desde então, desenvolvo aplicativos, agentes de IA e automações que rodam em produção, com cada resultado medido e registrado.</p>
+      <p class="perfil__bio" data-en="I started out delivering 55 sites on third-party platforms for clients in Brazil and the United States, and in 2026 I moved the agency to in-house development. Since then I build applications, AI agents and automations that run in production, with each result measured and logged.">Comecei entregando 55 sites em plataformas externas para clientes no Brasil e nos Estados Unidos e, em 2026, migrei a agência para desenvolvimento próprio. Desde então, desenvolvo aplicativos, agentes de IA e automações que rodam em produção, com cada resultado medido e registrado.</p>
       <dl class="perfil__dados">
         <div><dt data-en="Age">Idade</dt><dd class="js-idade">26 anos</dd></div>
         <div><dt data-en="Current role">Cargo atual</dt><dd data-en="CEO and developer, Cuoncient">CEO e desenvolvedor, Cuoncient</dd></div>
@@ -234,7 +241,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-1">
           <span class="sis__nome" data-en="Blog engine">Motor do blog</span>
           <span class="sis__cli" data-en="Art 7 Epoxy, USA">Art 7 Epoxy, EUA</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Produces and validates local SEO articles three times a week, delivered as drafts for review and publishing.">Produz e valida artigos de SEO local três vezes por semana, entregues como rascunho para revisão e publicação.</p>
         <p class="sis__prova" data-en="Each draft passes 14 validation rules before reaching WordPress, with up to three automatic rewrites. Cost per article: US$&nbsp;0.10 to US$&nbsp;0.21.">Cada texto passa por 14 regras de validação antes do WordPress, com até três reescritas automáticas. Custo por artigo: US$&nbsp;0,10 a US$&nbsp;0,21.</p>
@@ -247,7 +254,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-2">
           <span class="sis__nome" data-en="Invoice panel">Painel de notas fiscais</span>
           <span class="sis__cli">DUACT, SC</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Reads the order sheet daily and creates the invoice order through the ERP's API, with the total reconciled to the cent.">Lê diariamente a planilha de pedidos e gera o pedido de nota fiscal pela API do ERP, com conciliação exata do valor total.</p>
         <p class="sis__prova" data-en="It has created orders of 80 and 103 lines through the API. Exceptions are described in plain text and Claude proposes the line items; a person always issues the invoice.">Já gerou pedidos de 80 e 103 linhas pela API. Exceções são descritas em texto e o Claude propõe os itens; a emissão da nota é sempre feita por uma pessoa.</p>
@@ -260,7 +267,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-3">
           <span class="sis__nome" data-en="Sales rep chatbot on WhatsApp">Chatbot de representantes no WhatsApp</span>
           <span class="sis__cli">DUACT, SC</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="The customer enters their city and the bot returns the regional sales rep with a direct WhatsApp link.">O cliente informa a cidade e o bot indica o representante comercial da região, com link direto para o WhatsApp.</p>
         <p class="sis__prova" data-en="It covers the sales reps for Rio Grande do Sul, Santa Catarina and Paraná, and recognizes the city despite typos, missing accents or the state written in full.">Cobre os representantes do Rio Grande do Sul, de Santa Catarina e do Paraná e reconhece a cidade mesmo com erros de digitação, sem acentuação ou com o estado por extenso.</p>
@@ -273,7 +280,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-4">
           <span class="sis__nome" data-en="The operation's brain">Cérebro da operação</span>
           <span class="sis__cli" data-en="Cuoncient, in-house">Cuoncient, uso interno</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Two Claude accounts and the n8n routines share a single knowledge base, keeping context across conversations.">Duas contas do Claude e as rotinas do n8n compartilham uma base de conhecimento única, mantendo o contexto entre conversas.</p>
         <p class="sis__prova" data-en="Morning brief on weekdays at 6:40 and a weekly review on Fridays. 77 files versioned on GitHub.">Resumo da manhã nos dias úteis às 6h40 e revisão semanal às sextas. 77 arquivos versionados no GitHub.</p>
@@ -286,7 +293,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-5">
           <span class="sis__nome" data-en="RAG over the client's pages">RAG das páginas do site</span>
           <span class="sis__cli" data-en="Art 7 Epoxy, USA">Art 7 Epoxy, EUA</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Semantic search over the site's content so new city pages don't repeat those already published.">Busca semântica no conteúdo do site para que novas páginas de cidade não repitam as já publicadas.</p>
         <p class="sis__prova" data-en="Index of 51 pages and 526 passages. In the latest batch of 8 new pages, no 10-word sequence matched existing content.">Índice com 51 páginas e 526 trechos. No último lote de 8 páginas novas, nenhuma sequência de 10 palavras coincidiu com o conteúdo existente.</p>
@@ -299,7 +306,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-6">
           <span class="sis__nome" data-en="Instagram post engine">Motor de posts do Instagram</span>
           <span class="sis__cli" data-en="Cuoncient, pilot in development">Cuoncient, piloto em desenvolvimento</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Claude writes the copy and chooses the layout; the artwork is generated from an HTML template with the brand's tokens. Every post goes through an approval queue.">O Claude redige a copy e define o enquadramento; a arte é gerada a partir de um template HTML com os tokens da marca. Todo post passa por uma fila de aprovação.</p>
         <p class="sis__prova" data-en="Metrics are collected at 24 hours, 72 hours and 7 days. Claude proposes creative rules from them, and each rule enters the prompt only after approval.">Métricas coletadas em 24 h, 72 h e 7 dias. O Claude propõe regras de criativo com base nelas, e cada regra só é incorporada ao prompt após aprovação.</p>
@@ -312,7 +319,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-7">
           <span class="sis__nome" data-en="Video engine">Motor de vídeo</span>
           <span class="sis__cli">BR Oxigênio, GO</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="A webhook request produces finished videos in the client's folder, in 9:16 and 4:5, with and without captions.">Uma requisição por webhook gera vídeos finalizados na pasta do cliente, nos formatos 9:16 e 4:5, com e sem legenda.</p>
         <p class="sis__prova" data-en="Each render takes about 3 minutes and delivers 10 files, with audio normalized to −14 LUFS and near-zero additional cost.">Cada renderização leva cerca de 3 minutos e entrega 10 arquivos, com áudio normalizado em −14 LUFS e custo adicional próximo de zero.</p>
@@ -325,7 +332,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-8">
           <span class="sis__nome" data-en="Landing page from Instagram">Página a partir do Instagram</span>
           <span class="sis__cli" data-en="Cuoncient, client pages">Cuoncient, páginas de cliente</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Collects the client's profile, stores photos and captions in a repository and prepares the context to build the page.">Coleta o perfil do cliente, armazena fotos e legendas em um repositório e prepara o contexto para a construção da página.</p>
         <p class="sis__prova" data-en="Collecting 50 posts takes 3 to 5 minutes at a cost of a few cents. Address, price and testimonials are included only when the client provides them.">A coleta de 50 posts leva de 3 a 5 minutos, com custo de centavos de dólar. Endereço, preço e depoimentos entram somente quando fornecidos pelo cliente.</p>
@@ -338,7 +345,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-9">
           <span class="sis__nome" data-en="AI product photos, checked by hand">Fotos de produto com IA, conferidas</span>
           <span class="sis__cli">Center Conveniência, PR</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Images are AI-generated only when no real photo exists, and each result is checked against the original packaging.">Imagens são geradas por IA apenas na ausência de foto real, e cada resultado é conferido com a embalagem original.</p>
         <p class="sis__prova" data-en="All 260 products in the store have a photo: 199 from the previous menu and the rest generated and reviewed. Eight images were rejected for the wrong color or version.">Os 260 produtos da loja têm foto: 199 do cardápio anterior e as demais geradas e revisadas. Oito imagens foram recusadas por cor ou versão incorreta.</p>
@@ -351,7 +358,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-10">
           <span class="sis__nome" data-en="Weekly page watch">Vigia semanal das páginas</span>
           <span class="sis__cli" data-en="Art 7 Epoxy, USA">Art 7 Epoxy, EUA</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Every Monday at 10:00, it crawls the sitemap and files a report on template errors.">Toda segunda-feira às 10h, percorre o sitemap e registra um relatório com erros de template.</p>
         <p class="sis__prova" data-en="It detects, for example, the template city's name left in the body text, FAQs and image alt text of other cities' pages.">Identifica, por exemplo, o nome da cidade-modelo remanescente no texto, nas perguntas frequentes e no texto alternativo das imagens de outras cidades.</p>
@@ -363,20 +370,20 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-11">
           <span class="sis__nome" data-en="Store and taxes through the API">Loja e impostos pela API</span>
           <span class="sis__cli">DUACT, SC</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Applies the IPI tax discount and tax group to each product through the API, aligning the checkout total with the catalog.">Aplica o desconto de IPI e o grupo tributário de cada produto pela API, alinhando o valor do checkout ao catálogo.</p>
-        <p class="sis__prova" data-en="105 products adjusted and checked against Wix's tax calculation: 98 exact and 7 off by one cent.">105 produtos ajustados e conferidos com o cálculo tributário do Wix: 98 com valor exato e 7 com diferença de um centavo.</p>
+        <p class="sis__prova" data-en="105 products adjusted and checked against the store platform's tax calculation: 98 exact and 7 off by one cent.">105 produtos ajustados e conferidos com o cálculo tributário da plataforma da loja: 98 com valor exato e 7 com diferença de um centavo.</p>
         <div class="sis__det" id="sis-11" hidden>
-          <p data-en="The parts catalog was rebuilt as a custom element, with 331 items from two brands, filters derived from each part's name and an order bar connected to the Wix cart.">O catálogo de peças foi refeito como elemento personalizado, com 331 itens de duas marcas, filtros extraídos do nome de cada peça e barra de pedido integrada ao carrinho do Wix.</p>
-          <ul class="chips"><li>Wix REST API</li><li>Custom Elements</li><li>JavaScript</li></ul>
+          <p data-en="The parts catalog was rebuilt as a custom element, with 331 items from two brands, filters derived from each part's name and an order bar connected to the store's cart.">O catálogo de peças foi refeito como elemento personalizado, com 331 itens de duas marcas, filtros extraídos do nome de cada peça e barra de pedido integrada ao carrinho da loja.</p>
+          <ul class="chips"><li data-en="Store REST API">REST API da loja</li><li>Custom Elements</li><li>JavaScript</li></ul>
         </div>
       </li>
       <li class="sis" data-tags="dados">
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-12">
           <span class="sis__nome" data-en="Ad performance analysis">Análise de anúncios</span>
           <span class="sis__cli">V.BIKE, SC</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Analysis of Meta Ads reports in Python to decide what to adjust and what to keep in the learning phase.">Análise dos relatórios do Meta Ads em Python para definir ajustes e o que manter em fase de aprendizado.</p>
         <p class="sis__prova" data-en="After the targeting was corrected, cost per conversation at one store dropped to R$&nbsp;2.50; the best ad set reached R$&nbsp;2.02.">Após a correção da segmentação, o custo por conversa de uma das lojas caiu para R$&nbsp;2,50; o melhor conjunto atingiu R$&nbsp;2,02.</p>
@@ -388,7 +395,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-13">
           <span class="sis__nome" data-en="Proposals that become web pages">Proposta que vira página</span>
           <span class="sis__cli" data-en="Cuoncient and the HotelariaWeb partnership">Cuoncient e parceria HotelariaWeb</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Sales proposals published as web pages with their own link to share on WhatsApp, with an accompanying PDF.">Propostas comerciais publicadas como página web com link próprio para envio por WhatsApp, acompanhadas de PDF.</p>
         <p class="sis__prova" data-en="The B2B storefront proposal was delivered on the same day as the client meeting.">A proposta da vitrine B2B foi entregue no mesmo dia da reunião com o cliente.</p>
@@ -400,7 +407,7 @@
         <h3 class="sis__h"><button type="button" class="sis__btn" aria-expanded="false" aria-controls="sis-14">
           <span class="sis__nome" data-en="Processes turned into Claude skills">Processos que viraram skills do Claude</span>
           <span class="sis__cli" data-en="Cuoncient, in-house">Cuoncient, uso interno</span>
-          <span class="sis__mais" aria-hidden="true"></span>
+          <span class="sis__mais"><span class="sis__mais-t" data-en="How it works">Como funciona</span><i aria-hidden="true"></i></span>
         </button></h3>
         <p class="sis__o" data-en="Processes validated with clients are documented as Claude skills to be reapplied on new projects.">Processos validados em clientes são documentados como skills do Claude para reaplicação em novos projetos.</p>
         <p class="sis__prova" data-en="Among them: landing page from Instagram, page visual review, consolidated proposal and the Cuoncient web stack.">Entre elas: página a partir do Instagram, revisão visual de página, proposta consolidada e stack web da Cuoncient.</p>
@@ -443,14 +450,14 @@
     </div>
 
     <div class="cuon-topo">
-      <p class="placar" data-tec="GSAP: os números contam até o valor" data-en-tec="GSAP: the numbers count up" data-en="&lt;b&gt;55&lt;/b&gt; sites delivered on Wix, &lt;b&gt;46&lt;/b&gt; projects on Vercel and &lt;b&gt;16&lt;/b&gt; custom domains in production."><b>55</b> sites entregues em Wix, <b>46</b> projetos na Vercel e <b>16</b> domínios próprios em produção.</p>
+      <p class="placar" data-tec="GSAP: os números contam até o valor" data-en-tec="GSAP: the numbers count up" data-en="&lt;b&gt;55&lt;/b&gt; sites delivered on third-party platforms, &lt;b&gt;46&lt;/b&gt; projects on Vercel and &lt;b&gt;16&lt;/b&gt; custom domains in production."><b>55</b> sites entregues em plataformas externas, <b>46</b> projetos na Vercel e <b>16</b> domínios próprios em produção.</p>
     </div>
 
     <h3 class="sub" data-en="Services">Serviços</h3>
     <ul class="frentes">
       <li><b>Design</b><span data-en="Visual identity, website and landing page UI, print and digital pieces, art direction.">Identidade visual, UI de sites e landing pages, peças gráficas e direção de arte.</span></li>
       <li><b>Social media</b><span data-en="Planning per platform, photo and video production, and pieces for feed, stories and reels.">Planejamento por plataforma, produção de foto e vídeo e peças para feed, stories e reels.</span></li>
-      <li><b data-en="Websites and apps">Sites e apps</b><span data-en="Websites, landing pages, online stores and systems on Wix, WordPress or custom code.">Sites, landing pages, lojas virtuais e sistemas em Wix, WordPress ou código próprio.</span></li>
+      <li><b data-en="Websites and apps">Sites e apps</b><span data-en="Websites, landing pages, online stores and systems on WordPress, off-the-shelf platforms or custom code.">Sites, landing pages, lojas virtuais e sistemas em WordPress, plataformas prontas ou código próprio.</span></li>
       <li><b data-en="Paid media">Mídia paga</b><span data-en="Meta Ads, Google Ads and Local Services Ads, with lead capture and qualification.">Meta Ads, Google Ads e Local Services Ads, com captação e qualificação de leads.</span></li>
       <li><b data-en="Automation and AI">Automação e IA</b><span data-en="AI-assisted content production, site monitoring, reports and system integrations.">Produção de conteúdo com IA, monitoramento de sites, relatórios e integração entre sistemas.</span></li>
     </ul>
@@ -496,8 +503,8 @@
     </div>
 
     <div class="parede-cab">
-      <h3 class="sub" data-en="The 55 Wix sites">Os 55 sites em Wix</h3>
-      <p data-en="Sites built for clients in Brazil and the United States before the agency moved to custom code.">Sites desenvolvidos para clientes no Brasil e nos Estados Unidos antes da migração da agência para código próprio.</p>
+      <h3 class="sub" data-en="55 sites on third-party platforms">55 sites em plataformas externas</h3>
+      <p data-en="Sites built for clients in Brazil and the United States before the agency moved to in-house development.">Sites desenvolvidos para clientes no Brasil e nos Estados Unidos antes de a agência migrar para desenvolvimento próprio.</p>
       <a class="link" href="https://cuoncient.com/#projetos"><span class="roll" data-en="View the full portfolio">Ver o portfólio completo</span></a>
     </div>
   </div>
@@ -601,7 +608,7 @@
       </li>
       <li class="papel">
         <h3><span>DUACT</span> <small data-en="Developer, invoicing and e-commerce">Desenvolvedor, notas fiscais e e-commerce</small></h3>
-        <p data-en="Electric scooter company in Porto Belo, SC. Invoicing in OMIE, management of the Wix store and parts catalog, development of the sales rep chatbot on WhatsApp and automation of the invoice queue.">Empresa de scooters elétricas em Porto Belo, SC. Emissão de notas fiscais no OMIE, gestão da loja e do catálogo de peças no Wix, desenvolvimento do chatbot de representantes no WhatsApp e automação da fila de notas.</p>
+        <p data-en="Electric scooter company in Porto Belo, SC. Invoicing in OMIE, management of the online store and parts catalog, development of the sales rep chatbot on WhatsApp and automation of the invoice queue.">Empresa de scooters elétricas em Porto Belo, SC. Emissão de notas fiscais no OMIE, gestão da loja virtual e do catálogo de peças, desenvolvimento do chatbot de representantes no WhatsApp e automação da fila de notas.</p>
       </li>
       <li class="papel">
         <h3><span>Art 7 Epoxy LLC</span> <small data-en="Digital marketing and web, USA">Marketing digital e web, EUA</small></h3>
@@ -622,7 +629,7 @@
       <svg class="linha__fio" preserveAspectRatio="none" viewBox="0 0 4 100" aria-hidden="true"><line x1="2" y1="0" x2="2" y2="100"/></svg>
       <ol>
         <li class="linha__ano"><time datetime="2024">2024</time><p data-en="Couponlandia marketplace, for deals and Brazilian vendors in South Florida.">Marketplace da Couponlandia, de ofertas e lojistas brasileiros no sul da Flórida.</p></li>
-        <li class="linha__ano"><time datetime="2025">2025</time><p data-en="Sales rep chatbot on WhatsApp for DUACT, integration between the Wix store and OMIE, and the YourFace prototype (CLIP and Pinecone).">Chatbot de representantes da DUACT no WhatsApp, integração entre a loja Wix e o OMIE e protótipo do YourFace (CLIP e Pinecone).</p></li>
+        <li class="linha__ano"><time datetime="2025">2025</time><p data-en="Sales rep chatbot on WhatsApp for DUACT, integration between the online store and OMIE, and the YourFace prototype (CLIP and Pinecone).">Chatbot de representantes da DUACT no WhatsApp, integração entre a loja virtual e o OMIE e protótipo do YourFace (CLIP e Pinecone).</p></li>
         <li><time datetime="2026-05" data-en="May 26">Mai 26</time><p data-en="First city pages for Art 7 Epoxy, built in Elementor.">Primeiras páginas por cidade da Art 7 Epoxy, montadas no Elementor.</p></li>
         <li><time datetime="2026-07" data-en="Jul 26">Jul 26</time><p data-en="Meta Ads management for V.BIKE's two stores, with analysis in Python. Proposal and stack for Gabriela Seleme's site.">Gestão de Meta Ads da V.BIKE em duas lojas, com análise em Python. Proposta e stack do site da Gabriela Seleme.</p></li>
         <li><time datetime="2026-08" data-en="Aug 26">Ago 26</time><p data-en="Five-step quote calculator for Art 7, with leads integrated into HubSpot.">Calculadora de orçamento da Art 7 em cinco etapas, com leads integrados ao HubSpot.</p></li>
@@ -732,6 +739,8 @@
         <li><button type="button" data-alvo=".vivo[data-v=a11y]">axe-core</button></li>
         <li><button type="button" data-alvo=".vivo[data-v=design]">Impeccable</button></li>
         <li><button type="button" data-alvo=".reel">HyperFrames</button></li>
+        <li><button type="button" data-alvo=".app-oferta">PWA</button></li>
+        <li><button type="button" data-alvo=".app-oferta">Trusted Web Activity</button></li>
       </ul>
     </div>
 
@@ -744,7 +753,7 @@
       <div><dt data-en="Programming languages">Linguagens</dt><dd data-en="JavaScript, TypeScript, Python, PHP, SQL, HTML and CSS, GLSL (shaders)">JavaScript, TypeScript, Python, PHP, SQL, HTML e CSS, GLSL (shaders)</dd></div>
       <div><dt>Front-end</dt><dd>React 19, Next.js 16, Vite, Tailwind 4, GSAP, Three.js, Lenis, shadcn/ui</dd></div>
       <div><dt data-en="Data and back-end">Dados e back-end</dt><dd>Supabase (Postgres, pgvector, RLS), Firebase, Node e Express, Streamlit, Playwright, ffmpeg</dd></div>
-      <div><dt data-en="Platforms">Plataformas</dt><dd data-en="Vercel, GitHub, WordPress and Elementor, Wix Studio, Shopify (Admin API and embedded apps), OMIE, HubSpot, RD Station, Focus NFe">Vercel, GitHub, WordPress e Elementor, Wix Studio, Shopify (Admin API e apps embutidos), OMIE, HubSpot, RD Station, Focus NFe</dd></div>
+      <div><dt data-en="Platforms">Plataformas</dt><dd data-en="Vercel, GitHub, WordPress and Elementor, Shopify (Admin API and embedded apps), OMIE, HubSpot, RD Station, Focus NFe">Vercel, GitHub, WordPress e Elementor, Shopify (Admin API e apps embutidos), OMIE, HubSpot, RD Station, Focus NFe</dd></div>
       <div><dt>Marketing</dt><dd>Meta Ads, Google Ads, Local Services Ads, Search Console, GA4, Tag Manager, Clarity, Rank Math, Google Business Profile</dd></div>
       <div><dt data-en="Design and organization">Design e organização</dt><dd>Canva, CapCut Pro, Impeccable, Intent, Obsidian, TickTick</dd></div>
       <div><dt data-en="Quality">Qualidade</dt><dd data-en="Playwright with axe (accessibility), Lighthouse CI, Vitest, security headers">Playwright com axe (acessibilidade), Lighthouse CI, Vitest, cabeçalhos de segurança</dd></div>
@@ -778,6 +787,17 @@
       <div class="hero__cta">
         <a class="btn btn--solid js-ima" href="https://wa.me/5511933528251?text=Ol%C3%A1%2C%20Guilherme.%20Gostaria%20de%20conversar%20sobre%20um%20projeto." data-en-href="https://wa.me/5511933528251?text=Hello%20Guilherme%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener"><span class="roll" data-en="Contact via WhatsApp">Contato pelo WhatsApp</span></a>
         <a class="btn btn--ghost js-pdf js-ima" href="/gui/curriculo-guilherme-keidi-suzuki.pdf" data-en-href="/gui/resume-guilherme-keidi-suzuki.pdf" download><span class="roll" data-en="Download the PDF résumé">Baixar currículo em PDF</span></a>
+      </div>
+      <div class="app-oferta" data-tec="PWA (manifest + service worker) · APK em Trusted Web Activity" data-en-tec="PWA (manifest + service worker) · APK as a Trusted Web Activity">
+        <h3 class="app-oferta__t" data-en="This résumé is also an app">Este currículo também é um app</h3>
+        <p class="app-oferta__p" data-en="Install it and open it from your home screen, even offline. It's the same process I use for client apps: a PWA with a service worker and an Android APK as a Trusted Web Activity, compiled by GitHub Actions.">Instale e abra direto da tela inicial, inclusive sem internet. É o mesmo processo que uso nos apps de clientes: PWA com service worker e APK Android em Trusted Web Activity, compilado pelo GitHub Actions.</p>
+        <div class="app-oferta__b">
+          <button type="button" class="btn btn--solid js-instalar" hidden><span class="roll" data-en="Install the app">Instalar o app</span></button>
+          <a class="btn btn--ghost js-apk" href="/gui/app/curriculo-guilherme-keidi-suzuki.apk" type="application/vnd.android.package-archive" download><span class="roll" data-en="Download the Android APK (1.1 MB)">Baixar o APK para Android (1,1 MB)</span></a>
+        </div>
+        <p class="app-oferta__nota js-ios" hidden data-en="On iPhone: tap Share, then “Add to Home Screen”.">No iPhone: toque em Compartilhar e depois em “Adicionar à Tela de Início”.</p>
+        <p class="app-oferta__nota js-instalado" hidden data-en="You're using the app.">Você está usando o app.</p>
+        <p class="app-oferta__nota js-sw" hidden data-en="Service worker active: the app opens even without internet.">Service worker ativo: o app abre mesmo sem internet.</p>
       </div>
       <ul class="links">
         <li><a href="/gui/guilherme-keidi-suzuki.vcf" data-en="Save contact (vCard)">Salvar contato (vCard)</a></li>
