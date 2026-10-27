@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cuoncient.curriculo",
+      "sha256_cert_fingerprints": ["31:DB:21:77:15:B1:EE:9B:12:5B:BE:15:CA:A1:F3:B1:F4:F6:CE:4E:44:22:4B:0F:93:75:FF:C9:D5:42:9B:89"]
+    }
+  }
+]

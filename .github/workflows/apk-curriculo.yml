@@ -1,0 +1,78 @@
+# Compila o app Android do currículo: gui/_src/android, uma Trusted Web Activity gerada por gui/_src/twa.mjs.
+# Roda quando o projeto Android (ou este arquivo) muda.
+#
+# Saída, como artefato da execução e no ramo apk-saida (um commit só, sobrescrito a cada vez):
+#   - com os segredos CURRICULO_CHAVE_P12 (o .p12 em base64) e CURRICULO_CHAVE_SENHA: o APK já assinado;
+#   - sem eles: o APK alinhado e sem assinatura, mais o apksigner.jar para assinar fora daqui.
+# A chave nunca entra no repositório. A impressão digital dela está em /.well-known/assetlinks.json:
+# APK assinado com outra chave abre com barra de endereço, porque o site não o reconhece.
+name: APK do currículo
+
+on:
+  push:
+    paths:
+      - 'gui/_src/android/**'
+      - '.github/workflows/apk-curriculo.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk-curriculo
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compila o APK de release
+        working-directory: gui/_src/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace assembleRelease
+
+      - name: Alinha e assina
+        env:
+          CHAVE: ${{ secrets.CURRICULO_CHAVE_P12 }}
+          SENHA: ${{ secrets.CURRICULO_CHAVE_SENHA }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          echo "build-tools: $BT"
+          mkdir -p saida
+          ENTRADA=gui/_src/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          "$BT/zipalign" -p -f 4 "$ENTRADA" saida/curriculo-alinhado-sem-assinatura.apk
+          cp "$BT/lib/apksigner.jar" saida/
+          if [ -n "$CHAVE" ]; then
+            echo "$CHAVE" | base64 -d > "$RUNNER_TEMP/chave.p12"
+            "$BT/apksigner" sign --ks "$RUNNER_TEMP/chave.p12" --ks-type PKCS12 --ks-key-alias curriculo \
+              --ks-pass env:SENHA --out saida/curriculo-guilherme-keidi-suzuki.apk saida/curriculo-alinhado-sem-assinatura.apk
+            rm -f "$RUNNER_TEMP/chave.p12"
+            "$BT/apksigner" verify --print-certs saida/curriculo-guilherme-keidi-suzuki.apk
+          fi
+          ls -la saida
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-curriculo
+          path: saida/
+
+      - name: Publica no ramo apk-saida
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          cd saida
+          git init -q -b apk-saida
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "APK do currículo a partir de ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" apk-saida
